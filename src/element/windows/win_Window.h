@@ -5,7 +5,7 @@
 #define UNICODE
 #endif
 
-#include <windows.h>
+#include <Windows.h>
 
 namespace element
 {
