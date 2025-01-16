@@ -1,2 +1,2 @@
 cmake_minimum_required(VERSION 3.29)
-project(element CXX)
+project(element-test CXX)
