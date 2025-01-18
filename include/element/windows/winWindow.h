@@ -13,9 +13,8 @@ namespace element
 class winWindow
 {
    public:
-    winWindow() : m_hwnd(nullptr)
-    {
-    }
+    winWindow()
+   = default;
 
     HRESULT Create(
         const wchar_t* title = L"",
@@ -26,7 +25,7 @@ class winWindow
     );
 
    private:
-    HWND m_hwnd;
+    HWND m_hwnd{nullptr};
 };
 
 }  // namespace element

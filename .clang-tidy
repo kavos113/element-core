@@ -8,12 +8,14 @@ Checks: '
   clang-analyzer-*,
   cert-*,
   cppcoreguidelines-*,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
   google-*,
   misc-*,
   -misc-include-cleaner,
   modernize-*,
   -modernize-use-trailing-return-type,
   performance-*,
+  -performance-no-int-to-ptr,
   readability-*,
   -readability-identifier-length'
 WarningsAsErrors: 'true'

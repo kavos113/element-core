@@ -10,7 +10,7 @@ HRESULT winWindow::Create(
     int height
 )
 {
-    WNDCLASSEX wc
+    WNDCLASSEX const wc
         = {.cbSize = sizeof(WNDCLASSEX),
            .style = CS_HREDRAW | CS_VREDRAW,
            .lpfnWndProc = DefWindowProc,
@@ -24,7 +24,7 @@ HRESULT winWindow::Create(
            .lpszClassName = title,
            .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
 
-    ATOM res = RegisterClassEx(&wc);
+    ATOM const res = RegisterClassEx(&wc);
     if (res == 0)
     {
         return E_FAIL;
