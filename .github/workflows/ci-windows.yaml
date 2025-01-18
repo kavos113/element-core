@@ -22,6 +22,9 @@ jobs:
       - name: uninstall llvm
         run: choco uninstall llvm -y
 
+      - name: install llvm
+        run: choco install llvm -y
+
       - name: install ninja
         run: choco install ninja -y
 
@@ -35,7 +38,7 @@ jobs:
         run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
 
       - name: Test
-        run: cd ${{ env.BUILD_DIR }} && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+        run: cd ${{ env.BUILD_DIR }}/element && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
 
       - name: check clang
         run: clang-format --version
