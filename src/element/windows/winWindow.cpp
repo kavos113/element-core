@@ -24,7 +24,6 @@ HRESULT winWindow::Create(
            .lpszClassName = title,
            .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
 
-
     ATOM const res = RegisterClassEx(&wc);
     if (res == 0)
     {
