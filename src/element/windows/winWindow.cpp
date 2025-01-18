@@ -10,7 +10,8 @@ HRESULT winWindow::Create(
     int height
 )
 {
-    WNDCLASSEX const wc
+    WNDCLASSEX
+    const wc
         = {.cbSize = sizeof(WNDCLASSEX),
            .style = CS_HREDRAW | CS_VREDRAW,
            .lpfnWndProc = DefWindowProc,
