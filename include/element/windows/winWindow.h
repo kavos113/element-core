@@ -13,8 +13,7 @@ namespace element
 class winWindow
 {
    public:
-    winWindow()
-   = default;
+    winWindow() = default;
 
     HRESULT Create(
         const wchar_t* title = L"",
