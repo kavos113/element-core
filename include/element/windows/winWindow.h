@@ -10,10 +10,10 @@
 namespace element
 {
 
-class win_Window
+class winWindow
 {
    public:
-    win_Window() : m_hwnd(nullptr)
+    winWindow() : m_hwnd(nullptr)
     {
     }
 

@@ -1,8 +1,8 @@
-#include "windows/win_Window.h"
+#include "windows/winWindow.h"
 
 namespace element
 {
-HRESULT win_Window::Create(
+HRESULT winWindow::Create(
     const wchar_t *title,
     int x,
     int y,

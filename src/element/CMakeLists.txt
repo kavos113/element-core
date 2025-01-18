@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(srcs_windows
-        windows/win_Window.cpp
+        windows/winWindow.cpp
 )
 
 add_library(element ${srcs_windows})
