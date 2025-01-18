@@ -32,13 +32,17 @@ jobs:
         run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
 
       - name: Test
-        run: cd ${{ env.BUILD_DIR }} ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+        run: cd ${{ env.BUILD_DIR }} && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
 
       - name: check clang
         run: clang-format --version
 
       - name: check clang-tidy
         run: clang-tidy --version
+
+      - name: where llvm
+        run: where /R D:\ clang-format.exe clang-tidy.exe
+        shell: cmd
 
       - name: uninstall llvm
         run: choco uninstall llvm -y
