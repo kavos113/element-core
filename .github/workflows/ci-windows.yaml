@@ -19,6 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: where llvm
+        run: where /R D:/ clang.exe
+        shell: cmd
+
+      - name: uninstall llvm
+        run: choco uninstall llvm -y
+
       - name: install ninja
         run: choco install ninja -y
 
@@ -39,13 +46,6 @@ jobs:
 
       - name: check clang-tidy
         run: clang-tidy --version
-
-      - name: where llvm
-        run: where /R D:/ clang.exe
-        shell: cmd
-
-      - name: uninstall llvm
-        run: choco uninstall llvm -y
 
       - name: Run clang-format
         run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
