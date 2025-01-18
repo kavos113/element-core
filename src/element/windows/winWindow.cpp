@@ -51,4 +51,10 @@ HRESULT winWindow::Create(
 
     return S_OK;
 }
+
+bool winWindow::IsActive() const
+{
+    return m_hwnd != nullptr;
+}
+
 }  // namespace element

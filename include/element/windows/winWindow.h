@@ -12,7 +12,7 @@ namespace element
 
 class winWindow
 {
-   public:
+public:
     winWindow() = default;
 
     HRESULT Create(
@@ -22,8 +22,9 @@ class winWindow
         int width = CW_USEDEFAULT,
         int height = CW_USEDEFAULT
     );
+    bool IsActive() const;
 
-   private:
+private:
     HWND m_hwnd{nullptr};
 };
 
