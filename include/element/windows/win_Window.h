@@ -12,18 +12,21 @@ namespace element
 
 class win_Window
 {
-public:
-    win_Window() : m_hwnd(nullptr) {}
+   public:
+    win_Window() : m_hwnd(nullptr)
+    {
+    }
 
-    HRESULT Create(const wchar_t* title = L"", int x = CW_USEDEFAULT, int y = CW_USEDEFAULT, int width = CW_USEDEFAULT, int height = CW_USEDEFAULT);
+    HRESULT Create(const wchar_t* title = L"",
+                   int x = CW_USEDEFAULT,
+                   int y = CW_USEDEFAULT,
+                   int width = CW_USEDEFAULT,
+                   int height = CW_USEDEFAULT);
 
-private:
+   private:
     HWND m_hwnd;
 };
 
-}
+}  // namespace element
 
-
-
-
-#endif //WIN_WINDOW_H
+#endif  // WIN_WINDOW_H

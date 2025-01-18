@@ -1,19 +1,16 @@
-#include <Windows.h>
-#include <gtest/gtest.h>
-
 #include <element_windows.h>
+#include <gtest/gtest.h>
+#include <Windows.h>
 
 class win_WindowTest : public ::testing::Test
 {
-protected:
+   protected:
     void SetUp() override
     {
-
     }
 
     void TearDown() override
     {
-
     }
 };
 

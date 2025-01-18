@@ -3,4 +3,4 @@
 
 #include "windows/win_Window.h"
 
-#endif //ELEMENT_WINDOWS_H
+#endif  // ELEMENT_WINDOWS_H
