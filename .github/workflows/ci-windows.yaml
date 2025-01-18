@@ -41,7 +41,7 @@ jobs:
         run: clang-tidy --version
 
       - name: where llvm
-        run: where /R D:\ clang-format.exe clang-tidy.exe
+        run: where /R D:/ clang.exe
         shell: cmd
 
       - name: uninstall llvm
