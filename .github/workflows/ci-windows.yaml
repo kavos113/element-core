@@ -36,10 +36,12 @@ jobs:
 
       - name: Run clang-format
         run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
+        shell: bash
 
       - name: Check clang-format
         run: git diff --exit-code
 
       - name: Run clang-tidy
         run: clang-tidy $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy -p ./${{ env.BUILD_DIR }} --warnings-as-errors='*'
+        shell: bash
 
