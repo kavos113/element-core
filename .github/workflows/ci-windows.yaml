@@ -19,10 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: where llvm
-        run: where /R D:\ clang.exe
-        shell: cmd
-
       - name: uninstall llvm
         run: choco uninstall llvm -y
 
