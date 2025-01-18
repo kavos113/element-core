@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.29)
+project(element CXX)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ../../lib)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(core)
-add_subdirectory(windows)
-add_library(element STATIC element.cpp)
-target_link_libraries(element PRIVATE core windows)
+set(srcs_windows
+        windows/winWindow.cpp
+)
+
+add_library(element ${srcs_windows})
+target_include_directories(element PUBLIC ${include_dir}/element)
