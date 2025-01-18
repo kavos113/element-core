@@ -17,11 +17,13 @@ class win_Window
     {
     }
 
-    HRESULT Create(const wchar_t* title = L"",
-                   int x = CW_USEDEFAULT,
-                   int y = CW_USEDEFAULT,
-                   int width = CW_USEDEFAULT,
-                   int height = CW_USEDEFAULT);
+    HRESULT Create(
+        const wchar_t* title = L"",
+        int x = CW_USEDEFAULT,
+        int y = CW_USEDEFAULT,
+        int width = CW_USEDEFAULT,
+        int height = CW_USEDEFAULT
+    );
 
    private:
     HWND m_hwnd;
