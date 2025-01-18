@@ -34,6 +34,12 @@ jobs:
       - name: Test
         run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
 
+      - name: check clang
+        run: clang-format --version
+
+      - name: check clang-tidy
+        run: clang-tidy --version
+
       - name: Run clang-format
         run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
         shell: bash
