@@ -57,6 +57,17 @@ HRESULT winWindow::Create(
     return S_OK;
 }
 
+LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            DestroyWindow(m_hwnd);
+            return 0;
+    }
+}
+
 bool winWindow::IsActive() const
 {
     return m_hwnd != nullptr;
@@ -90,7 +101,10 @@ void winWindow::Show()
         UpdateWindow(m_hwnd);
         m_isShow = true;
     }
+}
 
+void winWindow::Run()
+{
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -99,6 +113,15 @@ void winWindow::Show()
     }
 
     m_isShow = false;
+}
+
+void winWindow::Hide()
+{
+    if (m_hwnd != nullptr)
+    {
+        ShowWindow(m_hwnd, SW_HIDE);
+        m_isShow = false;
+    }
 }
 
 }  // namespace element

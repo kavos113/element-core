@@ -32,8 +32,44 @@ public:
     [[nodiscard]] HWND GetHwnd() const;
     void Destroy();
     void Show();
+    void Run();
+    void Hide();
+
+    static LRESULT CALLBACK
+    WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    {
+        winWindow* pThis = nullptr;
+
+        if (uMsg == WM_CREATE)
+        {
+            auto* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+            pThis = reinterpret_cast<winWindow*>(pCreate->lpCreateParams);
+            SetWindowLongPtr(
+                hwnd,
+                GWLP_USERDATA,
+                reinterpret_cast<LONG_PTR>(pThis)
+            );
+
+            pThis->m_hwnd = hwnd;
+        }
+        else
+        {
+            pThis = reinterpret_cast<winWindow*>(
+                GetWindowLongPtr(hwnd, GWLP_USERDATA)
+            );
+        }
+
+        if (pThis != nullptr)
+        {
+            return pThis->HandleMessage(uMsg, wParam, lParam);
+        }
+
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
 
 private:
+    LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
     HWND m_hwnd{nullptr};
     bool m_isShow{false};
 };
