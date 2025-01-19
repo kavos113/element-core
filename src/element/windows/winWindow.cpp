@@ -2,6 +2,11 @@
 
 namespace element
 {
+winWindow::~winWindow()
+{
+    Destroy();
+}
+
 HRESULT winWindow::Create(
     const wchar_t *title,
     int x,
@@ -55,6 +60,45 @@ HRESULT winWindow::Create(
 bool winWindow::IsActive() const
 {
     return m_hwnd != nullptr;
+}
+
+bool winWindow::IsShow() const
+{
+    return m_isShow;
+}
+
+HWND winWindow::GetHwnd() const
+{
+    return m_hwnd;
+}
+
+void winWindow::Destroy()
+{
+    if (m_hwnd != nullptr)
+    {
+        PostQuitMessage(0);
+        DestroyWindow(m_hwnd);
+        m_hwnd = nullptr;
+    }
+}
+
+void winWindow::Show()
+{
+    if (m_hwnd != nullptr)
+    {
+        ShowWindow(m_hwnd, SW_SHOW);
+        UpdateWindow(m_hwnd);
+        m_isShow = true;
+    }
+
+    MSG msg = {};
+    while (GetMessage(&msg, nullptr, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+
+    m_isShow = false;
 }
 
 }  // namespace element

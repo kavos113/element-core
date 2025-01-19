@@ -14,6 +14,11 @@ class winWindow
 {
 public:
     winWindow() = default;
+    winWindow(const winWindow&) = delete;
+    winWindow& operator=(const winWindow&) = delete;
+    winWindow(winWindow&&) = delete;
+    winWindow& operator=(winWindow&&) = delete;
+    ~winWindow();
 
     HRESULT Create(
         const wchar_t* title = L"",
@@ -22,10 +27,15 @@ public:
         int width = CW_USEDEFAULT,
         int height = CW_USEDEFAULT
     );
-    bool IsActive() const;
+    [[nodiscard]] bool IsActive() const;
+    [[nodiscard]] bool IsShow() const;
+    [[nodiscard]] HWND GetHwnd() const;
+    void Destroy();
+    void Show();
 
 private:
     HWND m_hwnd{nullptr};
+    bool m_isShow{false};
 };
 
 }  // namespace element
