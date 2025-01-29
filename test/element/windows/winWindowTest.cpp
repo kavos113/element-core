@@ -25,7 +25,7 @@ protected:
     static constexpr int HEIGHT = 600;
 
     static constexpr std::chrono::duration<int, std::milli> INTERVAL
-        = std::chrono::milliseconds(1000);
+        = std::chrono::milliseconds(200);
 };
 
 TEST_F(winWindowTest, GenerateWindow)
@@ -62,13 +62,12 @@ TEST_F(winWindowTest, ShowWindow)
     );
     tester.AddAction(
         INTERVAL,
-        WM_QUIT,
-        0,
-        0,
+        [&window]() { window.Destroy(); },
         [&window]() { ASSERT_EQ(window.IsShow(), false); }
     );
 
     auto future = tester.RunAsync();
+    window.Show();
     window.Run();
     future.get();
 

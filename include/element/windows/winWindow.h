@@ -7,6 +7,8 @@
 
 #include <Windows.h>
 
+#include <thread>
+
 namespace element
 {
 
@@ -72,6 +74,8 @@ private:
 
     HWND m_hwnd{nullptr};
     bool m_isShow{false};
+
+    std::thread m_thread;
 };
 
 }  // namespace element

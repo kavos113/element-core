@@ -1,5 +1,7 @@
 #include "windows/winWindow.h"
 
+#include <iostream>
+
 namespace element
 {
 winWindow::~winWindow()
@@ -8,17 +10,13 @@ winWindow::~winWindow()
 }
 
 HRESULT winWindow::Create(
-    const wchar_t *title,
-    int x,
-    int y,
-    int width,
-    int height
+    const wchar_t *title, int x, int y, int width, int height
 )
 {
     WNDCLASSEX const wc
         = {.cbSize = sizeof(WNDCLASSEX),
            .style = CS_HREDRAW | CS_VREDRAW,
-           .lpfnWndProc = DefWindowProc,
+           .lpfnWndProc = WinWindowProc,
            .cbClsExtra = 0,
            .cbWndExtra = 0,
            .hInstance = GetModuleHandle(nullptr),
@@ -47,7 +45,7 @@ HRESULT winWindow::Create(
         nullptr,
         nullptr,
         GetModuleHandle(nullptr),
-        nullptr
+        this
     );
     if (m_hwnd == nullptr)
     {
@@ -59,12 +57,21 @@ HRESULT winWindow::Create(
 
 LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    std::cout << "HandleMessage: " << uMsg << std::endl;
+
     switch (uMsg)
     {
         case WM_DESTROY:
             PostQuitMessage(0);
             DestroyWindow(m_hwnd);
             return 0;
+
+        case WM_CLOSE:
+            DestroyWindow(m_hwnd);
+            return 0;
+
+        default:
+            return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
     }
 }
 
@@ -90,6 +97,7 @@ void winWindow::Destroy()
         PostQuitMessage(0);
         DestroyWindow(m_hwnd);
         m_hwnd = nullptr;
+        m_isShow = false;
     }
 }
 
