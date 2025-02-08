@@ -226,3 +226,32 @@ TEST(winWindowTest, MaximizeWindow)
     window.Run();
     future.get();
 }
+
+TEST(winWindowTest, SetSize)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 7", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, WIDTH, HEIGHT});
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.SetSize(400, 300); },
+        [&window]()
+        { ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, 400, 300}); }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]()
+        { ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, 400, 300}); }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}

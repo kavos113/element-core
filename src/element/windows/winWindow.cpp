@@ -54,8 +54,6 @@ HRESULT winWindow::Create(
 
 LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    std::cout << "HandleMessage: " << uMsg << std::endl;
-
     switch (uMsg)
     {
         case WM_DESTROY:
