@@ -13,8 +13,7 @@ public:
     WindowsGUITester()
     {
         m_actions.push_back(
-            {.delay = std::chrono::milliseconds(INIT_INTERVAL),
-             .action = []() {}}
+            {.delay = std::chrono::milliseconds(INIT_INTERVAL), .action = [] {}}
         );
     }
 
@@ -33,7 +32,7 @@ public:
     {
         m_actions.push_back(
             {.delay = delay,
-             .action = [this, message, wParam, lParam]()
+             .action = [this, message, wParam, lParam]
              { PostMessage(m_targetHwnd, message, wParam, lParam); },
              .assertion = assertion}
         );

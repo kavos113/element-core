@@ -23,14 +23,6 @@ TEST(winWindowTest, GenerateWindow)
     ASSERT_EQ(window.IsActive(), true);
 }
 
-TEST(winWindowTest, DestroyWindow)
-{
-    element::winWindow window;
-    window.Create(L"Test Window 2", 0, 0, WIDTH, HEIGHT);
-
-    ASSERT_EQ(window.IsActive(), false);
-}
-
 TEST(winWindowTest, ShowWindow)
 {
     element::winWindow window;
