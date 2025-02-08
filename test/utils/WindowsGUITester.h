@@ -1,5 +1,5 @@
-#ifndef WINDOWSGUITESTER_H
-#define WINDOWSGUITESTER_H
+#ifndef TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H
+#define TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H
 
 #include <Windows.h>
 #include <windows/winWindow.h>
@@ -81,4 +81,4 @@ private:
     HWND m_targetHwnd = nullptr;
 };
 
-#endif  // WINDOWSGUITESTER_H
+#endif  // TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H

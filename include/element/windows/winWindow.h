@@ -1,5 +1,5 @@
-#ifndef WIN_WINDOW_H
-#define WIN_WINDOW_H
+#ifndef ELEMENT_WINDOWS_WIN_WINDOWS_H
+#define ELEMENT_WINDOWS_WIN_WINDOWS_H
 
 #ifndef UNICODE
 #define UNICODE
@@ -89,4 +89,4 @@ private:
 
 }  // namespace element
 
-#endif  // WIN_WINDOW_H
+#endif  // ELEMENT_WINDOWS_WIN_WINDOWS_H
