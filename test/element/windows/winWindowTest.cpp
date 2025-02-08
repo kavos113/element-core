@@ -8,27 +8,13 @@
 
 #include "../../utils/WindowsGUITester.h"
 
-class winWindowTest : public ::testing::Test
-{
-protected:
-    void SetUp() override
-    {
-        // Set up code here
-    }
+static constexpr int WIDTH = 800;
+static constexpr int HEIGHT = 600;
 
-    void TearDown() override
-    {
-        // Tear down code here
-    }
+static constexpr std::chrono::duration<int, std::milli> INTERVAL
+    = std::chrono::milliseconds(1000);
 
-    static constexpr int WIDTH = 800;
-    static constexpr int HEIGHT = 600;
-
-    static constexpr std::chrono::duration<int, std::milli> INTERVAL
-        = std::chrono::milliseconds(200);
-};
-
-TEST_F(winWindowTest, GenerateWindow)
+TEST(winWindowTest, GenerateWindow)
 {
     element::winWindow window;
     HRESULT const hr = window.Create(L"Test Window", 0, 0, WIDTH, HEIGHT);
@@ -37,16 +23,15 @@ TEST_F(winWindowTest, GenerateWindow)
     ASSERT_EQ(window.IsActive(), true);
 }
 
-TEST_F(winWindowTest, DestroyWindow)
+TEST(winWindowTest, DestroyWindow)
 {
     element::winWindow window;
     window.Create(L"Test Window 2", 0, 0, WIDTH, HEIGHT);
-    window.Destroy();
 
     ASSERT_EQ(window.IsActive(), false);
 }
 
-TEST_F(winWindowTest, ShowWindow)
+TEST(winWindowTest, ShowWindow)
 {
     element::winWindow window;
     window.Create(L"Test Window 3", 0, 0, WIDTH, HEIGHT);
@@ -62,7 +47,9 @@ TEST_F(winWindowTest, ShowWindow)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Destroy(); },
+        WM_CLOSE,
+        0,
+        0,
         [&window]() { ASSERT_EQ(window.IsShow(), false); }
     );
 
@@ -74,7 +61,7 @@ TEST_F(winWindowTest, ShowWindow)
     ASSERT_EQ(window.IsShow(), false);
 }
 
-TEST_F(winWindowTest, HideWindow)
+TEST(winWindowTest, HideWindow)
 {
     element::winWindow window;
     window.Create(L"Test Window 4", 0, 0, WIDTH, HEIGHT);
@@ -100,7 +87,7 @@ TEST_F(winWindowTest, HideWindow)
     );
     tester.AddAction(
         INTERVAL,
-        WM_QUIT,
+        WM_CLOSE,
         0,
         0,
         [&window]() { ASSERT_EQ(window.IsShow(), false); }

@@ -4,10 +4,7 @@
 
 namespace element
 {
-winWindow::~winWindow()
-{
-    Destroy();
-}
+winWindow::~winWindow() = default;
 
 HRESULT winWindow::Create(
     const wchar_t *title, int x, int y, int width, int height
@@ -63,7 +60,6 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         case WM_DESTROY:
             PostQuitMessage(0);
-            DestroyWindow(m_hwnd);
             return 0;
 
         case WM_CLOSE:
@@ -90,17 +86,6 @@ HWND winWindow::GetHwnd() const
     return m_hwnd;
 }
 
-void winWindow::Destroy()
-{
-    if (m_hwnd != nullptr)
-    {
-        PostQuitMessage(0);
-        DestroyWindow(m_hwnd);
-        m_hwnd = nullptr;
-        m_isShow = false;
-    }
-}
-
 void winWindow::Show()
 {
     if (m_hwnd != nullptr)
@@ -119,6 +104,9 @@ void winWindow::Run()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+
+    DestroyWindow(m_hwnd);
+    m_hwnd = nullptr;
 
     m_isShow = false;
 }

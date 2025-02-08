@@ -32,7 +32,6 @@ public:
     [[nodiscard]] bool IsActive() const;
     [[nodiscard]] bool IsShow() const;
     [[nodiscard]] HWND GetHwnd() const;
-    void Destroy();
     void Show();
     void Run();
     void Hide();
