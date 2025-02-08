@@ -17,8 +17,7 @@ Checks: '
   performance-*,
   -performance-no-int-to-ptr,
   readability-*,
-  -readability-identifier-length,
-  llvm-header-guard'
+  -readability-identifier-length'
 WarningsAsErrors: 'true'
 HeaderFileExtensions:
   - ''
