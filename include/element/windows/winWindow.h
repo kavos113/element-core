@@ -15,6 +15,14 @@ namespace element
 class winWindow
 {
 public:
+    enum class ShowStatus
+    {
+        HIDE,
+        SHOW,
+        MINIMIZE,
+        MAXIMIZE
+    };
+
     winWindow() = default;
     winWindow(const winWindow&) = delete;
     winWindow& operator=(const winWindow&) = delete;
@@ -30,11 +38,13 @@ public:
         int height = CW_USEDEFAULT
     );
     [[nodiscard]] bool IsActive() const;
-    [[nodiscard]] bool IsShow() const;
+    [[nodiscard]] ShowStatus GetShowStatus() const;
     [[nodiscard]] HWND GetHwnd() const;
     void Show();
     void Run();
     void Hide();
+    void Minimize();
+    void Maximize();
 
     static LRESULT CALLBACK
     WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -72,7 +82,7 @@ private:
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     HWND m_hwnd{nullptr};
-    bool m_isShow{false};
+    ShowStatus m_showStatus{ShowStatus::HIDE};
 
     std::thread m_thread;
 };

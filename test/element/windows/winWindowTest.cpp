@@ -12,7 +12,7 @@ static constexpr int WIDTH = 800;
 static constexpr int HEIGHT = 600;
 
 static constexpr std::chrono::duration<int, std::milli> INTERVAL
-    = std::chrono::milliseconds(1000);
+    = std::chrono::milliseconds(500);
 
 TEST(winWindowTest, GenerateWindow)
 {
@@ -28,21 +28,33 @@ TEST(winWindowTest, ShowWindow)
     element::winWindow window;
     window.Create(L"Test Window 3", 0, 0, WIDTH, HEIGHT);
 
-    ASSERT_EQ(window.IsShow(), false);
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
         [&window]() { window.Show(); },
-        [&window]() { ASSERT_EQ(window.IsShow(), true); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
     );
     tester.AddAction(
         INTERVAL,
         WM_CLOSE,
         0,
         0,
-        [&window]() { ASSERT_EQ(window.IsShow(), false); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::HIDE
+            );
+        }
     );
 
     auto future = tester.RunAsync();
@@ -50,7 +62,7 @@ TEST(winWindowTest, ShowWindow)
     window.Run();
     future.get();
 
-    ASSERT_EQ(window.IsShow(), false);
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 }
 
 TEST(winWindowTest, HideWindow)
@@ -58,31 +70,156 @@ TEST(winWindowTest, HideWindow)
     element::winWindow window;
     window.Create(L"Test Window 4", 0, 0, WIDTH, HEIGHT);
 
-    ASSERT_EQ(window.IsShow(), false);
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
         [&window]() { window.Show(); },
-        [&window]() { ASSERT_EQ(window.IsShow(), true); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
     );
     tester.AddAction(
         INTERVAL,
         [&window]() { window.Hide(); },
-        [&window]() { ASSERT_EQ(window.IsShow(), false); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::HIDE
+            );
+            ASSERT_EQ(window.IsActive(), true);
+        }
     );
     tester.AddAction(
         INTERVAL,
         [&window]() { window.Show(); },
-        [&window]() { ASSERT_EQ(window.IsShow(), true); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
     );
     tester.AddAction(
         INTERVAL,
         WM_CLOSE,
         0,
         0,
-        [&window]() { ASSERT_EQ(window.IsShow(), false); }
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::HIDE
+            );
+        }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}
+
+TEST(winWindowTest, MinimizeWindow)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 5", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Show(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Minimize(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::MINIMIZE
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::HIDE
+            );
+        }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}
+
+TEST(winWindowTest, MaximizeWindow)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 6", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Show(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Maximize(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::MAXIMIZE
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::HIDE
+            );
+        }
     );
 
     auto future = tester.RunAsync();

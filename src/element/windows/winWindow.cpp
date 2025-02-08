@@ -76,9 +76,9 @@ bool winWindow::IsActive() const
     return m_hwnd != nullptr;
 }
 
-bool winWindow::IsShow() const
+winWindow::ShowStatus winWindow::GetShowStatus() const
 {
-    return m_isShow;
+    return m_showStatus;
 }
 
 HWND winWindow::GetHwnd() const
@@ -92,7 +92,7 @@ void winWindow::Show()
     {
         ShowWindow(m_hwnd, SW_SHOW);
         UpdateWindow(m_hwnd);
-        m_isShow = true;
+        m_showStatus = ShowStatus::SHOW;
     }
 }
 
@@ -108,7 +108,7 @@ void winWindow::Run()
     DestroyWindow(m_hwnd);
     m_hwnd = nullptr;
 
-    m_isShow = false;
+    m_showStatus = ShowStatus::HIDE;
 }
 
 void winWindow::Hide()
@@ -116,7 +116,25 @@ void winWindow::Hide()
     if (m_hwnd != nullptr)
     {
         ShowWindow(m_hwnd, SW_HIDE);
-        m_isShow = false;
+        m_showStatus = ShowStatus::HIDE;
+    }
+}
+
+void winWindow::Minimize()
+{
+    if (m_hwnd != nullptr)
+    {
+        ShowWindow(m_hwnd, SW_MINIMIZE);
+        m_showStatus = ShowStatus::MINIMIZE;
+    }
+}
+
+void winWindow::Maximize()
+{
+    if (m_hwnd != nullptr)
+    {
+        ShowWindow(m_hwnd, SW_MAXIMIZE);
+        m_showStatus = ShowStatus::MAXIMIZE;
     }
 }
 
