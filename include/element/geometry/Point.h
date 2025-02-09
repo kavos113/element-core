@@ -7,6 +7,8 @@ struct Point
     float y;
 
     bool operator==(const Point& point) const;
+    Point operator+(const Point& point) const;
+    Point operator-(const Point& point) const;
 };
 
 #endif  // ELEMENT_GEOMETRY_POINT_H

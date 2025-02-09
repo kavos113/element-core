@@ -12,7 +12,7 @@ static constexpr int WIDTH = 800;
 static constexpr int HEIGHT = 600;
 
 static constexpr std::chrono::duration<int, std::milli> INTERVAL
-    = std::chrono::milliseconds(500);
+    = std::chrono::milliseconds(200);
 
 TEST(winWindowTest, GenerateWindow)
 {
