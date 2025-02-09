@@ -4,13 +4,18 @@ project(element-test CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(test_srcs
+set(test_srcs_windows
         windows/winWindowTest.cpp
         ../utils/WindowsGUITester.h
+)
+
+set(test_srcs_geometry
         geometry/PointTest.cpp
         geometry/RectangleTest.cpp
         geometry/SizeTest.cpp
 )
+
+set(test_names windows geometry)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -22,10 +27,12 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(element-test ${test_srcs})
-add_dependencies(element-test element)
-target_link_libraries(element-test PRIVATE gtest_main element)
-target_include_directories(element-test PRIVATE ${include_dir})
+foreach (test_name IN LISTS test_names)
+    add_executable(element-${test_name}-test ${test_srcs_${test_name}})
+    add_dependencies(element-${test_name}-test element)
+    target_link_libraries(element-${test_name}-test PRIVATE gtest_main element)
+    target_include_directories(element-${test_name}-test PRIVATE ${include_dir})
 
-include(GoogleTest)
-gtest_discover_tests(element-test)
+    include(GoogleTest)
+    gtest_discover_tests(element-${test_name}-test)
+endforeach ()
