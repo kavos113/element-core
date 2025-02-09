@@ -3,6 +3,8 @@
 
 #ifndef UNICODE
 #define UNICODE
+#include <geometry/Rectangle.h>
+#include <geometry/Size.h>
 #endif
 
 #include <Windows.h>
@@ -40,11 +42,15 @@ public:
     [[nodiscard]] bool IsActive() const;
     [[nodiscard]] ShowStatus GetShowStatus() const;
     [[nodiscard]] HWND GetHwnd() const;
+
     void Show();
     void Run();
     void Hide();
     void Minimize();
     void Maximize();
+
+    Size GetSize() const;
+    void SetSize(Size size);
 
     static LRESULT CALLBACK
     WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -84,7 +90,7 @@ private:
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};
 
-    std::thread m_thread;
+    Rectangle m_rect;
 };
 
 }  // namespace element

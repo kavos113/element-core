@@ -49,6 +49,8 @@ HRESULT winWindow::Create(
         return E_FAIL;
     }
 
+    m_rect = Rectangle(x, y, width, height);
+
     return S_OK;
 }
 
@@ -134,6 +136,17 @@ void winWindow::Maximize()
         ShowWindow(m_hwnd, SW_MAXIMIZE);
         m_showStatus = ShowStatus::MAXIMIZE;
     }
+}
+
+Size winWindow::GetSize() const
+{
+    return m_rect.GetSize();
+}
+
+void winWindow::SetSize(Size size)
+{
+    SetWindowPos(m_hwnd, HWND_TOP, 0, 0, size.width, size.height, SWP_NOMOVE);
+    m_rect.SetSize(size);
 }
 
 }  // namespace element

@@ -1,4 +1,5 @@
 #include <element_windows.h>
+#include <geometry/Rectangle.h>
 #include <gtest/gtest.h>
 #include <Windows.h>
 
@@ -227,31 +228,40 @@ TEST(winWindowTest, MaximizeWindow)
     future.get();
 }
 
-// TEST(winWindowTest, SetSize)
-// {
-//     element::winWindow window;
-//     window.Create(L"Test Window 7", 0, 0, WIDTH, HEIGHT);
-//
-//     ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, WIDTH, HEIGHT});
-//
-//     WindowsGUITester tester;
-//     tester.RegisterWindow(window);
-//     tester.AddAction(
-//         INTERVAL,
-//         [&window]() { window.SetSize(400, 300); },
-//         [&window]()
-//         { ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, 400, 300}); }
-//     );
-//     tester.AddAction(
-//         INTERVAL,
-//         WM_CLOSE,
-//         0,
-//         0,
-//         [&window]()
-//         { ASSERT_EQ(window.GetSize(), element::Rectangle{0, 0, 400, 300}); }
-//     );
-//
-//     auto future = tester.RunAsync();
-//     window.Run();
-//     future.get();
-// }
+TEST(winWindowTest, SetSize)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 7", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(window.GetSize(), element::Size(WIDTH, HEIGHT));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Show(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.SetSize({.width = 400, .height = 300}); },
+        [&window]() { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]() { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}
