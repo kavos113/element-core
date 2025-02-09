@@ -19,4 +19,16 @@ Size Rectangle::GetSize() const
     return Size{width, height};
 }
 
+void Rectangle::SetPosition(const Point position)
+{
+    x = position.x;
+    y = position.y;
+}
+
+void Rectangle::SetSize(const Size size)
+{
+    width = size.width;
+    height = size.height;
+}
+
 }  // namespace element
