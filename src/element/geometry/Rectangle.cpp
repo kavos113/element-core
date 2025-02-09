@@ -14,4 +14,9 @@ Point Rectangle::GetPosition() const
     return Point{x, y};
 }
 
+Size Rectangle::GetSize() const
+{
+    return Size{width, height};
+}
+
 }  // namespace element

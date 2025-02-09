@@ -14,3 +14,4 @@
 
 - [x] 初期化
 - [x] GetPos
+- [x] GetSize

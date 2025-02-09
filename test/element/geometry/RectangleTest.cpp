@@ -1,5 +1,6 @@
 #include "geometry/Rectangle.h"
 
+#include <geometry/Size.h>
 #include <gtest/gtest.h>
 
 #include "geometry/Point.h"
@@ -36,4 +37,11 @@ TEST_F(RectangleTest, GetPosition)
     element::Rectangle rect{X, Y, WIDTH, HEIGHT};
 
     ASSERT_EQ(rect.GetPosition(), element::Point(X, Y));
+}
+
+TEST_F(RectangleTest, GetSize)
+{
+    element::Rectangle rect{X, Y, WIDTH, HEIGHT};
+
+    ASSERT_EQ(rect.GetSize(), element::Size(WIDTH, HEIGHT));
 }
