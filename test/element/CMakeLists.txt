@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(test_srcs
         windows/winWindowTest.cpp
         ../utils/WindowsGUITester.h
+        geometry/PointTest.cpp
 )
 
 include(FetchContent)

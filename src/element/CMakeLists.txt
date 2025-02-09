@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(srcs_windows
         windows/winWindow.cpp
+        geometry/Point.cpp
 )
 
 add_library(element ${srcs_windows})
