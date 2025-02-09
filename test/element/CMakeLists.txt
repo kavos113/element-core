@@ -8,6 +8,7 @@ set(test_srcs
         windows/winWindowTest.cpp
         ../utils/WindowsGUITester.h
         geometry/PointTest.cpp
+        geometry/RectangleTest.cpp
 )
 
 include(FetchContent)

@@ -15,9 +15,12 @@ TEST_F(PointTest, initialize)
     element::Point p2{.x = DEFAULT_X, .y = DEFAULT_Y};
     element::Point p3(p1);
 
-    ASSERT_EQ(p1, element::Point(DEFAULT_X, DEFAULT_Y));
-    ASSERT_EQ(p2, element::Point(DEFAULT_X, DEFAULT_Y));
-    ASSERT_EQ(p3, element::Point(DEFAULT_X, DEFAULT_Y));
+    ASSERT_EQ(p1.x, DEFAULT_X);
+    ASSERT_EQ(p1.y, DEFAULT_Y);
+    ASSERT_EQ(p2.x, DEFAULT_X);
+    ASSERT_EQ(p2.y, DEFAULT_Y);
+    ASSERT_EQ(p3.x, DEFAULT_X);
+    ASSERT_EQ(p3.y, DEFAULT_Y);
 }
 
 TEST_F(PointTest, equality)

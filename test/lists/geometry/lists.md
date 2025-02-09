@@ -8,4 +8,5 @@
 
 ### Rectangle
 
-- [ ] 初期化
+- [x] 初期化
+- [x] GetPos
