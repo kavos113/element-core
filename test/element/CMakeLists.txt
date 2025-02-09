@@ -9,6 +9,7 @@ set(test_srcs
         ../utils/WindowsGUITester.h
         geometry/PointTest.cpp
         geometry/RectangleTest.cpp
+        geometry/SizeTest.cpp
 )
 
 include(FetchContent)

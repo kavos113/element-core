@@ -8,6 +8,7 @@ set(srcs_windows
         windows/winWindow.cpp
         geometry/Point.cpp
         geometry/Rectangle.cpp
+        geometry/Size.cpp
 )
 
 add_library(element ${srcs_windows})
