@@ -1,5 +1,5 @@
-#include <element_windows.h>
-#include <geometry/Rectangle.h>
+#include "windows/winWindow.h"
+
 #include <gtest/gtest.h>
 #include <Windows.h>
 
@@ -8,6 +8,9 @@
 #include <thread>
 
 #include "../../utils/WindowsGUITester.h"
+#include "geometry/Point.h"
+#include "geometry/Rectangle.h"
+#include "geometry/Size.h"
 
 static constexpr int WIDTH = 800;
 static constexpr int HEIGHT = 600;
