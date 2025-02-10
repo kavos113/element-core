@@ -38,8 +38,8 @@ TEST(winWindowTest, ShowWindow)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -52,7 +52,7 @@ TEST(winWindowTest, ShowWindow)
         WM_CLOSE,
         0,
         0,
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -80,8 +80,8 @@ TEST(winWindowTest, HideWindow)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -91,8 +91,8 @@ TEST(winWindowTest, HideWindow)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Hide(); },
-        [&window]()
+        [&window] { window.Hide(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -103,8 +103,8 @@ TEST(winWindowTest, HideWindow)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -117,7 +117,7 @@ TEST(winWindowTest, HideWindow)
         WM_CLOSE,
         0,
         0,
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -142,8 +142,8 @@ TEST(winWindowTest, MinimizeWindow)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -153,8 +153,8 @@ TEST(winWindowTest, MinimizeWindow)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Minimize(); },
-        [&window]()
+        [&window] { window.Minimize(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -167,7 +167,7 @@ TEST(winWindowTest, MinimizeWindow)
         WM_CLOSE,
         0,
         0,
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -192,8 +192,8 @@ TEST(winWindowTest, MaximizeWindow)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -203,8 +203,8 @@ TEST(winWindowTest, MaximizeWindow)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Maximize(); },
-        [&window]()
+        [&window] { window.Maximize(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -217,7 +217,7 @@ TEST(winWindowTest, MaximizeWindow)
         WM_CLOSE,
         0,
         0,
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -242,8 +242,8 @@ TEST(winWindowTest, SetSize)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -253,15 +253,15 @@ TEST(winWindowTest, SetSize)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.SetSize({.width = 400, .height = 300}); },
-        [&window]() { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
+        [&window] { window.SetSize({.width = 400, .height = 300}); },
+        [&window] { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
     );
     tester.AddAction(
         INTERVAL,
         WM_CLOSE,
         0,
         0,
-        [&window]() { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
+        [&window] { ASSERT_EQ(window.GetSize(), element::Size(400, 300)); }
     );
 
     auto future = tester.RunAsync();
@@ -280,8 +280,8 @@ TEST(winWindowTest, SetPosition)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -291,17 +291,15 @@ TEST(winWindowTest, SetPosition)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.SetPosition({.x = 100, .y = 100}); },
-        [&window]()
-        { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
+        [&window] { window.SetPosition({.x = 100, .y = 100}); },
+        [&window] { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
     );
     tester.AddAction(
         INTERVAL,
         WM_CLOSE,
         0,
         0,
-        [&window]()
-        { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
+        [&window] { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
     );
 
     auto future = tester.RunAsync();
@@ -320,8 +318,8 @@ TEST(winWindowTest, SetRectangle)
     tester.RegisterWindow(window);
     tester.AddAction(
         INTERVAL,
-        [&window]() { window.Show(); },
-        [&window]()
+        [&window] { window.Show(); },
+        [&window]
         {
             ASSERT_EQ(
                 window.GetShowStatus(),
@@ -331,9 +329,9 @@ TEST(winWindowTest, SetRectangle)
     );
     tester.AddAction(
         INTERVAL,
-        [&window]()
+        [&window]
         { window.SetRectangle(element::Rectangle(100, 100, 400, 300)); },
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetRectangle(),
@@ -346,7 +344,7 @@ TEST(winWindowTest, SetRectangle)
         WM_CLOSE,
         0,
         0,
-        [&window]()
+        [&window]
         {
             ASSERT_EQ(
                 window.GetRectangle(),
