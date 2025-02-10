@@ -145,8 +145,35 @@ Size winWindow::GetSize() const
 
 void winWindow::SetSize(Size size)
 {
-    SetWindowPos(m_hwnd, HWND_TOP, 0, 0, size.width, size.height, SWP_NOMOVE);
+    SetWindowPos(
+        m_hwnd,
+        HWND_TOP,
+        0,
+        0,
+        static_cast<int>(size.width),
+        static_cast<int>(size.height),
+        SWP_NOMOVE
+    );
     m_rect.SetSize(size);
+}
+
+Point winWindow::GetPosition() const
+{
+    return m_rect.GetPosition();
+}
+
+void winWindow::SetPosition(Point position)
+{
+    SetWindowPos(
+        m_hwnd,
+        HWND_TOP,
+        static_cast<int>(position.x),
+        static_cast<int>(position.y),
+        0,
+        0,
+        SWP_NOSIZE
+    );
+    m_rect.SetPosition(position);
 }
 
 }  // namespace element

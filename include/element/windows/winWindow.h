@@ -49,8 +49,10 @@ public:
     void Minimize();
     void Maximize();
 
-    Size GetSize() const;
+    [[nodiscard]] Size GetSize() const;
     void SetSize(Size size);
+    [[nodiscard]] Point GetPosition() const;
+    void SetPosition(Point position);
 
     static LRESULT CALLBACK
     WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -90,7 +92,7 @@ private:
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};
 
-    Rectangle m_rect;
+    Rectangle m_rect{};
 };
 
 }  // namespace element

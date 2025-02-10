@@ -265,3 +265,43 @@ TEST(winWindowTest, SetSize)
     window.Run();
     future.get();
 }
+
+TEST(winWindowTest, SetPosition)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 8", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(window.GetPosition(), element::Point(0, 0));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.Show(); },
+        [&window]()
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        [&window]() { window.SetPosition({.x = 100, .y = 100}); },
+        [&window]()
+        { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]()
+        { ASSERT_EQ(window.GetPosition(), element::Point(100, 100)); }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}
