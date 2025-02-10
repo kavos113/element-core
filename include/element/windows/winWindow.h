@@ -53,6 +53,8 @@ public:
     void SetSize(Size size);
     [[nodiscard]] Point GetPosition() const;
     void SetPosition(Point position);
+    [[nodiscard]] Rectangle GetRectangle() const;
+    void SetRectangle(Rectangle rect);
 
     static LRESULT CALLBACK
     WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

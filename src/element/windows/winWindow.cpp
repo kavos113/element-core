@@ -176,4 +176,23 @@ void winWindow::SetPosition(Point position)
     m_rect.SetPosition(position);
 }
 
+Rectangle winWindow::GetRectangle() const
+{
+    return m_rect;
+}
+
+void winWindow::SetRectangle(Rectangle rect)
+{
+    SetWindowPos(
+        m_hwnd,
+        HWND_TOP,
+        static_cast<int>(rect.x),
+        static_cast<int>(rect.y),
+        static_cast<int>(rect.width),
+        static_cast<int>(rect.height),
+        0
+    );
+    m_rect = rect;
+}
+
 }  // namespace element
