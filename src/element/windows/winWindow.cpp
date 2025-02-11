@@ -4,35 +4,69 @@
 
 namespace element
 {
-winWindow::~winWindow() = default;
+
+bool winWindow::m_isClassRegistered = false;
+int winWindow::m_instanceCount = 0;
+const wchar_t *winWindow::m_className = L"winWindow";
+
+winWindow::~winWindow()
+{
+    m_instanceCount--;
+
+    if (m_hwnd != nullptr)
+    {
+        DestroyWindow(m_hwnd);
+        m_hwnd = nullptr;
+    }
+
+    if (m_instanceCount == 0)
+    {
+        BOOL err = UnregisterClass(m_className, GetModuleHandle(nullptr));
+        if (err == 0)
+        {
+            std::cout << "Failed to unregister window class" << std::endl;
+            return;
+        }
+        m_isClassRegistered = false;
+        std::cout << "Unregistered window class" << std::endl;
+    }
+}
 
 HRESULT winWindow::Create(
     const wchar_t *title, int x, int y, int width, int height
 )
 {
-    WNDCLASSEX const wc
-        = {.cbSize = sizeof(WNDCLASSEX),
-           .style = CS_HREDRAW | CS_VREDRAW,
-           .lpfnWndProc = WinWindowProc,
-           .cbClsExtra = 0,
-           .cbWndExtra = 0,
-           .hInstance = GetModuleHandle(nullptr),
-           .hIcon = LoadIcon(nullptr, IDI_APPLICATION),
-           .hCursor = LoadCursor(nullptr, IDC_ARROW),
-           .hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1),
-           .lpszMenuName = nullptr,
-           .lpszClassName = title,
-           .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
-
-    ATOM const res = RegisterClassEx(&wc);
-    if (res == 0)
+    if (!m_isClassRegistered)
     {
-        return E_FAIL;
+        WNDCLASSEX const wc
+            = {.cbSize = sizeof(WNDCLASSEX),
+               .style = CS_HREDRAW | CS_VREDRAW,
+               .lpfnWndProc = WinWindowProc,
+               .cbClsExtra = 0,
+               .cbWndExtra = 0,
+               .hInstance = GetModuleHandle(nullptr),
+               .hIcon = LoadIcon(nullptr, IDI_APPLICATION),
+               .hCursor = LoadCursor(nullptr, IDC_ARROW),
+               .hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1),
+               .lpszMenuName = nullptr,
+               .lpszClassName = m_className,
+               .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
+
+        ATOM const res = RegisterClassEx(&wc);
+        if (res == 0)
+        {
+            std::cout << "Failed to register window class" << std::endl;
+            return E_FAIL;
+        }
+
+        m_isClassRegistered = true;
+
+        std::cout << "Registered window class" << std::endl;
     }
 
     m_hwnd = CreateWindowEx(
         0,
-        title,
+        m_className,
         title,
         WS_OVERLAPPEDWINDOW,
         x,
@@ -46,8 +80,11 @@ HRESULT winWindow::Create(
     );
     if (m_hwnd == nullptr)
     {
+        std::cout << "Failed to create window" << std::endl;
         return E_FAIL;
     }
+
+    m_instanceCount++;
 
     m_rect = Rectangle(x, y, width, height);
 
@@ -63,6 +100,9 @@ HRESULT winWindow::Create(
 
 LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    std::cout << "Message: " << uMsg << "wParam: " << wParam
+              << "lParam: " << lParam << std::endl;
+    std::cout << GET_APPCOMMAND_LPARAM(lParam) << std::endl;
     switch (uMsg)
     {
         case WM_DESTROY:
@@ -70,8 +110,16 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
             return 0;
 
         case WM_CLOSE:
-            DestroyWindow(m_hwnd);
+        {
+            BOOL res = DestroyWindow(m_hwnd);
+            if (res == 0)
+            {
+                std::cout << "Failed to destroy window" << std::endl;
+                return -1;
+            }
+            m_hwnd = nullptr;
             return 0;
+        }
 
         case WM_PAINT:
             m_d2dWindow.BeginDraw();
@@ -116,9 +164,6 @@ void winWindow::Run()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-
-    DestroyWindow(m_hwnd);
-    m_hwnd = nullptr;
 
     m_showStatus = ShowStatus::HIDE;
 }

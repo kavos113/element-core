@@ -63,7 +63,6 @@ TEST(winWindowTest, ShowWindow)
     );
 
     auto future = tester.RunAsync();
-    window.Show();
     window.Run();
     future.get();
 

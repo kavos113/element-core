@@ -12,9 +12,6 @@ class WindowsGUITester
 public:
     WindowsGUITester()
     {
-        m_actions.push_back(
-            {.delay = std::chrono::milliseconds(INIT_INTERVAL), .action = [] {}}
-        );
     }
 
     void RegisterWindow(const element::winWindow& window)
@@ -33,7 +30,7 @@ public:
         m_actions.push_back(
             {.delay = delay,
              .action = [this, message, wParam, lParam]
-             { PostMessage(m_targetHwnd, message, wParam, lParam); },
+             { SendMessage(m_targetHwnd, message, wParam, lParam); },
              .assertion = assertion}
         );
     }
@@ -51,8 +48,11 @@ public:
 
     void Run()
     {
+        std::this_thread::sleep_for(std::chrono::milliseconds(INIT_INTERVAL));
+        int i = 0;
         for (const auto& [delay, action, assertion] : m_actions)
         {
+            i++;
             action();
             std::this_thread::sleep_for(delay);
             if (assertion)

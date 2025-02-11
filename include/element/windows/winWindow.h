@@ -102,6 +102,10 @@ private:
 
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};
+
+    static bool m_isClassRegistered;
+    static int m_instanceCount;
+    static const wchar_t* m_className;
 };
 
 }  // namespace element
