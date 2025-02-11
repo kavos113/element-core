@@ -11,6 +11,7 @@ set(srcs_windows
         geometry/Size.cpp
         windows/direct2d/d2dWindow.cpp
         windows/direct2d/d2dWindow.cpp
+        color/Color.cpp
 )
 
 set(headers_windows
@@ -23,6 +24,7 @@ set(headers_windows
         ${include_dir}/element/windows/direct2d/d2dWindow.h
         ${include_dir}/element/windows/direct2d/d2dWindow.h
         ../../include/element/windows/direct2d/dxgiDevice.h
+        ../../include/element/color/Color.h
 )
 
 add_library(element ${srcs_windows} ${headers_windows})

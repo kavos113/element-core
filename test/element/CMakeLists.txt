@@ -22,7 +22,9 @@ set(test_srcs_geometry
         geometry/SizeTest.cpp
 )
 
-set(test_names windows geometry direct2d)
+set(test_srcs_color color/ColorTest.cpp)
+
+set(test_names windows geometry direct2d color)
 
 include(FetchContent)
 FetchContent_Declare(
