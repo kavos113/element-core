@@ -9,6 +9,8 @@ set(srcs_windows
         geometry/Point.cpp
         geometry/Rectangle.cpp
         geometry/Size.cpp
+        windows/direct2d/d2dWindow.cpp
+        windows/direct2d/d2dWindow.cpp
 )
 
 set(headers_windows
@@ -18,6 +20,9 @@ set(headers_windows
         ${include_dir}/element/geometry/Size.h
         ${include_dir}/element/windows/direct2d/d2dFactory.h
         ${include_dir}/element/windows/direct2d/d2dDevice.h
+        ${include_dir}/element/windows/direct2d/d2dWindow.h
+        ${include_dir}/element/windows/direct2d/d2dWindow.h
+        ../../include/element/windows/direct2d/dxgiDevice.h
 )
 
 add_library(element ${srcs_windows} ${headers_windows})

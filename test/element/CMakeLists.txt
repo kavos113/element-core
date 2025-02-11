@@ -12,6 +12,8 @@ set(test_srcs_windows
 set(test_srcs_direct2d
         windows/direct2d/d2dFactoryTest.cpp
         windows/direct2d/d2dDeviceTest.cpp
+        windows/direct2d/d2dWindowTest.cpp
+        windows/direct2d/dxgiDeviceTest.cpp
 )
 
 set(test_srcs_geometry

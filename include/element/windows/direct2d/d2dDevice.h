@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "d2dFactory.h"
+#include "dxgiDevice.h"
 
 namespace element
 {
@@ -29,47 +30,8 @@ public:
 private:
     static void CreateDevice(ID2D1Device7** device)
     {
-        UINT creation_flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-
-        D3D_FEATURE_LEVEL feature_levels[]
-            = {D3D_FEATURE_LEVEL_11_1,
-               D3D_FEATURE_LEVEL_11_0,
-               D3D_FEATURE_LEVEL_10_1,
-               D3D_FEATURE_LEVEL_10_0,
-               D3D_FEATURE_LEVEL_9_3,
-               D3D_FEATURE_LEVEL_9_2,
-               D3D_FEATURE_LEVEL_9_1};
-
-        Microsoft::WRL::ComPtr<ID3D11Device> d3d_device = nullptr;
-        Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_context = nullptr;
-
-        HRESULT hr = D3D11CreateDevice(
-            nullptr,
-            D3D_DRIVER_TYPE_HARDWARE,
-            nullptr,
-            creation_flags,
-            feature_levels,
-            ARRAYSIZE(feature_levels),
-            D3D11_SDK_VERSION,
-            &d3d_device,
-            nullptr,
-            &d3d_context
-        );
-        if (FAILED(hr))
-        {
-            std::cout << "Failed to create Direct3D device" << std::endl;
-            exit(1);
-        }
-
-        Microsoft::WRL::ComPtr<IDXGIDevice4> dxgi_device = nullptr;
-        hr = d3d_device.As(&dxgi_device);
-        if (FAILED(hr))
-        {
-            std::cout << "Failed to get DXGI device" << std::endl;
-            exit(1);
-        }
-
-        hr = d2dFactory::Get()->CreateDevice(dxgi_device.Get(), device);
+        HRESULT hr
+            = d2dFactory::Get()->CreateDevice(dxgiDevice::Get().Get(), device);
         if (FAILED(hr))
         {
             std::cout << "Failed to create Direct2D device" << std::endl;
