@@ -111,6 +111,7 @@ Microsoft::WRL::ComPtr<ID2D1DeviceContext7> d2dWindow::GetDeviceContext() const
 void d2dWindow::BeginDraw()
 {
     m_deviceContext->BeginDraw();
+    m_deviceContext->Clear(m_clearColor);
 }
 
 HRESULT d2dWindow::EndDraw()
@@ -119,9 +120,22 @@ HRESULT d2dWindow::EndDraw()
     if (FAILED(hr))
     {
         std::cout << "Failed to end draw" << std::endl;
+        return hr;
+    }
+
+    hr = m_swapChain->Present(1, 0);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to present" << std::endl;
+        return hr;
     }
 
     return hr;
+}
+
+void d2dWindow::SetClearColor(D2D1_COLOR_F color)
+{
+    m_clearColor = color;
 }
 
 }  // namespace element

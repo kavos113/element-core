@@ -5,6 +5,9 @@
 #define UNICODE
 #include <geometry/Rectangle.h>
 #include <geometry/Size.h>
+
+#include "color/Color.h"
+#include "direct2d/d2dWindow.h"
 #endif
 
 #include <Windows.h>
@@ -55,6 +58,8 @@ public:
     void SetPosition(Point position);
     [[nodiscard]] Rectangle GetRectangle() const;
     void SetRectangle(Rectangle rect);
+    [[nodiscard]] Color GetBackgroundColor() const;
+    void SetBackgroundColor(Color color);
 
     static LRESULT CALLBACK
     WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -93,8 +98,10 @@ private:
 
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};
+    d2dWindow m_d2dWindow{};
 
     Rectangle m_rect{};
+    Color m_backgroundColor{Color::Colors::White};
 };
 
 }  // namespace element

@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "../../utils/WindowsGUITester.h"
+#include "color/Color.h"
 #include "geometry/Point.h"
 #include "geometry/Rectangle.h"
 #include "geometry/Size.h"
@@ -349,6 +350,60 @@ TEST(winWindowTest, SetRectangle)
             ASSERT_EQ(
                 window.GetRectangle(),
                 element::Rectangle(100, 100, 400, 300)
+            );
+        }
+    );
+
+    auto future = tester.RunAsync();
+    window.Run();
+    future.get();
+}
+
+TEST(winWindowTest, SetBackgroundColor)
+{
+    element::winWindow window;
+    window.Create(L"Test Window 10", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_EQ(
+        window.GetBackgroundColor(),
+        element::Color(1.0f, 1.0f, 1.0f, 1.0f)
+    );
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction(
+        INTERVAL,
+        [&window] { window.Show(); },
+        [&window]
+        {
+            ASSERT_EQ(
+                window.GetShowStatus(),
+                element::winWindow::ShowStatus::SHOW
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        [&window]
+        { window.SetBackgroundColor(element::Color(0.0f, 0.0f, 0.0f, 1.0f)); },
+        [&window]
+        {
+            ASSERT_EQ(
+                window.GetBackgroundColor(),
+                element::Color(0.0f, 0.0f, 0.0f, 1.0f)
+            );
+        }
+    );
+    tester.AddAction(
+        INTERVAL,
+        WM_CLOSE,
+        0,
+        0,
+        [&window]
+        {
+            ASSERT_EQ(
+                window.GetBackgroundColor(),
+                element::Color(0.0f, 0.0f, 0.0f, 1.0f)
             );
         }
     );

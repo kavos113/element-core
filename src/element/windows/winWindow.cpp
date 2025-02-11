@@ -51,6 +51,13 @@ HRESULT winWindow::Create(
 
     m_rect = Rectangle(x, y, width, height);
 
+    HRESULT hr = m_d2dWindow.Create(m_hwnd);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to create Direct2D window" << std::endl;
+        return hr;
+    }
+
     return S_OK;
 }
 
@@ -64,6 +71,11 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         case WM_CLOSE:
             DestroyWindow(m_hwnd);
+            return 0;
+
+        case WM_PAINT:
+            m_d2dWindow.BeginDraw();
+            m_d2dWindow.EndDraw();
             return 0;
 
         default:
@@ -193,6 +205,20 @@ void winWindow::SetRectangle(Rectangle rect)
         0
     );
     m_rect = rect;
+}
+
+Color winWindow::GetBackgroundColor() const
+{
+    return m_backgroundColor;
+}
+
+void winWindow::SetBackgroundColor(Color color)
+{
+    m_backgroundColor = color;
+    D2D1_COLOR_F d2dC_color = D2D1::ColorF(color.r, color.g, color.b, color.a);
+    m_d2dWindow.SetClearColor(d2dC_color);
+
+    InvalidateRect(m_hwnd, nullptr, false);
 }
 
 }  // namespace element

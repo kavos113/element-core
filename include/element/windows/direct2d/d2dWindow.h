@@ -22,12 +22,16 @@ public:
     void BeginDraw();
     HRESULT EndDraw();
 
+    void SetClearColor(D2D1_COLOR_F color);
+
     Microsoft::WRL::ComPtr<ID2D1DeviceContext7> GetDeviceContext() const;
 
 private:
     Microsoft::WRL::ComPtr<ID2D1DeviceContext7> m_deviceContext;
     Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_bitmap;
     Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
+
+    D2D1_COLOR_F m_clearColor = D2D1::ColorF(D2D1::ColorF::White);
 };
 
 }  // namespace element
