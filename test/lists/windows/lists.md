@@ -28,7 +28,7 @@
 - [x] 生成
 - [x] 破棄
 - [x] get
-- [ ] dxgiDeviceを使うようにする
+- [x] dxgiDeviceを使うようにする
 
 #### dxgiDevice
 
