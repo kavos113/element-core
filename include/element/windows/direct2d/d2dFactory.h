@@ -1,5 +1,5 @@
-#ifndef D2DFACTORY_H
-#define D2DFACTORY_H
+#ifndef ELEMENT_WINDOWS_DIRECT2D_D2DFACTORY_H
+#define ELEMENT_WINDOWS_DIRECT2D_D2DFACTORY_H
 
 #include <d2d1_3.h>
 #include <wrl.h>
@@ -35,4 +35,4 @@ public:
 
 }  // namespace element
 
-#endif  // D2DFACTORY_H
+#endif  // ELEMENT_WINDOWS_DIRECT2D_D2DFACTORY_H
