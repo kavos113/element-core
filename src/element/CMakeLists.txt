@@ -11,5 +11,15 @@ set(srcs_windows
         geometry/Size.cpp
 )
 
-add_library(element ${srcs_windows})
+set(headers_windows
+        ${include_dir}/element/windows/winWindow.h
+        ${include_dir}/element/geometry/Point.h
+        ${include_dir}/element/geometry/Rectangle.h
+        ${include_dir}/element/geometry/Size.h
+        ${include_dir}/element/windows/direct2d/d2dFactory.h
+)
+
+add_library(element ${srcs_windows} ${headers_windows})
 target_include_directories(element PUBLIC ${include_dir}/element)
+
+target_link_libraries(element PRIVATE d2d1.lib)

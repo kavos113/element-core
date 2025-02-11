@@ -9,13 +9,17 @@ set(test_srcs_windows
         ../utils/WindowsGUITester.h
 )
 
+set(test_srcs_direct2d
+        windows/direct2d/d2dFactoryTest.cpp
+)
+
 set(test_srcs_geometry
         geometry/PointTest.cpp
         geometry/RectangleTest.cpp
         geometry/SizeTest.cpp
 )
 
-set(test_names windows geometry)
+set(test_names windows geometry direct2d)
 
 include(FetchContent)
 FetchContent_Declare(
