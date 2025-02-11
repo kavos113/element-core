@@ -19,6 +19,9 @@ public:
 
     HRESULT Create(HWND hwnd);
 
+    void BeginDraw();
+    HRESULT EndDraw();
+
     Microsoft::WRL::ComPtr<ID2D1DeviceContext7> GetDeviceContext() const;
 
 private:

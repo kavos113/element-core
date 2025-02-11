@@ -108,4 +108,20 @@ Microsoft::WRL::ComPtr<ID2D1DeviceContext7> d2dWindow::GetDeviceContext() const
     return m_deviceContext;
 }
 
+void d2dWindow::BeginDraw()
+{
+    m_deviceContext->BeginDraw();
+}
+
+HRESULT d2dWindow::EndDraw()
+{
+    HRESULT hr = m_deviceContext->EndDraw();
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to end draw" << std::endl;
+    }
+
+    return hr;
+}
+
 }  // namespace element

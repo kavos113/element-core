@@ -15,7 +15,7 @@ protected:
         wcex.lpszClassName = "test";
         RegisterClassEx(&wcex);
 
-        HWND hwnd = CreateWindow(
+        hwnd = CreateWindow(
             "test",
             "test",
             WS_OVERLAPPEDWINDOW,
@@ -36,6 +36,21 @@ protected:
 TEST_F(d2dWindowTest, CreateD2DWindow)
 {
     element::d2dWindow window;
-    window.Create(hwnd);
+    HRESULT hr = window.Create(hwnd);
+
     ASSERT_NE(nullptr, window.GetDeviceContext());
+    ASSERT_EQ(hr, S_OK);
+}
+
+TEST_F(d2dWindowTest, DrawD2DWindow)
+{
+    element::d2dWindow window;
+    HRESULT hr = window.Create(hwnd);
+
+    ASSERT_EQ(hr, S_OK);
+
+    window.BeginDraw();
+    hr = window.EndDraw();
+
+    ASSERT_EQ(hr, S_OK);
 }
