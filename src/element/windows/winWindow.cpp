@@ -378,7 +378,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
     {
         case WindowAction::ACTIVE:
         {
-            auto ptr = reinterpret_cast<bool*>(lParam);
+            auto *ptr = reinterpret_cast<bool*>(lParam);
             if (typeid(ptr) != typeid(bool*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -390,7 +390,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::SHOWSTATUS:
         {
-            auto ptr = reinterpret_cast<ShowStatus*>(lParam);
+            auto *ptr = reinterpret_cast<ShowStatus*>(lParam);
             if (typeid(ptr) != typeid(ShowStatus*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -402,7 +402,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::HWND:
         {
-            auto ptr = reinterpret_cast<HWND*>(lParam);
+            auto *ptr = reinterpret_cast<HWND*>(lParam);
             if (typeid(ptr) != typeid(HWND*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -414,7 +414,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::SIZE:
         {
-            auto ptr = reinterpret_cast<Size*>(lParam);
+            auto *ptr = reinterpret_cast<Size*>(lParam);
             if (typeid(ptr) != typeid(Size*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -426,7 +426,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::POSITION:
         {
-            auto ptr = reinterpret_cast<Point*>(lParam);
+            auto *ptr = reinterpret_cast<Point*>(lParam);
             if (typeid(ptr) != typeid(Point*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -438,7 +438,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::RECTANGLE:
         {
-            auto ptr = reinterpret_cast<Rectangle*>(lParam);
+            auto *ptr = reinterpret_cast<Rectangle*>(lParam);
             if (typeid(ptr) != typeid(Rectangle*))
             {
                 std::cout << "Invalid pointer" << std::endl;
@@ -450,7 +450,7 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::BACKGROUND_COLOR:
         {
-            auto ptr = reinterpret_cast<Color*>(lParam);
+            auto *ptr = reinterpret_cast<Color*>(lParam);
             if (typeid(ptr) != typeid(Color*))
             {
                 std::cout << "Invalid pointer" << std::endl;

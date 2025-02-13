@@ -17,6 +17,7 @@ Checks: '
   -modernize-use-trailing-return-type,
   performance-*,
   -performance-no-int-to-ptr,
+  -performance-avoid-endl,
   readability-*,
   -readability-identifier-length,
   -readability-uppercase-literal-suffix
