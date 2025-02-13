@@ -103,7 +103,7 @@ HRESULT d2dWindow::Create(HWND hwnd)
     return S_OK;
 }
 
-Microsoft::WRL::ComPtr<ID2D1DeviceContext7> d2dWindow::GetDeviceContext() const
+Microsoft::WRL::ComPtr<ID2D1DeviceContext1> d2dWindow::GetDeviceContext() const
 {
     return m_deviceContext;
 }

@@ -1,6 +1,6 @@
 #ifndef ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
 #define ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
-#include <d2d1_3.h>
+#include <d2d1_2.h>
 #include <dxgi1_6.h>
 #include <wrl/client.h>
 
@@ -24,10 +24,10 @@ public:
 
     void SetClearColor(D2D1_COLOR_F color);
 
-    Microsoft::WRL::ComPtr<ID2D1DeviceContext7> GetDeviceContext() const;
+    Microsoft::WRL::ComPtr<ID2D1DeviceContext1> GetDeviceContext() const;
 
 private:
-    Microsoft::WRL::ComPtr<ID2D1DeviceContext7> m_deviceContext;
+    Microsoft::WRL::ComPtr<ID2D1DeviceContext1> m_deviceContext;
     Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_bitmap;
     Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
 
