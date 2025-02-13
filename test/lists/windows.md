@@ -13,7 +13,7 @@
 - [x] 背景色設定
 - [x] WindowProc
 - [x] ウィンドウクラスの処理
-- [ ] enddrawのエラー処理
+- [x] enddrawのエラー処理
 
 ### Direct2D(初期化，デバイス関連)
 
