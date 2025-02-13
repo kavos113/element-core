@@ -3,7 +3,6 @@
 
 #include <d2d1_1.h>
 #include <dxgi1_6.h>
-#include <windows.h>
 #include <wrl/client.h>
 
 namespace element
