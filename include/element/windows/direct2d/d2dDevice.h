@@ -1,8 +1,7 @@
 #ifndef ELEMENT_WINDOWS_DIRECT2D_D2DDEVICE_H
 #define ELEMENT_WINDOWS_DIRECT2D_D2DDEVICE_H
-#include <d2d1_2.h>
+#include <d2d1_1.h>
 #include <d3d11.h>
-#include <dxgi1_6.h>
 #include <wrl/client.h>
 
 #include <iostream>
@@ -16,9 +15,9 @@ namespace element
 class d2dDevice
 {
 public:
-    static Microsoft::WRL::ComPtr<ID2D1Device1>& Get()
+    static Microsoft::WRL::ComPtr<ID2D1Device>& Get()
     {
-        static Microsoft::WRL::ComPtr<ID2D1Device1> device = nullptr;
+        static Microsoft::WRL::ComPtr<ID2D1Device> device = nullptr;
         if (device == nullptr)
         {
             CreateDevice(&device);
@@ -28,7 +27,7 @@ public:
     }
 
 private:
-    static void CreateDevice(ID2D1Device1** device)
+    static void CreateDevice(ID2D1Device** device)
     {
         HRESULT hr
             = d2dFactory::Get()->CreateDevice(dxgiDevice::Get().Get(), device);

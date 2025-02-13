@@ -1,7 +1,7 @@
 #ifndef ELEMENT_WINDOWS_DIRECT2D_D2DFACTORY_H
 #define ELEMENT_WINDOWS_DIRECT2D_D2DFACTORY_H
 
-#include <d2d1_2.h>
+#include <d2d1_1.h>
 #include <wrl.h>
 
 #include <iostream>
