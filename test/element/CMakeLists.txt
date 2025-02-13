@@ -26,6 +26,8 @@ set(test_srcs_color color/ColorTest.cpp)
 
 set(test_names windows geometry direct2d color)
 
+set(IS_SLOW_TEST ON)
+
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -41,6 +43,9 @@ foreach (test_name IN LISTS test_names)
     add_dependencies(element-${test_name}-test element)
     target_link_libraries(element-${test_name}-test PRIVATE gtest_main element)
     target_include_directories(element-${test_name}-test PRIVATE ${include_dir})
+    if (IS_SLOW_TEST)
+        target_compile_definitions(element-${test_name}-test PRIVATE SLOW_TEST)
+    endif ()
 
     include(GoogleTest)
     gtest_discover_tests(element-${test_name}-test)

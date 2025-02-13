@@ -10,55 +10,87 @@
 class WindowsGUITester
 {
 public:
-    WindowsGUITester()
+    enum class Assertions
     {
-    }
+        EQUAL,
+        NOT_EQUAL,
+        NONE,
+    };
+
+    WindowsGUITester() = default;
 
     void RegisterWindow(const element::winWindow& window)
     {
-        m_targetHwnd = window.GetHwnd();
+        m_targetHwnd = std::make_unique<HWND>(window.GetHwnd());
     }
 
+    template<typename T>
     void AddAction(
-        const std::chrono::duration<int, std::milli> delay,
-        const UINT message,
         const WPARAM wParam,
         const LPARAM lParam,
-        const std::function<void()>& assertion = nullptr
+        const Assertions assertion_type,
+        const WPARAM assertion_wParam,
+        const T& expected
     )
     {
         m_actions.push_back(
-            {.delay = delay,
-             .action = [this, message, wParam, lParam]
-             { SendMessage(m_targetHwnd, message, wParam, lParam); },
-             .assertion = assertion}
+            {.action = {WM_ELEMENT_INVOKE, wParam, lParam},
+             .assertion =
+                 [this, expected, assertion_wParam, assertion_type]()
+             {
+                 if (assertion_type == Assertions::NONE)
+                 {
+                     return;
+                 }
+
+                 T actual = {};
+                 SendMessage(
+                     *m_targetHwnd,
+                     WM_ELEMENT_GETSTATUS,
+                     assertion_wParam,
+                     reinterpret_cast<LPARAM>(&actual)
+                 );
+                 switch (assertion_type)
+                 {
+                     case Assertions::EQUAL:
+                         ASSERT_EQ(expected, actual);
+                         break;
+
+                     case Assertions::NOT_EQUAL:
+                         ASSERT_NE(expected, actual);
+                         break;
+
+                     default:
+                         break;
+                 }
+             }}
         );
     }
 
-    void AddAction(
-        const std::chrono::duration<int, std::milli> delay,
-        const std::function<void()>& action,
-        const std::function<void()>& assertion = nullptr
-    )
+    void CloseWindow()
     {
-        m_actions.push_back(
-            {.delay = delay, .action = action, .assertion = assertion}
-        );
+        m_actions.push_back({{WM_CLOSE, 0, 0}, []() {}});
     }
 
-    void Run()
+    void Run(bool is_pause = false)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(INIT_INTERVAL));
+        std::this_thread::sleep_for(INIT_INTERVAL);
         int i = 0;
-        for (const auto& [delay, action, assertion] : m_actions)
+        for (const auto& [action, assertion] : m_actions)
         {
             i++;
-            action();
-            std::this_thread::sleep_for(delay);
-            if (assertion)
+            SendMessage(
+                *m_targetHwnd,
+                action.message,
+                action.wParam,
+                action.lParam
+            );
+            if (is_pause)
             {
-                assertion();
+                std::this_thread::sleep_for(INTERVAL);
             }
+
+            assertion();
         }
     }
 
@@ -68,17 +100,26 @@ public:
     }
 
 private:
+    struct ActionFunction
+    {
+        UINT message;
+        WPARAM wParam;
+        LPARAM lParam;
+    };
+
     struct Action
     {
-        std::chrono::duration<int, std::milli> delay;
-        std::function<void()> action;
+        ActionFunction action;
         std::function<void()> assertion;
     };
 
-    static constexpr int INIT_INTERVAL = 1000;
+    static constexpr std::chrono::milliseconds INIT_INTERVAL
+        = std::chrono::milliseconds(500);
+    static constexpr std::chrono::milliseconds INTERVAL
+        = std::chrono::milliseconds(200);
 
     std::vector<Action> m_actions;
-    HWND m_targetHwnd = nullptr;
+    std::unique_ptr<HWND> m_targetHwnd;
 };
 
 #endif  // TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H

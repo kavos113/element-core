@@ -3,16 +3,31 @@
 
 #ifndef UNICODE
 #define UNICODE
-#include <geometry/Rectangle.h>
-#include <geometry/Size.h>
-
-#include "color/Color.h"
-#include "direct2d/d2dWindow.h"
 #endif
 
+#include <geometry/Rectangle.h>
+#include <geometry/Size.h>
 #include <Windows.h>
 
 #include <thread>
+
+#include "color/Color.h"
+#include "direct2d/d2dWindow.h"
+
+#define WM_ELEMENT_INVOKE          0x401
+#define WM_ELEMENT_GETSTATUS       0x402
+
+#define EL_WINDOW_SHOW             1
+#define EL_WINDOW_HIDE             2
+#define EL_WINDOW_MINIMIZE         3
+#define EL_WINDOW_MAXIMIZE         4
+#define EL_WINDOW_SIZE             5
+#define EL_WINDOW_POSITION         6
+#define EL_WINDOW_RECTANGLE        7
+#define EL_WINDOW_BACKGROUND_COLOR 8
+#define EL_WINDOW_ACTIVE           9
+#define EL_WINDOW_SHOWSTATUS       10
+#define EL_WINDOW_HWND             11
 
 namespace element
 {
@@ -35,6 +50,8 @@ public:
     winWindow& operator=(winWindow&&) = delete;
     ~winWindow();
 
+    static HRESULT RegisterWindowClass();
+    static HRESULT UnregisterWindowClass();
     HRESULT Create(
         const wchar_t* title = L"",
         int x = CW_USEDEFAULT,
@@ -62,39 +79,12 @@ public:
     void SetBackgroundColor(Color color);
 
     static LRESULT CALLBACK
-    WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-    {
-        winWindow* pThis = nullptr;
-
-        if (uMsg == WM_CREATE)
-        {
-            auto* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-            pThis = reinterpret_cast<winWindow*>(pCreate->lpCreateParams);
-            SetWindowLongPtr(
-                hwnd,
-                GWLP_USERDATA,
-                reinterpret_cast<LONG_PTR>(pThis)
-            );
-
-            pThis->m_hwnd = hwnd;
-        }
-        else
-        {
-            pThis = reinterpret_cast<winWindow*>(
-                GetWindowLongPtr(hwnd, GWLP_USERDATA)
-            );
-        }
-
-        if (pThis != nullptr)
-        {
-            return pThis->HandleMessage(uMsg, wParam, lParam);
-        }
-
-        return DefWindowProc(hwnd, uMsg, wParam, lParam);
-    }
+    WinWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 private:
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+    void Invoke(WPARAM wParam, LPARAM lParam);
+    void GetStatus(WPARAM wParam, LPARAM lParam) const;
 
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};
@@ -103,9 +93,7 @@ private:
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};
 
-    static bool m_isClassRegistered;
-    static int m_instanceCount;
-    static const wchar_t* m_className;
+    static constexpr const wchar_t* CLASS_NAME = L"element_window";
 };
 
 }  // namespace element
