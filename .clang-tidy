@@ -6,6 +6,7 @@ Checks: '
   bugprone-*,
   -bugprone-argument-comment,
   -bugprone-bad-signal-to-kill-thread,
+  -bugprone-easily-swappable-parameters,
   clang-analyzer-*,
   cert-*,
   cppcoreguidelines-*,

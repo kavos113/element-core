@@ -38,6 +38,9 @@ private:
     Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
 
     D2D1_COLOR_F m_clearColor = D2D1::ColorF(D2D1::ColorF::White);
+
+    static constexpr float dpi_x = 96.0f;
+    static constexpr float dpi_y = 96.0f;
 };
 
 }  // namespace element

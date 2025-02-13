@@ -87,7 +87,7 @@ HRESULT winWindow::Create(
 }
 
 LRESULT winWindow::WinWindowProc(
-    const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam
+    HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam
 )
 {
     winWindow *pThis = nullptr;

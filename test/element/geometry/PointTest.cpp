@@ -40,7 +40,10 @@ TEST_F(PointTest, addition)
     constexpr element::Point p1(DEFAULT_X, DEFAULT_Y);
     constexpr element::Point p2(DEFAULT_X + 1, DEFAULT_Y + 1);
 
-    ASSERT_EQ(p1 + p2, element::Point(DEFAULT_X * 2 + 1, DEFAULT_Y * 2 + 1));
+    ASSERT_EQ(
+        p1 + p2,
+        element::Point((DEFAULT_X * 2) + 1, (DEFAULT_Y * 2) + 1)
+    );
 }
 
 TEST_F(PointTest, subtraction)

@@ -8,7 +8,7 @@
 namespace element
 {
 
-HRESULT d2dWindow::Create(const HWND hwnd)
+HRESULT d2dWindow::Create(HWND hwnd)
 {
     constexpr DXGI_SWAP_CHAIN_DESC1 desc = {
         .Width = 0,
@@ -65,8 +65,8 @@ HRESULT d2dWindow::Create(const HWND hwnd)
     const D2D1_BITMAP_PROPERTIES1 properties = D2D1::BitmapProperties1(
         D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
         D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE),
-        96.0f,
-        96.0f
+        dpi_x,
+        dpi_y
     );
 
     Microsoft::WRL::ComPtr<IDXGISurface> dxgiSurface = nullptr;
@@ -110,8 +110,8 @@ void d2dWindow::Resize(const D2D1_SIZE_F size) const
 
     HRESULT hr = m_swapChain->ResizeBuffers(
         0,
-        size.width,
-        size.height,
+        static_cast<UINT>(size.width),
+        static_cast<UINT>(size.height),
         DXGI_FORMAT_B8G8R8A8_UNORM,
         0
     );
@@ -138,8 +138,8 @@ void d2dWindow::Resize(const D2D1_SIZE_F size) const
                 DXGI_FORMAT_B8G8R8A8_UNORM,
                 D2D1_ALPHA_MODE_IGNORE
             ),
-            96.0f,
-            96.0f
+            dpi_x,
+            dpi_y
         ),
         bitmap.GetAddressOf()
     );
