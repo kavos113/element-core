@@ -5,12 +5,14 @@
 #include <windows/winWindow.h>
 
 #include <chrono>
+#include <functional>
 #include <thread>
+#include <vector>
 
 class WindowsGUITester
 {
 public:
-    enum class Assertions
+    enum class Assertions : std::uint8_t
     {
         EQUAL,
         NOT_EQUAL,
@@ -93,11 +95,6 @@ public:
         }
     }
 
-    std::future<void> RunAsync()
-    {
-        return std::async(std::launch::async, [this] { Run(); });
-    }
-
 private:
     struct ActionFunction
     {
@@ -112,10 +109,8 @@ private:
         std::function<void()> assertion;
     };
 
-    static constexpr auto INIT_INTERVAL
-        = std::chrono::milliseconds(500);
-    static constexpr auto INTERVAL
-        = std::chrono::milliseconds(200);
+    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(500);
+    static constexpr auto INTERVAL = std::chrono::milliseconds(200);
 
     std::vector<Action> m_actions;
     std::unique_ptr<HWND> m_targetHwnd;

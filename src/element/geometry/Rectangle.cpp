@@ -11,12 +11,12 @@ bool Rectangle::operator==(const Rectangle& rectangle) const
 
 Point Rectangle::GetPosition() const
 {
-    return Point{x, y};
+    return Point{.x=x, .y=y};
 }
 
 Size Rectangle::GetSize() const
 {
-    return Size{width, height};
+    return Size{.width=width, .height=height};
 }
 
 void Rectangle::SetPosition(const Point position)

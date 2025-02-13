@@ -61,7 +61,7 @@ TEST_F(RectangleTest, GetPosition)
 
 TEST_F(RectangleTest, GetSize)
 {
-    constexpr element::Rectangle rect{X, Y, WIDTH, HEIGHT};
+    constexpr element::Rectangle rect{.x=X, .y=Y, .width=WIDTH, .height=HEIGHT};
 
     ASSERT_EQ(rect.GetSize(), element::Size(WIDTH, HEIGHT));
 }
