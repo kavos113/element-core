@@ -14,20 +14,8 @@
 #include "color/Color.h"
 #include "direct2d/d2dWindow.h"
 
-#define WM_ELEMENT_INVOKE          0x401
-#define WM_ELEMENT_GETSTATUS       0x402
-
-#define EL_WINDOW_SHOW             1
-#define EL_WINDOW_HIDE             2
-#define EL_WINDOW_MINIMIZE         3
-#define EL_WINDOW_MAXIMIZE         4
-#define EL_WINDOW_SIZE             5
-#define EL_WINDOW_POSITION         6
-#define EL_WINDOW_RECTANGLE        7
-#define EL_WINDOW_BACKGROUND_COLOR 8
-#define EL_WINDOW_ACTIVE           9
-#define EL_WINDOW_SHOWSTATUS       10
-#define EL_WINDOW_HWND             11
+#define WM_ELEMENT_INVOKE    0x401
+#define WM_ELEMENT_GETSTATUS 0x402
 
 namespace element
 {
@@ -41,6 +29,21 @@ public:
         SHOW,
         MINIMIZE,
         MAXIMIZE
+    };
+
+    enum class WindowAction
+    {
+        SHOW,
+        HIDE,
+        MINIMIZE,
+        MAXIMIZE,
+        SIZE,
+        POSITION,
+        RECTANGLE,
+        BACKGROUND_COLOR,
+        ACTIVE,
+        SHOWSTATUS,
+        HWND
     };
 
     winWindow() = default;

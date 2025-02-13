@@ -26,15 +26,16 @@ public:
 
     template<typename T>
     void AddAction(
-        const WPARAM wParam,
+        const element::winWindow::WindowAction action_type,
         const LPARAM lParam,
         const Assertions assertion_type,
-        const WPARAM assertion_wParam,
+        const element::winWindow::WindowAction assertion_wParam,
         const T& expected
     )
     {
         m_actions.push_back(
-            {.action = {WM_ELEMENT_INVOKE, wParam, lParam},
+            {.action
+             = {WM_ELEMENT_INVOKE, static_cast<WPARAM>(action_type), lParam},
              .assertion =
                  [this, expected, assertion_wParam, assertion_type]()
              {
@@ -47,7 +48,7 @@ public:
                  SendMessage(
                      *m_targetHwnd,
                      WM_ELEMENT_GETSTATUS,
-                     assertion_wParam,
+                     static_cast<WPARAM>(assertion_wParam),
                      reinterpret_cast<LPARAM>(&actual)
                  );
                  switch (assertion_type)
@@ -75,10 +76,8 @@ public:
     void Run(bool is_pause = false)
     {
         std::this_thread::sleep_for(INIT_INTERVAL);
-        int i = 0;
         for (const auto& [action, assertion] : m_actions)
         {
-            i++;
             SendMessage(
                 *m_targetHwnd,
                 action.message,

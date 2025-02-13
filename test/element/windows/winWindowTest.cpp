@@ -75,10 +75,10 @@ TEST_F(winWindowTest, ShowWindow)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.CloseWindow();
@@ -100,24 +100,24 @@ TEST_F(winWindowTest, HideWindow)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_HIDE,
+        element::winWindow::WindowAction::HIDE,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::HIDE
     );
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.CloseWindow();
@@ -137,17 +137,17 @@ TEST_F(winWindowTest, MinimizeWindow)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_MINIMIZE,
+        element::winWindow::WindowAction::MINIMIZE,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::MINIMIZE
     );
     tester.CloseWindow();
@@ -167,17 +167,17 @@ TEST_F(winWindowTest, MaximizeWindow)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_MAXIMIZE,
+        element::winWindow::WindowAction::MAXIMIZE,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::MAXIMIZE
     );
     tester.CloseWindow();
@@ -199,17 +199,17 @@ TEST_F(winWindowTest, SetSize)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::Size>(
-        EL_WINDOW_SIZE,
+        element::winWindow::WindowAction::SIZE,
         reinterpret_cast<LPARAM>(&changed_size),
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SIZE,
+        element::winWindow::WindowAction::SIZE,
         element::Size(400, 300)
     );
     tester.CloseWindow();
@@ -231,17 +231,17 @@ TEST_F(winWindowTest, SetPosition)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::Point>(
-        EL_WINDOW_POSITION,
+        element::winWindow::WindowAction::POSITION,
         reinterpret_cast<LPARAM>(&changed_position),
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_POSITION,
+        element::winWindow::WindowAction::POSITION,
         element::Point(100, 100)
     );
     tester.CloseWindow();
@@ -263,17 +263,17 @@ TEST_F(winWindowTest, SetRectangle)
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::Rectangle>(
-        EL_WINDOW_RECTANGLE,
+        element::winWindow::WindowAction::RECTANGLE,
         reinterpret_cast<LPARAM>(&changed_rect),
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_RECTANGLE,
+        element::winWindow::WindowAction::RECTANGLE,
         element::Rectangle(100, 100, 400, 300)
     );
     tester.CloseWindow();
@@ -293,23 +293,23 @@ TEST_F(winWindowTest, SetBackgroundColor)
         element::Color(1.0f, 1.0f, 1.0f, 1.0f)
     );
 
-    element::Color changed_color(0.0f, 0.0f, 0.0f, 1.0f);
+    element::Color changed_color(1.0f, 0.0f, 0.0f, 1.0f);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
     tester.AddAction<element::winWindow::ShowStatus>(
-        EL_WINDOW_SHOW,
+        element::winWindow::WindowAction::SHOW,
         0,
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_SHOWSTATUS,
+        element::winWindow::WindowAction::SHOWSTATUS,
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction<element::Color>(
-        EL_WINDOW_BACKGROUND_COLOR,
+        element::winWindow::WindowAction::BACKGROUND_COLOR,
         reinterpret_cast<LPARAM>(&changed_color),
         WindowsGUITester::Assertions::EQUAL,
-        EL_WINDOW_BACKGROUND_COLOR,
-        element::Color(0.0f, 0.0f, 0.0f, 1.0f)
+        element::winWindow::WindowAction::BACKGROUND_COLOR,
+        element::Color(1.0f, 0.0f, 0.0f, 1.0f)
     );
     tester.CloseWindow();
 

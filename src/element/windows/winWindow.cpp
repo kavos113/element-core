@@ -289,25 +289,25 @@ void winWindow::SetBackgroundColor(Color color)
 
 void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
 {
-    switch (wParam)
+    switch (static_cast<WindowAction>(wParam))
     {
-        case EL_WINDOW_SHOW:
+        case WindowAction::SHOW:
             Show();
             break;
 
-        case EL_WINDOW_HIDE:
+        case WindowAction::HIDE:
             Hide();
             break;
 
-        case EL_WINDOW_MINIMIZE:
+        case WindowAction::MINIMIZE:
             Minimize();
             break;
 
-        case EL_WINDOW_MAXIMIZE:
+        case WindowAction::MAXIMIZE:
             Maximize();
             break;
 
-        case EL_WINDOW_SIZE:
+        case WindowAction::SIZE:
         {
             auto size = *reinterpret_cast<Size*>(lParam);
             if (typeid(size) != typeid(Size))
@@ -319,7 +319,7 @@ void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
             break;
         }
 
-        case EL_WINDOW_POSITION:
+        case WindowAction::POSITION:
         {
             auto position = *reinterpret_cast<Point*>(lParam);
             if (typeid(position) != typeid(Point))
@@ -331,7 +331,7 @@ void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
             break;
         }
 
-        case EL_WINDOW_RECTANGLE:
+        case WindowAction::RECTANGLE:
         {
             auto rect = *reinterpret_cast<Rectangle*>(lParam);
             if (typeid(rect) != typeid(Rectangle))
@@ -343,7 +343,7 @@ void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
             break;
         }
 
-        case EL_WINDOW_BACKGROUND_COLOR:
+        case WindowAction::BACKGROUND_COLOR:
         {
             auto color = *reinterpret_cast<Color*>(lParam);
             if (typeid(color) != typeid(Color))
@@ -362,9 +362,9 @@ void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
 
 void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
 {
-    switch (wParam)
+    switch (static_cast<WindowAction>(wParam))
     {
-        case EL_WINDOW_ACTIVE:
+        case WindowAction::ACTIVE:
         {
             auto ptr = reinterpret_cast<bool*>(lParam);
             if (typeid(ptr) != typeid(bool*))
@@ -376,7 +376,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_SHOWSTATUS:
+        case WindowAction::SHOWSTATUS:
         {
             auto ptr = reinterpret_cast<ShowStatus*>(lParam);
             if (typeid(ptr) != typeid(ShowStatus*))
@@ -388,7 +388,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_HWND:
+        case WindowAction::HWND:
         {
             auto ptr = reinterpret_cast<HWND*>(lParam);
             if (typeid(ptr) != typeid(HWND*))
@@ -400,7 +400,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_SIZE:
+        case WindowAction::SIZE:
         {
             auto ptr = reinterpret_cast<Size*>(lParam);
             if (typeid(ptr) != typeid(Size*))
@@ -412,7 +412,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_POSITION:
+        case WindowAction::POSITION:
         {
             auto ptr = reinterpret_cast<Point*>(lParam);
             if (typeid(ptr) != typeid(Point*))
@@ -424,7 +424,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_RECTANGLE:
+        case WindowAction::RECTANGLE:
         {
             auto ptr = reinterpret_cast<Rectangle*>(lParam);
             if (typeid(ptr) != typeid(Rectangle*))
@@ -436,7 +436,7 @@ void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
             break;
         }
 
-        case EL_WINDOW_BACKGROUND_COLOR:
+        case WindowAction::BACKGROUND_COLOR:
         {
             auto ptr = reinterpret_cast<Color*>(lParam);
             if (typeid(ptr) != typeid(Color*))
