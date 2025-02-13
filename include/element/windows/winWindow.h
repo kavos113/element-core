@@ -14,16 +14,16 @@
 #include "color/Color.h"
 #include "direct2d/d2dWindow.h"
 
-#define WM_ELEMENT_INVOKE    0x401
-#define WM_ELEMENT_GETSTATUS 0x402
-
 namespace element
 {
 
 class winWindow
 {
 public:
-    enum class ShowStatus
+    constexpr UINT WM_ELEMENT_INVOKE = WM_USER + 1;
+    constexpr UINT WM_ELEMENT_GETSTATUS = WM_USER + 2;
+
+    enum class ShowStatus : std::uint8_t
     {
         HIDE,
         SHOW,
@@ -31,7 +31,7 @@ public:
         MAXIMIZE
     };
 
-    enum class WindowAction
+    enum class WindowAction : std::uint8_t
     {
         SHOW,
         HIDE,
@@ -91,7 +91,7 @@ private:
 
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};
-    d2dWindow m_d2dWindow{};
+    d2dWindow m_d2dWindow;
 
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};

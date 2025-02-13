@@ -27,13 +27,13 @@ protected:
     {
     }
 
-    static void SetUpTestCase()
+    static void SetUpTestSuite()
     {
         const HRESULT hr = element::winWindow::RegisterWindowClass();
         ASSERT_HRESULT_SUCCEEDED(hr);
     }
 
-    static void TearDownTestCase()
+    static void TearDownTestSuite()
     {
         const HRESULT hr = element::winWindow::UnregisterWindowClass();
         EXPECT_HRESULT_SUCCEEDED(hr);
@@ -41,6 +41,8 @@ protected:
 
     static constexpr int WIDTH = 800;
     static constexpr int HEIGHT = 600;
+    static constexpr int MOVED_X = 100;
+    static constexpr int MOVED_Y = 100;
 
     static constexpr std::chrono::duration<int, std::milli> INTERVAL
         = std::chrono::milliseconds(200);
@@ -194,7 +196,7 @@ TEST_F(winWindowTest, SetSize)
 
     ASSERT_EQ(window.GetSize(), element::Size(WIDTH, HEIGHT));
 
-    element::Size changed_size(400, 300);
+    element::Size changed_size(WIDTH / 2, HEIGHT / 2);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
@@ -210,7 +212,7 @@ TEST_F(winWindowTest, SetSize)
         reinterpret_cast<LPARAM>(&changed_size),
         WindowsGUITester::Assertions::EQUAL,
         element::winWindow::WindowAction::SIZE,
-        element::Size(400, 300)
+        element::Size(WIDTH / 2, HEIGHT / 2)
     );
     tester.CloseWindow();
 
@@ -226,7 +228,7 @@ TEST_F(winWindowTest, SetPosition)
 
     ASSERT_EQ(window.GetPosition(), element::Point(0, 0));
 
-    element::Point changed_position(100, 100);
+    element::Point changed_position(MOVED_X, MOVED_Y);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
@@ -242,7 +244,7 @@ TEST_F(winWindowTest, SetPosition)
         reinterpret_cast<LPARAM>(&changed_position),
         WindowsGUITester::Assertions::EQUAL,
         element::winWindow::WindowAction::POSITION,
-        element::Point(100, 100)
+        element::Point(MOVED_X, MOVED_Y)
     );
     tester.CloseWindow();
 
@@ -258,7 +260,7 @@ TEST_F(winWindowTest, SetRectangle)
 
     ASSERT_EQ(window.GetRectangle(), element::Rectangle(0, 0, WIDTH, HEIGHT));
 
-    element::Rectangle changed_rect(100, 100, 400, 300);
+    element::Rectangle changed_rect(MOVED_X, MOVED_Y, WIDTH / 2, HEIGHT / 2);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
@@ -274,7 +276,7 @@ TEST_F(winWindowTest, SetRectangle)
         reinterpret_cast<LPARAM>(&changed_rect),
         WindowsGUITester::Assertions::EQUAL,
         element::winWindow::WindowAction::RECTANGLE,
-        element::Rectangle(100, 100, 400, 300)
+        element::Rectangle(MOVED_X, MOVED_Y, WIDTH / 2, HEIGHT / 2)
     );
     tester.CloseWindow();
 

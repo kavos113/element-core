@@ -14,7 +14,7 @@ HRESULT d2dWindow::Create(const HWND hwnd)
         .Width = 0,
         .Height = 0,
         .Format = DXGI_FORMAT_B8G8R8A8_UNORM,
-        .Stereo = false,
+        .Stereo = FALSE,
         .SampleDesc = {.Count = 1, .Quality = 0},
         .BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
         .BufferCount = 2,

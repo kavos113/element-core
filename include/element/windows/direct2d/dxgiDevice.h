@@ -4,6 +4,7 @@
 #include <dxgi1_6.h>
 #include <wrl/client.h>
 
+#include <array>
 #include <iostream>
 
 namespace element
@@ -27,8 +28,9 @@ private:
     static void CreateDevice(Microsoft::WRL::ComPtr<IDXGIDevice4>* dxgi_device)
     {
         constexpr UINT creation_flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+        constexpr int num_feature_levels = 8;
 
-        D3D_FEATURE_LEVEL feature_levels[]
+        std::array<D3D_FEATURE_LEVEL, num_feature_levels> feature_levels
             = {D3D_FEATURE_LEVEL_11_1,
                D3D_FEATURE_LEVEL_11_0,
                D3D_FEATURE_LEVEL_10_1,
@@ -45,8 +47,8 @@ private:
             D3D_DRIVER_TYPE_HARDWARE,
             nullptr,
             creation_flags,
-            feature_levels,
-            ARRAYSIZE(feature_levels),
+            feature_levels.data(),
+            feature_levels.size(),
             D3D11_SDK_VERSION,
             &d3d_device,
             nullptr,

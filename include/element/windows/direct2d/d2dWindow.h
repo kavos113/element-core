@@ -17,6 +17,10 @@ public:
     }
 
     ~d2dWindow() = default;
+    d2dWindow(const d2dWindow&) = delete;
+    d2dWindow& operator=(const d2dWindow&) = delete;
+    d2dWindow(d2dWindow&&) = delete;
+    d2dWindow& operator=(d2dWindow&&) = delete;
 
     HRESULT Create(HWND hwnd);
 
@@ -25,7 +29,8 @@ public:
 
     void SetClearColor(D2D1_COLOR_F color);
 
-    Microsoft::WRL::ComPtr<ID2D1DeviceContext> GetDeviceContext() const;
+    [[nodiscard]] Microsoft::WRL::ComPtr<ID2D1DeviceContext> GetDeviceContext(
+    ) const;
 
 private:
     Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_deviceContext;

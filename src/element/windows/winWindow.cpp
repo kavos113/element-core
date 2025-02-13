@@ -9,19 +9,17 @@ winWindow::~winWindow() = default;
 
 HRESULT winWindow::RegisterWindowClass()
 {
-    WNDCLASSEX const wc
-        = {.cbSize = sizeof(WNDCLASSEX),
-           .style = CS_HREDRAW | CS_VREDRAW,
-           .lpfnWndProc = WinWindowProc,
-           .cbClsExtra = 0,
-           .cbWndExtra = 0,
-           .hInstance = GetModuleHandle(nullptr),
-           .hIcon = LoadIcon(nullptr, IDI_APPLICATION),
-           .hCursor = LoadCursor(nullptr, IDC_ARROW),
-           .hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1),
-           .lpszMenuName = nullptr,
-           .lpszClassName = class_name,
-           .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
+    WNDCLASSEX const wc = {
+        .cbSize = sizeof(WNDCLASSEX),
+        .style = CS_HREDRAW | CS_VREDRAW,
+        .lpfnWndProc = WinWindowProc,
+        .cbClsExtra = 0,
+        .cbWndExtra = 0,
+        .hInstance = GetModuleHandle(nullptr),
+        .hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1),
+        .lpszMenuName = nullptr,
+        .lpszClassName = class_name,
+    };
 
     if (ATOM const res = RegisterClassEx(&wc); res == 0)
     {
@@ -45,7 +43,7 @@ HRESULT winWindow::UnregisterWindowClass()
 }
 
 HRESULT winWindow::Create(
-    const wchar_t* title,
+    const wchar_t *title,
     const int x,
     const int y,
     const int width,
@@ -72,7 +70,12 @@ HRESULT winWindow::Create(
         return E_FAIL;
     }
 
-    m_rect = Rectangle(x, y, width, height);
+    m_rect = Rectangle(
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(width),
+        static_cast<float>(height)
+    );
 
     if (const HRESULT hr = m_d2dWindow.Create(m_hwnd); FAILED(hr))
     {
@@ -87,12 +90,12 @@ LRESULT winWindow::WinWindowProc(
     const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam
 )
 {
-    winWindow* pThis = nullptr;
+    winWindow *pThis = nullptr;
 
     if (uMsg == WM_CREATE)
     {
-        const auto* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-        pThis = reinterpret_cast<winWindow*>(pCreate->lpCreateParams);
+        const auto *pCreate = reinterpret_cast<CREATESTRUCT *>(lParam);
+        pThis = reinterpret_cast<winWindow *>(pCreate->lpCreateParams);
         SetWindowLongPtr(
             hwnd,
             GWLP_USERDATA,
@@ -103,9 +106,9 @@ LRESULT winWindow::WinWindowProc(
     }
     else
     {
-        pThis
-            = reinterpret_cast<winWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA)
-            );
+        pThis = reinterpret_cast<winWindow *>(
+            GetWindowLongPtr(hwnd, GWLP_USERDATA)
+        );
     }
 
     if (pThis != nullptr)
@@ -296,7 +299,7 @@ void winWindow::SetBackgroundColor(const Color color)
         = D2D1::ColorF(color.r, color.g, color.b, color.a);
     m_d2dWindow.SetClearColor(d2dC_color);
 
-    InvalidateRect(m_hwnd, nullptr, false);
+    InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
 void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
@@ -321,7 +324,7 @@ void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
 
         case WindowAction::SIZE:
         {
-            auto size = *reinterpret_cast<Size*>(lParam);
+            auto size = *reinterpret_cast<Size *>(lParam);
             if (typeid(size) != typeid(Size))
             {
                 std::cout << "Invalid size" << std::endl;
@@ -333,7 +336,7 @@ void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
 
         case WindowAction::POSITION:
         {
-            auto position = *reinterpret_cast<Point*>(lParam);
+            auto position = *reinterpret_cast<Point *>(lParam);
             if (typeid(position) != typeid(Point))
             {
                 std::cout << "Invalid position" << std::endl;
@@ -345,7 +348,7 @@ void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
 
         case WindowAction::RECTANGLE:
         {
-            auto rect = *reinterpret_cast<Rectangle*>(lParam);
+            auto rect = *reinterpret_cast<Rectangle *>(lParam);
             if (typeid(rect) != typeid(Rectangle))
             {
                 std::cout << "Invalid rectangle" << std::endl;
@@ -357,7 +360,7 @@ void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
 
         case WindowAction::BACKGROUND_COLOR:
         {
-            auto color = *reinterpret_cast<Color*>(lParam);
+            auto color = *reinterpret_cast<Color *>(lParam);
             if (typeid(color) != typeid(Color))
             {
                 std::cout << "Invalid color" << std::endl;
@@ -378,8 +381,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
     {
         case WindowAction::ACTIVE:
         {
-            auto *ptr = reinterpret_cast<bool*>(lParam);
-            if (typeid(ptr) != typeid(bool*))
+            auto *ptr = reinterpret_cast<bool *>(lParam);
+            if (typeid(ptr) != typeid(bool *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -390,8 +393,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::SHOWSTATUS:
         {
-            auto *ptr = reinterpret_cast<ShowStatus*>(lParam);
-            if (typeid(ptr) != typeid(ShowStatus*))
+            auto *ptr = reinterpret_cast<ShowStatus *>(lParam);
+            if (typeid(ptr) != typeid(ShowStatus *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -402,8 +405,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::HWND:
         {
-            auto *ptr = reinterpret_cast<HWND*>(lParam);
-            if (typeid(ptr) != typeid(HWND*))
+            auto *ptr = reinterpret_cast<HWND *>(lParam);
+            if (typeid(ptr) != typeid(HWND *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -414,8 +417,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::SIZE:
         {
-            auto *ptr = reinterpret_cast<Size*>(lParam);
-            if (typeid(ptr) != typeid(Size*))
+            auto *ptr = reinterpret_cast<Size *>(lParam);
+            if (typeid(ptr) != typeid(Size *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -426,8 +429,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::POSITION:
         {
-            auto *ptr = reinterpret_cast<Point*>(lParam);
-            if (typeid(ptr) != typeid(Point*))
+            auto *ptr = reinterpret_cast<Point *>(lParam);
+            if (typeid(ptr) != typeid(Point *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -438,8 +441,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::RECTANGLE:
         {
-            auto *ptr = reinterpret_cast<Rectangle*>(lParam);
-            if (typeid(ptr) != typeid(Rectangle*))
+            auto *ptr = reinterpret_cast<Rectangle *>(lParam);
+            if (typeid(ptr) != typeid(Rectangle *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
@@ -450,8 +453,8 @@ void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 
         case WindowAction::BACKGROUND_COLOR:
         {
-            auto *ptr = reinterpret_cast<Color*>(lParam);
-            if (typeid(ptr) != typeid(Color*))
+            auto *ptr = reinterpret_cast<Color *>(lParam);
+            if (typeid(ptr) != typeid(Color *))
             {
                 std::cout << "Invalid pointer" << std::endl;
                 return;
