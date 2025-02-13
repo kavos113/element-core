@@ -1,5 +1,13 @@
 #ifndef ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
 #define ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
+
+#include <windows.h>
+#include <d2d1.h>
+#include <d2d1_1.h>
+#include <d2d1_2.h>
+#include <d2d1_3.h>
+#include <d3d11.h>
+
 #include <d2d1_2.h>
 #include <dxgi1_6.h>
 #include <wrl/client.h>
