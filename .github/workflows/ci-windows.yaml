@@ -38,11 +38,11 @@ jobs:
         run: cmake -G Ninja -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
 
       - name: check d2d
-        run: find d2d1.h
+        run: find /c/Program\ Files -name d2d1.h
         shell: bash
 
       - name: check d3d
-        run: find d3d11.h
+        run: find /c/Program\ Files -name d3d11.h
         shell: bash
 
       - name: Build
