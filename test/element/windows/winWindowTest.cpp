@@ -13,7 +13,7 @@
 #include "geometry/Rectangle.h"
 #include "geometry/Size.h"
 
-class winWindowTest : public ::testing::Test
+class winWindowTest : public testing::Test
 {
 protected:
     void SetUp() override
@@ -29,13 +29,13 @@ protected:
 
     static void SetUpTestCase()
     {
-        HRESULT hr = element::winWindow::RegisterWindowClass();
+        const HRESULT hr = element::winWindow::RegisterWindowClass();
         ASSERT_HRESULT_SUCCEEDED(hr);
     }
 
     static void TearDownTestCase()
     {
-        HRESULT hr = element::winWindow::UnregisterWindowClass();
+        const HRESULT hr = element::winWindow::UnregisterWindowClass();
         EXPECT_HRESULT_SUCCEEDED(hr);
     }
 

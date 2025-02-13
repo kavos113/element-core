@@ -1,12 +1,14 @@
 #ifndef ELEMENT_COLOR_COLOR_H
 #define ELEMENT_COLOR_COLOR_H
 
+#include <cstdint>
+
 namespace element
 {
 
 struct Color
 {
-    enum class Colors
+    enum class Colors : std::uint8_t
     {
         White,
         Black,

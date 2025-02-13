@@ -4,7 +4,7 @@
 
 TEST(ColorTest, CreateColor)
 {
-    element::Color color(1.0f, 1.0f, 1.0f, 1.0f);
+    const element::Color color(1.0f, 1.0f, 1.0f, 1.0f);
 
     ASSERT_EQ(color.r, 1.0f);
     ASSERT_EQ(color.g, 1.0f);
@@ -14,8 +14,8 @@ TEST(ColorTest, CreateColor)
 
 TEST(ColorTest, Equality)
 {
-    element::Color color1(1.0f, 1.0f, 1.0f, 1.0f);
-    element::Color color2(1.0f, 1.0f, 1.0f, 1.0f);
+    const element::Color color1(1.0f, 1.0f, 1.0f, 1.0f);
+    const element::Color color2(1.0f, 1.0f, 1.0f, 1.0f);
 
     ASSERT_EQ(color1, color2);
 }

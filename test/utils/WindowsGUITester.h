@@ -37,7 +37,7 @@ public:
             {.action
              = {WM_ELEMENT_INVOKE, static_cast<WPARAM>(action_type), lParam},
              .assertion =
-                 [this, expected, assertion_wParam, assertion_type]()
+                 [this, expected, assertion_wParam, assertion_type]
              {
                  if (assertion_type == Assertions::NONE)
                  {
@@ -70,10 +70,10 @@ public:
 
     void CloseWindow()
     {
-        m_actions.push_back({{WM_CLOSE, 0, 0}, []() {}});
+        m_actions.push_back({{WM_CLOSE, 0, 0}, [] {}});
     }
 
-    void Run(bool is_pause = false)
+    void Run(const bool is_pause = false)
     {
         std::this_thread::sleep_for(INIT_INTERVAL);
         for (const auto& [action, assertion] : m_actions)
@@ -95,7 +95,7 @@ public:
 
     std::future<void> RunAsync()
     {
-        return std::async(std::launch::async, [this]() { Run(); });
+        return std::async(std::launch::async, [this] { Run(); });
     }
 
 private:
@@ -112,9 +112,9 @@ private:
         std::function<void()> assertion;
     };
 
-    static constexpr std::chrono::milliseconds INIT_INTERVAL
+    static constexpr auto INIT_INTERVAL
         = std::chrono::milliseconds(500);
-    static constexpr std::chrono::milliseconds INTERVAL
+    static constexpr auto INTERVAL
         = std::chrono::milliseconds(200);
 
     std::vector<Action> m_actions;

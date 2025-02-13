@@ -26,7 +26,7 @@ public:
 private:
     static void CreateDevice(Microsoft::WRL::ComPtr<IDXGIDevice4>* dxgi_device)
     {
-        UINT creation_flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+        constexpr UINT creation_flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
         D3D_FEATURE_LEVEL feature_levels[]
             = {D3D_FEATURE_LEVEL_11_1,

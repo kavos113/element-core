@@ -96,7 +96,7 @@ private:
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};
 
-    static constexpr const wchar_t* CLASS_NAME = L"element_window";
+    static constexpr auto class_name = L"element_window";
 };
 
 }  // namespace element

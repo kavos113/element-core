@@ -17,7 +17,7 @@ public:
         static Microsoft::WRL::ComPtr<ID2D1Factory1> factory = nullptr;
         if (factory == nullptr)
         {
-            HRESULT hr = D2D1CreateFactory(
+            const HRESULT hr = D2D1CreateFactory(
                 D2D1_FACTORY_TYPE_MULTI_THREADED,
                 __uuidof(ID2D1Factory1),
                 &factory

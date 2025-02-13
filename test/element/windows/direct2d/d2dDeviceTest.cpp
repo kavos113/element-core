@@ -3,6 +3,6 @@
 
 TEST(d2dDeviceTest, GetDevice)
 {
-    auto device = element::d2dDevice::Get();
+    const auto device = element::d2dDevice::Get();
     ASSERT_NE(device, nullptr);
 }

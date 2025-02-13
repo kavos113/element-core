@@ -20,11 +20,10 @@ HRESULT winWindow::RegisterWindowClass()
            .hCursor = LoadCursor(nullptr, IDC_ARROW),
            .hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1),
            .lpszMenuName = nullptr,
-           .lpszClassName = CLASS_NAME,
+           .lpszClassName = class_name,
            .hIconSm = LoadIcon(nullptr, IDI_APPLICATION)};
 
-    ATOM const res = RegisterClassEx(&wc);
-    if (res == 0)
+    if (ATOM const res = RegisterClassEx(&wc); res == 0)
     {
         std::cout << "Failed to register window class" << std::endl;
         return E_FAIL;
@@ -35,8 +34,8 @@ HRESULT winWindow::RegisterWindowClass()
 
 HRESULT winWindow::UnregisterWindowClass()
 {
-    BOOL res = UnregisterClass(CLASS_NAME, GetModuleHandle(nullptr));
-    if (res == 0)
+    if (const BOOL res = UnregisterClass(class_name, GetModuleHandle(nullptr));
+        res == 0)
     {
         std::cout << "Failed to unregister window class" << std::endl;
         return E_FAIL;
@@ -46,12 +45,16 @@ HRESULT winWindow::UnregisterWindowClass()
 }
 
 HRESULT winWindow::Create(
-    const wchar_t* title, int x, int y, int width, int height
+    const wchar_t* title,
+    const int x,
+    const int y,
+    const int width,
+    const int height
 )
 {
     m_hwnd = CreateWindowEx(
         0,
-        CLASS_NAME,
+        class_name,
         title,
         WS_OVERLAPPEDWINDOW,
         x,
@@ -71,8 +74,7 @@ HRESULT winWindow::Create(
 
     m_rect = Rectangle(x, y, width, height);
 
-    HRESULT hr = m_d2dWindow.Create(m_hwnd);
-    if (FAILED(hr))
+    if (const HRESULT hr = m_d2dWindow.Create(m_hwnd); FAILED(hr))
     {
         std::cout << "Failed to create Direct2D window" << std::endl;
         return hr;
@@ -82,14 +84,14 @@ HRESULT winWindow::Create(
 }
 
 LRESULT winWindow::WinWindowProc(
-    HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+    const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam
 )
 {
     winWindow* pThis = nullptr;
 
     if (uMsg == WM_CREATE)
     {
-        auto* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+        const auto* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
         pThis = reinterpret_cast<winWindow*>(pCreate->lpCreateParams);
         SetWindowLongPtr(
             hwnd,
@@ -114,7 +116,9 @@ LRESULT winWindow::WinWindowProc(
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT winWindow::HandleMessage(
+    const UINT uMsg, const WPARAM wParam, const LPARAM lParam
+)
 {
     switch (uMsg)
     {
@@ -124,8 +128,7 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         case WM_CLOSE:
         {
-            BOOL res = DestroyWindow(m_hwnd);
-            if (res == 0)
+            if (const BOOL res = DestroyWindow(m_hwnd); res == 0)
             {
                 std::cout << "Failed to destroy window" << std::endl;
                 return -1;
@@ -137,8 +140,7 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_PAINT:
         {
             m_d2dWindow.BeginDraw();
-            HRESULT hr = m_d2dWindow.EndDraw();
-            if (FAILED(hr))
+            if (const HRESULT hr = m_d2dWindow.EndDraw(); FAILED(hr))
             {
                 std::cout << "Failed to end draw" << std::endl;
                 DestroyWindow(m_hwnd);
@@ -230,7 +232,7 @@ Size winWindow::GetSize() const
     return m_rect.GetSize();
 }
 
-void winWindow::SetSize(Size size)
+void winWindow::SetSize(const Size size)
 {
     SetWindowPos(
         m_hwnd,
@@ -249,7 +251,7 @@ Point winWindow::GetPosition() const
     return m_rect.GetPosition();
 }
 
-void winWindow::SetPosition(Point position)
+void winWindow::SetPosition(const Point position)
 {
     SetWindowPos(
         m_hwnd,
@@ -268,7 +270,7 @@ Rectangle winWindow::GetRectangle() const
     return m_rect;
 }
 
-void winWindow::SetRectangle(Rectangle rect)
+void winWindow::SetRectangle(const Rectangle rect)
 {
     SetWindowPos(
         m_hwnd,
@@ -287,16 +289,17 @@ Color winWindow::GetBackgroundColor() const
     return m_backgroundColor;
 }
 
-void winWindow::SetBackgroundColor(Color color)
+void winWindow::SetBackgroundColor(const Color color)
 {
     m_backgroundColor = color;
-    D2D1_COLOR_F d2dC_color = D2D1::ColorF(color.r, color.g, color.b, color.a);
+    const D2D1_COLOR_F d2dC_color
+        = D2D1::ColorF(color.r, color.g, color.b, color.a);
     m_d2dWindow.SetClearColor(d2dC_color);
 
     InvalidateRect(m_hwnd, nullptr, false);
 }
 
-void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
+void winWindow::Invoke(WPARAM wParam, const LPARAM lParam)
 {
     switch (static_cast<WindowAction>(wParam))
     {
@@ -369,7 +372,7 @@ void winWindow::Invoke(WPARAM wParam, LPARAM lParam)
     }
 }
 
-void winWindow::GetStatus(WPARAM wParam, LPARAM lParam) const
+void winWindow::GetStatus(WPARAM wParam, const LPARAM lParam) const
 {
     switch (static_cast<WindowAction>(wParam))
     {

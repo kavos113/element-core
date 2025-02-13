@@ -4,6 +4,6 @@
 
 TEST(dxgiDeviceTest, GetDevice)
 {
-    auto device = element::dxgiDevice::Get();
+    const auto device = element::dxgiDevice::Get();
     ASSERT_NE(nullptr, device);
 }

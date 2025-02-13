@@ -8,9 +8,9 @@
 namespace element
 {
 
-HRESULT d2dWindow::Create(HWND hwnd)
+HRESULT d2dWindow::Create(const HWND hwnd)
 {
-    DXGI_SWAP_CHAIN_DESC1 desc = {
+    constexpr DXGI_SWAP_CHAIN_DESC1 desc = {
         .Width = 0,
         .Height = 0,
         .Format = DXGI_FORMAT_B8G8R8A8_UNORM,
@@ -62,7 +62,7 @@ HRESULT d2dWindow::Create(HWND hwnd)
         return hr;
     }
 
-    D2D1_BITMAP_PROPERTIES1 properties = D2D1::BitmapProperties1(
+    const D2D1_BITMAP_PROPERTIES1 properties = D2D1::BitmapProperties1(
         D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
         D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE),
         96.0f,
@@ -133,7 +133,7 @@ HRESULT d2dWindow::EndDraw() const
     return hr;
 }
 
-void d2dWindow::SetClearColor(D2D1_COLOR_F color)
+void d2dWindow::SetClearColor(const D2D1_COLOR_F color)
 {
     m_clearColor = color;
 }

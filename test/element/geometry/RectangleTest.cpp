@@ -5,7 +5,7 @@
 
 #include "geometry/Point.h"
 
-class RectangleTest : public ::testing::Test
+class RectangleTest : public testing::Test
 {
 protected:
     static constexpr float X = 1.0f;

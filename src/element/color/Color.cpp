@@ -3,7 +3,7 @@
 namespace element
 {
 
-Color::Color(Colors color)
+Color::Color(const Colors color)
 {
     switch (color)
     {

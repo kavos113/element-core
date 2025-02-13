@@ -29,7 +29,7 @@ public:
 private:
     static void CreateDevice(ID2D1Device** device)
     {
-        HRESULT hr
+        const HRESULT hr
             = d2dFactory::Get()->CreateDevice(dxgiDevice::Get().Get(), device);
         if (FAILED(hr))
         {

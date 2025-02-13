@@ -12,12 +12,15 @@ Checks: '
   google-*,
   misc-*,
   -misc-include-cleaner,
+  -misc-non-private-member-variables-in-classes,
   modernize-*,
   -modernize-use-trailing-return-type,
   performance-*,
   -performance-no-int-to-ptr,
   readability-*,
-  -readability-identifier-length'
+  -readability-identifier-length,
+  -readability-uppercase-literal-suffix
+  '
 WarningsAsErrors: 'true'
 HeaderFileExtensions:
   - ''

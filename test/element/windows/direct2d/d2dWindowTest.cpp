@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <Windows.h>
 
-class d2dWindowTest : public ::testing::Test
+class d2dWindowTest : public testing::Test
 {
 protected:
     void SetUp() override
@@ -36,7 +36,7 @@ protected:
 TEST_F(d2dWindowTest, CreateD2DWindow)
 {
     element::d2dWindow window;
-    HRESULT hr = window.Create(hwnd);
+    const HRESULT hr = window.Create(hwnd);
 
     ASSERT_NE(nullptr, window.GetDeviceContext());
     ASSERT_EQ(hr, S_OK);

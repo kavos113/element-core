@@ -4,6 +4,6 @@
 
 TEST(d2dFactoryTest, GetFactory)
 {
-    auto factory = element::d2dFactory::Get();
+    const auto factory = element::d2dFactory::Get();
     ASSERT_NE(factory, nullptr);
 }
