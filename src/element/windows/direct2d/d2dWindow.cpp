@@ -87,10 +87,11 @@ HRESULT d2dWindow::Create(const HWND hwnd)
         return hr;
     }
 
+    Microsoft::WRL::ComPtr<ID2D1Bitmap1> bitmap = nullptr;
     hr = m_deviceContext->CreateBitmapFromDxgiSurface(
         dxgiSurface.Get(),
         properties,
-        m_bitmap.GetAddressOf()
+        bitmap.GetAddressOf()
     );
     if (FAILED(hr))
     {
@@ -98,9 +99,57 @@ HRESULT d2dWindow::Create(const HWND hwnd)
         return hr;
     }
 
-    m_deviceContext->SetTarget(m_bitmap.Get());
+    m_deviceContext->SetTarget(bitmap.Get());
 
     return S_OK;
+}
+
+void d2dWindow::Resize(const D2D1_SIZE_F size) const
+{
+    m_deviceContext->SetTarget(nullptr);
+
+    HRESULT hr = m_swapChain->ResizeBuffers(
+        0,
+        size.width,
+        size.height,
+        DXGI_FORMAT_B8G8R8A8_UNORM,
+        0
+    );
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to resize buffers" << std::endl;
+        return;
+    }
+
+    Microsoft::WRL::ComPtr<IDXGISurface> dxgi_surface = nullptr;
+    hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgi_surface));
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to get buffer" << std::endl;
+        return;
+    }
+
+    Microsoft::WRL::ComPtr<ID2D1Bitmap1> bitmap = nullptr;
+    hr = m_deviceContext->CreateBitmapFromDxgiSurface(
+        dxgi_surface.Get(),
+        D2D1::BitmapProperties1(
+            D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+            D2D1::PixelFormat(
+                DXGI_FORMAT_B8G8R8A8_UNORM,
+                D2D1_ALPHA_MODE_IGNORE
+            ),
+            96.0f,
+            96.0f
+        ),
+        bitmap.GetAddressOf()
+    );
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to create bitmap from DXGI surface" << std::endl;
+        return;
+    }
+
+    m_deviceContext->SetTarget(bitmap.Get());
 }
 
 Microsoft::WRL::ComPtr<ID2D1DeviceContext> d2dWindow::GetDeviceContext() const

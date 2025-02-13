@@ -2,6 +2,7 @@
 Checks: '
   -*,
   clang-diagnostic-*,
+    -clang-diagnostic-c++17-extensions,
   bugprone-*,
   -bugprone-argument-comment,
   -bugprone-bad-signal-to-kill-thread,
@@ -9,6 +10,7 @@ Checks: '
   cert-*,
   cppcoreguidelines-*,
   -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
   google-*,
   misc-*,
   -misc-include-cleaner,

@@ -196,7 +196,7 @@ TEST_F(winWindowTest, SetSize)
 
     ASSERT_EQ(window.GetSize(), element::Size(WIDTH, HEIGHT));
 
-    element::Size changed_size(WIDTH / 2, HEIGHT / 2);
+    element::Size changed_size(WIDTH * 2, HEIGHT * 2);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
@@ -212,7 +212,7 @@ TEST_F(winWindowTest, SetSize)
         reinterpret_cast<LPARAM>(&changed_size),
         WindowsGUITester::Assertions::EQUAL,
         element::winWindow::WindowAction::SIZE,
-        element::Size(WIDTH / 2, HEIGHT / 2)
+        element::Size(WIDTH * 2, HEIGHT * 2)
     );
     tester.CloseWindow();
 
@@ -260,7 +260,7 @@ TEST_F(winWindowTest, SetRectangle)
 
     ASSERT_EQ(window.GetRectangle(), element::Rectangle(0, 0, WIDTH, HEIGHT));
 
-    element::Rectangle changed_rect(MOVED_X, MOVED_Y, WIDTH / 2, HEIGHT / 2);
+    element::Rectangle changed_rect(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2);
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
@@ -276,7 +276,7 @@ TEST_F(winWindowTest, SetRectangle)
         reinterpret_cast<LPARAM>(&changed_rect),
         WindowsGUITester::Assertions::EQUAL,
         element::winWindow::WindowAction::RECTANGLE,
-        element::Rectangle(MOVED_X, MOVED_Y, WIDTH / 2, HEIGHT / 2)
+        element::Rectangle(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2)
     );
     tester.CloseWindow();
 

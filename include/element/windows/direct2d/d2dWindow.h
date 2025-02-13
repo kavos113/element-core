@@ -11,8 +11,7 @@ namespace element
 class d2dWindow
 {
 public:
-    d2dWindow()
-        : m_deviceContext(nullptr), m_bitmap(nullptr), m_swapChain(nullptr)
+    d2dWindow() : m_deviceContext(nullptr), m_swapChain(nullptr)
     {
     }
 
@@ -27,6 +26,8 @@ public:
     void BeginDraw() const;
     HRESULT EndDraw() const;
 
+    void Resize(D2D1_SIZE_F size) const;
+
     void SetClearColor(D2D1_COLOR_F color);
 
     [[nodiscard]] Microsoft::WRL::ComPtr<ID2D1DeviceContext> GetDeviceContext(
@@ -34,7 +35,6 @@ public:
 
 private:
     Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_deviceContext;
-    Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_bitmap;
     Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
 
     D2D1_COLOR_F m_clearColor = D2D1::ColorF(D2D1::ColorF::White);

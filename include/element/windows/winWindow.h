@@ -20,8 +20,8 @@ namespace element
 class winWindow
 {
 public:
-    constexpr UINT WM_ELEMENT_INVOKE = WM_USER + 1;
-    constexpr UINT WM_ELEMENT_GETSTATUS = WM_USER + 2;
+    static constexpr UINT WM_ELEMENT_INVOKE = WM_APP + 1;
+    static constexpr UINT WM_ELEMENT_GETSTATUS = WM_APP + 2;
 
     enum class ShowStatus : std::uint8_t
     {

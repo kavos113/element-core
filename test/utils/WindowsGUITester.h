@@ -37,7 +37,9 @@ public:
     {
         m_actions.push_back(
             {.action
-             = {WM_ELEMENT_INVOKE, static_cast<WPARAM>(action_type), lParam},
+             = {element::winWindow::WM_ELEMENT_INVOKE,
+                static_cast<WPARAM>(action_type),
+                lParam},
              .assertion =
                  [this, expected, assertion_wParam, assertion_type]
              {
@@ -49,7 +51,7 @@ public:
                  T actual = {};
                  SendMessage(
                      *m_targetHwnd,
-                     WM_ELEMENT_GETSTATUS,
+                     element::winWindow::WM_ELEMENT_GETSTATUS,
                      static_cast<WPARAM>(assertion_wParam),
                      reinterpret_cast<LPARAM>(&actual)
                  );

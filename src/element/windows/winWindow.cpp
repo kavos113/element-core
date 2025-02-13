@@ -153,6 +153,13 @@ LRESULT winWindow::HandleMessage(
             return 0;
         }
 
+        case WM_SIZE:
+        {
+            m_d2dWindow.Resize(D2D1::SizeF(LOWORD(lParam), HIWORD(lParam)));
+            InvalidateRect(m_hwnd, nullptr, FALSE);
+            return 0;
+        }
+
         case WM_ELEMENT_INVOKE:
             Invoke(wParam, lParam);
             return 0;
@@ -247,6 +254,7 @@ void winWindow::SetSize(const Size size)
         SWP_NOMOVE
     );
     m_rect.SetSize(size);
+    InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
 Point winWindow::GetPosition() const
@@ -285,6 +293,7 @@ void winWindow::SetRectangle(const Rectangle rect)
         0
     );
     m_rect = rect;
+    InvalidateRect(m_hwnd, nullptr, FALSE);
 }
 
 Color winWindow::GetBackgroundColor() const
