@@ -2,22 +2,29 @@
 Checks: '
   -*,
   clang-diagnostic-*,
+    -clang-diagnostic-c++17-extensions,
   bugprone-*,
   -bugprone-argument-comment,
   -bugprone-bad-signal-to-kill-thread,
+  -bugprone-easily-swappable-parameters,
   clang-analyzer-*,
   cert-*,
   cppcoreguidelines-*,
   -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
   google-*,
   misc-*,
   -misc-include-cleaner,
+  -misc-non-private-member-variables-in-classes,
   modernize-*,
   -modernize-use-trailing-return-type,
   performance-*,
   -performance-no-int-to-ptr,
+  -performance-avoid-endl,
   readability-*,
-  -readability-identifier-length'
+  -readability-identifier-length,
+  -readability-uppercase-literal-suffix
+  '
 WarningsAsErrors: 'true'
 HeaderFileExtensions:
   - ''
