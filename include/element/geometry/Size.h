@@ -1,15 +1,17 @@
 #ifndef ELEMENT_GEOMETRY_SIZE_H
 #define ELEMENT_GEOMETRY_SIZE_H
 
-namespace element {
+namespace element
+{
 
-struct Size {
+struct Size
+{
     float width;
     float height;
 
     bool operator==(const Size &size) const;
 };
 
-} // element
+}  // namespace element
 
-#endif //ELEMENT_GEOMETRY_SIZE_H
+#endif  // ELEMENT_GEOMETRY_SIZE_H
