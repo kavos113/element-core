@@ -1,5 +1,5 @@
-#ifndef D2DWINDOW_H
-#define D2DWINDOW_H
+#ifndef ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
+#define ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
 #include <d2d1_3.h>
 #include <dxgi1_6.h>
 #include <wrl/client.h>
@@ -36,4 +36,4 @@ private:
 
 }  // namespace element
 
-#endif  // D2DWINDOW_H
+#endif  // ELEMENT_WINDOWS_DIRECT2D_D2DWINDOW_H
