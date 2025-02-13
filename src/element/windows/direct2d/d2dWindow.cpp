@@ -108,13 +108,13 @@ Microsoft::WRL::ComPtr<ID2D1DeviceContext7> d2dWindow::GetDeviceContext() const
     return m_deviceContext;
 }
 
-void d2dWindow::BeginDraw()
+void d2dWindow::BeginDraw() const
 {
     m_deviceContext->BeginDraw();
     m_deviceContext->Clear(m_clearColor);
 }
 
-HRESULT d2dWindow::EndDraw()
+HRESULT d2dWindow::EndDraw() const
 {
     HRESULT hr = m_deviceContext->EndDraw();
     if (FAILED(hr))

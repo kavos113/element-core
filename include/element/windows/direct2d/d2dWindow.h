@@ -19,8 +19,8 @@ public:
 
     HRESULT Create(HWND hwnd);
 
-    void BeginDraw();
-    HRESULT EndDraw();
+    void BeginDraw() const;
+    HRESULT EndDraw() const;
 
     void SetClearColor(D2D1_COLOR_F color);
 

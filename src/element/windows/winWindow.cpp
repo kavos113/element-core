@@ -135,9 +135,18 @@ LRESULT winWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
 
         case WM_PAINT:
+        {
             m_d2dWindow.BeginDraw();
-            m_d2dWindow.EndDraw();
+            HRESULT hr = m_d2dWindow.EndDraw();
+            if (FAILED(hr))
+            {
+                std::cout << "Failed to end draw" << std::endl;
+                DestroyWindow(m_hwnd);
+                m_hwnd = nullptr;
+                return hr;
+            }
             return 0;
+        }
 
         case WM_ELEMENT_INVOKE:
             Invoke(wParam, lParam);
