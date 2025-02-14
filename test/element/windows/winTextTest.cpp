@@ -1,3 +1,5 @@
+#include "windows/winText.h"
+
 #include <gtest/gtest.h>
 
 #include "windows/winWindow.h"
@@ -29,9 +31,15 @@ protected:
     }
 
     bool is_slow_test = false;
+
+    static constexpr int WIDTH = 200;
+    static constexpr int HEIGHT = 100;
 };
 
 TEST_F(winTextTest, GenerateText)
 {
     element::winText text;
+    HRESULT hr = text.Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+
+    ASSERT_HRESULT_SUCCEEDED(hr);
 }
