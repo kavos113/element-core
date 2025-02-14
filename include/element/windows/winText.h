@@ -1,12 +1,15 @@
-#ifndef WINTEXT_H
-#define WINTEXT_H
+#ifndef ELEMENT_WINDOWS_WINTEXT_H
+#define ELEMENT_WINDOWS_WINTEXT_H
 
 #ifndef UNICODE
 #define UNICODE
-#include <string>
 #endif
 
 #include <Windows.h>
+
+#include <string>
+
+#include "direct2d/dwriteText.h"
 
 namespace element
 {
@@ -14,7 +17,10 @@ namespace element
 class winText
 {
 public:
-    winText() = default;
+    winText() : m_text(L"")
+    {
+    }
+
     winText(const winText&) = delete;
     winText& operator=(const winText&) = delete;
     winText(winText&&) = delete;
@@ -29,10 +35,16 @@ public:
         int height = CW_USEDEFAULT
     );
 
+    void Render(
+        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+    );
+
 private:
     std::wstring m_text;
+
+    dwriteText m_dwriteText;
 };
 
 }  // namespace element
 
-#endif  // WINTEXT_H
+#endif  // ELEMENT_WINDOWS_WINTEXT_H
