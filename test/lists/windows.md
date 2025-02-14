@@ -65,3 +65,11 @@
 - [x] 生成
 - [x] 破棄
 - [x] 描画
+
+### DirectWrite
+
+#### Factory
+
+- [x] 生成
+- [x] 破棄
+- [x] get
