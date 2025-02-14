@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(test_srcs_windows
         windows/winWindowTest.cpp
+        windows/winTextTest.cpp
         ../utils/WindowsGUITester.h
 )
 
