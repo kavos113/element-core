@@ -26,6 +26,14 @@ public:
         m_targetHwnd = std::make_unique<HWND>(window.GetHwnd());
     }
 
+    void AddAction(
+        const std::function<void()>& action,
+        const std::function<void()>& assertion
+    )
+    {
+        m_actions.push_back({action, assertion});
+    }
+
     template<typename T>
     void AddAction(
         const element::winWindow::WindowAction action_type,
@@ -36,10 +44,16 @@ public:
     )
     {
         m_actions.push_back(
-            {.action
-             = {element::winWindow::WM_ELEMENT_INVOKE,
-                static_cast<WPARAM>(action_type),
-                lParam},
+            {.action =
+                 [this, action_type, lParam]
+             {
+                 SendMessage(
+                     *m_targetHwnd,
+                     element::winWindow::WM_ELEMENT_INVOKE,
+                     static_cast<WPARAM>(action_type),
+                     lParam
+                 );
+             },
              .assertion =
                  [this, expected, assertion_wParam, assertion_type]
              {
@@ -74,7 +88,9 @@ public:
 
     void CloseWindow()
     {
-        m_actions.push_back({{WM_CLOSE, 0, 0}, [] {}});
+        m_actions.push_back(
+            {[this] { SendMessage(*m_targetHwnd, WM_CLOSE, 0, 0); }, [] {}}
+        );
     }
 
     void Run(const bool is_pause = false)
@@ -82,12 +98,7 @@ public:
         std::this_thread::sleep_for(INIT_INTERVAL);
         for (const auto& [action, assertion] : m_actions)
         {
-            SendMessage(
-                *m_targetHwnd,
-                action.message,
-                action.wParam,
-                action.lParam
-            );
+            action();
             if (is_pause)
             {
                 std::this_thread::sleep_for(INTERVAL);
@@ -107,7 +118,7 @@ private:
 
     struct Action
     {
-        ActionFunction action;
+        std::function<void()> action;
         std::function<void()> assertion;
     };
 

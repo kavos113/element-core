@@ -4,7 +4,11 @@ namespace element
 {
 
 HRESULT winText::Create(
-    const std::wstring& text, int x, int y, int width, int height
+    const std::wstring& text,
+    const int x,
+    const int y,
+    const int width,
+    const int height
 )
 {
     m_text = text;
@@ -27,10 +31,28 @@ HRESULT winText::Create(
 }
 
 void winText::Render(
-    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
 )
 {
-    m_dwriteText.Render(deviceContext);
+    m_dwriteText.Render(device_context);
+}
+
+HRESULT winText::SetText(const std::wstring& new_text)
+{
+    HRESULT hr = m_dwriteText.SetText(new_text);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_text = new_text;
+
+    return S_OK;
+}
+
+const std::wstring& winText::GetText() const
+{
+    return m_text;
 }
 
 }  // namespace element

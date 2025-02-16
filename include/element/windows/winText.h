@@ -36,8 +36,11 @@ public:
     );
 
     void Render(
-        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
     );
+
+    HRESULT SetText(const std::wstring& new_text);
+    [[nodiscard]] const std::wstring& GetText() const;
 
 private:
     std::wstring m_text;

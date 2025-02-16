@@ -25,8 +25,12 @@ public:
         const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
     );
 
+    HRESULT SetText(const std::wstring& new_text);
+
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;
+    Microsoft::WRL::ComPtr<IDWriteTextFormat> m_textFormat;
+
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> m_textBrush;
 
     D2D1_RECT_F m_layoutRect = D2D1::RectF(0.0f, 0.0f, 0.0f, 0.0f);

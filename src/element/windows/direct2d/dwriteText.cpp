@@ -13,7 +13,6 @@ HRESULT dwriteText::Create(
 {
     m_layoutRect = layoutRect;
 
-    Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat = nullptr;
     HRESULT hr = dwriteFactory::Get()->CreateTextFormat(
         L"Segoe UI",
         nullptr,
@@ -22,7 +21,7 @@ HRESULT dwriteText::Create(
         DWRITE_FONT_STRETCH_NORMAL,
         24.0f,
         L"en-us",
-        textFormat.GetAddressOf()
+        m_textFormat.GetAddressOf()
     );
     if (FAILED(hr))
     {
@@ -33,7 +32,7 @@ HRESULT dwriteText::Create(
     hr = dwriteFactory::Get()->CreateTextLayout(
         text.c_str(),
         static_cast<UINT32>(text.length()),
-        textFormat.Get(),
+        m_textFormat.Get(),
         layoutRect.right - layoutRect.left,
         layoutRect.bottom - layoutRect.top,
         m_textLayout.GetAddressOf()
@@ -61,6 +60,25 @@ void dwriteText::Render(
 
     deviceContext
         ->DrawTextLayout(origin, m_textLayout.Get(), m_textBrush.Get());
+}
+
+HRESULT dwriteText::SetText(const std::wstring& new_text)
+{
+    HRESULT hr = dwriteFactory::Get()->CreateTextLayout(
+        new_text.c_str(),
+        static_cast<UINT32>(new_text.length()),
+        m_textFormat.Get(),
+        m_layoutRect.right - m_layoutRect.left,
+        m_layoutRect.bottom - m_layoutRect.top,
+        m_textLayout.GetAddressOf()
+    );
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to create text layout" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
 }
 
 }  // namespace element
