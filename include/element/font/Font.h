@@ -6,7 +6,16 @@ namespace element
 
 struct Font
 {
+    enum class HorizontalAlignment : std::uint8_t
+    {
+        LEADING,
+        TRAILING,
+        CENTER,
+        JUSTIFIED,
+    };
+
     float size;
+    HorizontalAlignment horizontal_alignment;
 };
 
 }  // namespace element

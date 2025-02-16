@@ -31,6 +31,7 @@ public:
     HRESULT SetLayoutRect(D2D1_RECT_F rect);
 
     HRESULT SetFontSize(float size);
+    HRESULT SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

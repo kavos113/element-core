@@ -119,4 +119,44 @@ HRESULT winText::SetFontSize(float size)
     return S_OK;
 }
 
+Font::HorizontalAlignment winText::GetHorizontalAlignment() const
+{
+    return m_font.horizontal_alignment;
+}
+
+HRESULT winText::SetHorizontalAlignment(Font::HorizontalAlignment alignment)
+{
+    DWRITE_TEXT_ALIGNMENT dwrite_alignment;
+    switch (alignment)
+    {
+        case Font::HorizontalAlignment::LEADING:
+            dwrite_alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
+            break;
+
+        case Font::HorizontalAlignment::TRAILING:
+            dwrite_alignment = DWRITE_TEXT_ALIGNMENT_TRAILING;
+            break;
+
+        case Font::HorizontalAlignment::CENTER:
+            dwrite_alignment = DWRITE_TEXT_ALIGNMENT_CENTER;
+            break;
+
+        case Font::HorizontalAlignment::JUSTIFIED:
+            dwrite_alignment = DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetHorizontalAlignment(dwrite_alignment);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.horizontal_alignment = alignment;
+    return S_OK;
+}
+
 }  // namespace element

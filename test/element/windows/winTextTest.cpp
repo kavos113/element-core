@@ -40,12 +40,21 @@ protected:
     static constexpr int WINDOW_HEIGHT = 600;
 
     static constexpr float CHANGED_FONT_SIZE = 72.0f;
+
+    const std::wstring TEXT = L"Test Text";
+    const std::wstring NEW_TEXT = L"Some New Text Here ...";
+    const std::wstring LONG_TEXT
+        = L"Very very very long text, Very very very long text, Very very very "
+          L"long text, Very very very long text, Very very very long text.";
+    const std::wstring PARAGRAPH_TEXT
+        = L"This is a paragraph text. I am testing the paragraph text. This is "
+          L"the third sentence of the paragraph text.";
 };
 
 TEST_F(winTextTest, GenerateText)
 {
     element::winText text;
-    HRESULT hr = text.Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text.Create(TEXT, 0, 0, WIDTH, HEIGHT);
 
     ASSERT_HRESULT_SUCCEEDED(hr);
 }
@@ -53,7 +62,7 @@ TEST_F(winTextTest, GenerateText)
 TEST_F(winTextTest, ShowText)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -83,7 +92,7 @@ TEST_F(winTextTest, ShowText)
 TEST_F(winTextTest, SetText)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -103,13 +112,12 @@ TEST_F(winTextTest, SetText)
         element::winWindow::ShowStatus::SHOW
     );
     tester.AddAction(
-        [&text_ptr]
+        [&text_ptr, this]
         {
-            HRESULT hr = text_ptr->SetText(L"Some New Text Here ...");
+            HRESULT hr = text_ptr->SetText(NEW_TEXT);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetText(), L"Some New Text Here ..."); }
+        [&text_ptr, this] { ASSERT_EQ(text_ptr->GetText(), NEW_TEXT); }
     );
     tester.CloseWindow();
 
@@ -121,7 +129,7 @@ TEST_F(winTextTest, SetText)
 TEST_F(winTextTest, SetPosition)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -155,14 +163,7 @@ TEST_F(winTextTest, SetPosition)
 TEST_F(winTextTest, SetSize)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(
-        L"Very very very long text, Very very very long text, Very very very "
-        L"long text, Very very very long text, Very very very long text.",
-        0,
-        0,
-        WIDTH,
-        HEIGHT
-    );
+    HRESULT hr = text->Create(LONG_TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -206,14 +207,7 @@ TEST_F(winTextTest, SetSize)
 TEST_F(winTextTest, SetRectangle)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(
-        L"Very very very long text, Very very very long text, Very very very "
-        L"long text, Very very very long text, Very very very long text.",
-        0,
-        0,
-        WIDTH,
-        HEIGHT
-    );
+    HRESULT hr = text->Create(LONG_TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -258,7 +252,7 @@ TEST_F(winTextTest, SetRectangle)
 TEST_F(winTextTest, SetFontSize)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(L"Text Test", 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
@@ -284,6 +278,99 @@ TEST_F(winTextTest, SetFontSize)
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_EQ(text_ptr->GetFontSize(), CHANGED_FONT_SIZE); }
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetHorizontalAlignment)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetHorizontalAlignment(
+                element::Font::HorizontalAlignment::JUSTIFIED
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetHorizontalAlignment(),
+                element::Font::HorizontalAlignment::JUSTIFIED
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetHorizontalAlignment(
+                element::Font::HorizontalAlignment::CENTER
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetHorizontalAlignment(),
+                element::Font::HorizontalAlignment::CENTER
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetHorizontalAlignment(
+                element::Font::HorizontalAlignment::LEADING
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetHorizontalAlignment(),
+                element::Font::HorizontalAlignment::LEADING
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetHorizontalAlignment(
+                element::Font::HorizontalAlignment::TRAILING
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetHorizontalAlignment(),
+                element::Font::HorizontalAlignment::TRAILING
+            );
+        }
     );
     tester.CloseWindow();
 

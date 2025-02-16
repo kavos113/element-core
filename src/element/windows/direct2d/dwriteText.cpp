@@ -147,4 +147,16 @@ HRESULT dwriteText::SetFontSize(const float size)
     return S_OK;
 }
 
+HRESULT dwriteText::SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment)
+{
+    HRESULT hr = m_textLayout->SetTextAlignment(alignment);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set text alignment" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element
