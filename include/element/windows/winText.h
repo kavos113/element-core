@@ -72,6 +72,8 @@ public:
     HRESULT SetFontWeight(Font::Weight weight);
     [[nodiscard]] Color GetColor() const;
     HRESULT SetColor(Color color);
+    [[nodiscard]] float GetLineHeight() const;
+    HRESULT SetLineHeight(float spacing);
 
 private:
     std::wstring m_text;

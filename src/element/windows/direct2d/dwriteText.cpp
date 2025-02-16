@@ -252,4 +252,20 @@ void dwriteText::SetSolidColorBrush(
     m_textBrush = brush;
 }
 
+HRESULT dwriteText::SetLineSpacing(float line_spacing)
+{
+    HRESULT hr = m_textLayout->SetLineSpacing(
+        DWRITE_LINE_SPACING_METHOD_PROPORTIONAL,
+        line_spacing,
+        min(line_spacing, 1.0f)
+    );
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set line spacing" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

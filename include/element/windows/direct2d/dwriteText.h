@@ -44,6 +44,7 @@ public:
     void SetSolidColorBrush(
         const Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>& brush
     );
+    HRESULT SetLineSpacing(float line_spacing);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

@@ -463,4 +463,21 @@ HRESULT winText::SetColor(Color color)
     return S_OK;
 }
 
+float winText::GetLineHeight() const
+{
+    return m_font.line_spacing;
+}
+
+HRESULT winText::SetLineHeight(float spacing)
+{
+    HRESULT hr = m_dwriteText.SetLineSpacing(spacing);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.line_spacing = spacing;
+    return S_OK;
+}
+
 }  // namespace element

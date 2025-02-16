@@ -63,6 +63,7 @@ struct Font
     Style style;
     Stretch stretch;
     Weight weight;
+    float line_spacing;
 };
 
 }  // namespace element
