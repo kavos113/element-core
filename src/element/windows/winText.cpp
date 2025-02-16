@@ -195,4 +195,21 @@ HRESULT winText::SetVerticalAlignment(Font::VerticalAlignment alignment)
     return S_OK;
 }
 
+std::wstring winText::GetFontFamily() const
+{
+    return m_font.family;
+}
+
+HRESULT winText::SetFontFamily(const std::wstring& family)
+{
+    HRESULT hr = m_dwriteText.SetFontFamily(family);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.family = family;
+    return S_OK;
+}
+
 }  // namespace element

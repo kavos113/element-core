@@ -171,4 +171,18 @@ HRESULT dwriteText::SetVerticalAlignment(DWRITE_PARAGRAPH_ALIGNMENT alignment)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFontFamily(const std::wstring& family)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetFontFamilyName(family.c_str(), text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set font family" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

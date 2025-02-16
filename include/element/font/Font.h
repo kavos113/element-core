@@ -24,6 +24,7 @@ struct Font
     float size;
     HorizontalAlignment horizontal_alignment;
     VerticalAlignment vertical_alignment;
+    std::wstring family;
 };
 
 }  // namespace element

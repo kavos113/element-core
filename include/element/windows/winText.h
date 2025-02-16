@@ -58,6 +58,8 @@ public:
     HRESULT SetHorizontalAlignment(Font::HorizontalAlignment alignment);
     [[nodiscard]] Font::VerticalAlignment GetVerticalAlignment() const;
     HRESULT SetVerticalAlignment(Font::VerticalAlignment alignment);
+    [[nodiscard]] std::wstring GetFontFamily() const;
+    HRESULT SetFontFamily(const std::wstring& family);
 
 private:
     std::wstring m_text;
