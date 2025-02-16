@@ -23,8 +23,8 @@ public:
 
     winText(const winText&) = delete;
     winText& operator=(const winText&) = delete;
-    winText(winText&&) = delete;
-    winText& operator=(winText&&) = delete;
+    winText(winText&&) = default;
+    winText& operator=(winText&&) = default;
     ~winText() = default;
 
     HRESULT Create(

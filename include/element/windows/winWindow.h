@@ -75,7 +75,7 @@ public:
     void Minimize();
     void Maximize();
 
-    void Add(const winText& text);
+    void Add(std::unique_ptr<winText> text);
 
     [[nodiscard]] Size GetSize() const;
     void SetSize(Size size);
@@ -101,7 +101,7 @@ private:
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};
 
-    std::vector<winText> m_texts;  // change to Component
+    std::vector<std::unique_ptr<winText>> m_texts;  // change to Component
 
     static constexpr auto class_name = L"element_window";
 };

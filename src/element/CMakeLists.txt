@@ -11,7 +11,7 @@ set(srcs_windows
         geometry/Rectangle.cpp
         geometry/Size.cpp
         windows/direct2d/d2dWindow.cpp
-        windows/direct2d/d2dWindow.cpp
+        windows/direct2d/dwriteText.cpp
         color/Color.cpp
 )
 
@@ -24,8 +24,9 @@ set(headers_windows
         ${include_dir}/element/windows/direct2d/d2dFactory.h
         ${include_dir}/element/windows/direct2d/d2dDevice.h
         ${include_dir}/element/windows/direct2d/d2dWindow.h
-        ${include_dir}/element/windows/direct2d/d2dWindow.h
         ${include_dir}/element/windows/direct2d/dxgiDevice.h
+        ${include_dir}/element/windows/direct2d/dwriteFactory.h
+        ${include_dir}/element/windows/direct2d/dwriteText.h
         ${include_dir}/element/color/Color.h
 )
 

@@ -50,15 +50,15 @@ TEST_F(winTextTest, GenerateText)
 
 TEST_F(winTextTest, ShowText)
 {
-    element::winText text;
-    HRESULT hr = text.Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(L"Test Text", 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    window.Add(text);
+    window.Add(std::move(text));
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);

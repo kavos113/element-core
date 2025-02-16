@@ -19,10 +19,10 @@ public:
     dwriteText& operator=(dwriteText&&) = delete;
     ~dwriteText() = default;
 
-    HRESULT Create(const std::wstring& text, const D2D1_RECT_F& layoutRect);
+    HRESULT Create(const std::wstring& text, const D2D1_RECT_F& layout_rect);
 
     void Render(
-        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
     );
 
 private:

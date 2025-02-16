@@ -144,9 +144,9 @@ LRESULT winWindow::HandleMessage(
         {
             m_d2dWindow.BeginDraw();
 
-            for (auto &text : m_texts)
+            for (const auto &text : m_texts)
             {
-                text.Render(m_d2dWindow.GetDeviceContext());
+                text->Render(m_d2dWindow.GetDeviceContext());
             }
 
             HRESULT hr = m_d2dWindow.EndDraw();
@@ -244,9 +244,9 @@ void winWindow::Maximize()
     }
 }
 
-void winWindow::Add(const winText &text)
+void winWindow::Add(std::unique_ptr<winText> text)
 {
-    m_texts.push_back(text);
+    m_texts.push_back(std::move(text));
 }
 
 Size winWindow::GetSize() const
