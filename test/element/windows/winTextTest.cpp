@@ -106,7 +106,8 @@ TEST_F(winTextTest, SetText)
             HRESULT hr = text_ptr->SetText(L"Some New Text Here ...");
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
-        [&text_ptr] { ASSERT_EQ(text_ptr->GetText(), L"Some New Text Here ..."); }
+        [&text_ptr]
+        { ASSERT_EQ(text_ptr->GetText(), L"Some New Text Here ..."); }
     );
     tester.CloseWindow();
 
