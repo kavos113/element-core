@@ -10,6 +10,7 @@
 #include <string>
 
 #include "direct2d/dwriteText.h"
+#include "font/Font.h"
 #include "geometry/Point.h"
 #include "geometry/Rectangle.h"
 #include "geometry/Size.h"
@@ -20,7 +21,7 @@ namespace element
 class winText
 {
 public:
-    winText() : m_text(L"")
+    winText() : m_text(L""), m_font({})
     {
     }
 
@@ -51,8 +52,12 @@ public:
     [[nodiscard]] Rectangle GetRectangle() const;
     HRESULT SetRectangle(Rectangle rect);
 
+    [[nodiscard]] float GetFontSize() const;
+    HRESULT SetFontSize(float size);
+
 private:
     std::wstring m_text;
+    Font m_font;
 
     dwriteText m_dwriteText;
 

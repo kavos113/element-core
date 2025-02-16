@@ -30,6 +30,8 @@ public:
     void SetPosition(float x, float y);
     HRESULT SetLayoutRect(D2D1_RECT_F rect);
 
+    HRESULT SetFontSize(float size);
+
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;
     Microsoft::WRL::ComPtr<IDWriteTextFormat> m_textFormat;

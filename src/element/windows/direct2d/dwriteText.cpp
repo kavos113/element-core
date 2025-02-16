@@ -56,7 +56,8 @@ void dwriteText::Render(
         deviceContext->CreateSolidColorBrush(color, m_textBrush.GetAddressOf());
     }
 
-    D2D1_POINT_2F origin = D2D1::Point2F(m_layoutRect.left, m_layoutRect.top);
+    const D2D1_POINT_2F origin
+        = D2D1::Point2F(m_layoutRect.left, m_layoutRect.top);
 
     deviceContext
         ->DrawTextLayout(origin, m_textLayout.Get(), m_textBrush.Get());
@@ -64,7 +65,7 @@ void dwriteText::Render(
 
 HRESULT dwriteText::SetText(const std::wstring& new_text)
 {
-    HRESULT hr = dwriteFactory::Get()->CreateTextLayout(
+    const HRESULT hr = dwriteFactory::Get()->CreateTextLayout(
         new_text.c_str(),
         static_cast<UINT32>(new_text.length()),
         m_textFormat.Get(),
@@ -128,6 +129,20 @@ HRESULT dwriteText::SetLayoutRect(D2D1_RECT_F rect)
     }
 
     m_layoutRect = rect;
+
+    return S_OK;
+}
+
+HRESULT dwriteText::SetFontSize(const float size)
+{
+    const DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr = m_textLayout->SetFontSize(size, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set font size" << std::endl;
+        return hr;
+    }
 
     return S_OK;
 }

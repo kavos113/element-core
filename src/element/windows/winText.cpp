@@ -102,4 +102,21 @@ HRESULT winText::SetRectangle(const Rectangle rect)
     return S_OK;
 }
 
+float winText::GetFontSize() const
+{
+    return m_font.size;
+}
+
+HRESULT winText::SetFontSize(float size)
+{
+    HRESULT hr = m_dwriteText.SetFontSize(size);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.size = size;
+    return S_OK;
+}
+
 }  // namespace element

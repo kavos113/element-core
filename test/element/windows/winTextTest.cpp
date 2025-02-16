@@ -38,6 +38,8 @@ protected:
 
     static constexpr int WINDOW_WIDTH = 800;
     static constexpr int WINDOW_HEIGHT = 600;
+
+    static constexpr float CHANGED_FONT_SIZE = 72.0f;
 };
 
 TEST_F(winTextTest, GenerateText)
@@ -245,6 +247,43 @@ TEST_F(winTextTest, SetRectangle)
                 element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
             );
         }
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetFontSize)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(L"Text Test", 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetFontSize(CHANGED_FONT_SIZE);
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr] { ASSERT_EQ(text_ptr->GetFontSize(), CHANGED_FONT_SIZE); }
     );
     tester.CloseWindow();
 
