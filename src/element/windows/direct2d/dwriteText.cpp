@@ -227,4 +227,29 @@ HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFontColor(
+    const D2D1_COLOR_F& color,
+    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+)
+{
+    HRESULT hr = deviceContext->CreateSolidColorBrush(
+        color,
+        m_textBrush.GetAddressOf()
+    );
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to create solid color brush" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
+void dwriteText::SetSolidColorBrush(
+    const Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>& brush
+)
+{
+    m_textBrush = brush;
+}
+
 }  // namespace element

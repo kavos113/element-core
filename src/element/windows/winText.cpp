@@ -30,11 +30,16 @@ HRESULT winText::Create(
     return S_OK;
 }
 
-void winText::Render(
-    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
+void winText::Render()
+{
+    m_dwriteText.Render(m_deviceContext);
+}
+
+void winText::SetDeviceContext(
+    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
 )
 {
-    m_dwriteText.Render(device_context);
+    m_deviceContext = deviceContext;
 }
 
 HRESULT winText::SetText(const std::wstring& new_text)
@@ -435,6 +440,26 @@ HRESULT winText::SetFontWeight(Font::Weight weight)
     }
 
     m_font.weight = weight;
+    return S_OK;
+}
+
+Color winText::GetColor() const
+{
+    return m_color;
+}
+
+HRESULT winText::SetColor(Color color)
+{
+    HRESULT hr = m_dwriteText.SetFontColor(
+        D2D1_COLOR_F(color.r, color.g, color.b, color.a),
+        m_deviceContext
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_color = color;
     return S_OK;
 }
 

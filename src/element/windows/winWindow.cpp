@@ -146,7 +146,7 @@ LRESULT winWindow::HandleMessage(
 
             for (const auto &text : m_texts)
             {
-                text->Render(m_d2dWindow.GetDeviceContext());
+                text->Render();
             }
 
             HRESULT hr = m_d2dWindow.EndDraw();
@@ -246,6 +246,7 @@ void winWindow::Maximize()
 
 void winWindow::Add(std::unique_ptr<winText> text)
 {
+    text->SetDeviceContext(m_d2dWindow.GetDeviceContext());
     m_texts.push_back(std::move(text));
 }
 

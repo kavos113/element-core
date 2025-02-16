@@ -9,6 +9,7 @@
 
 #include <string>
 
+#include "color/Color.h"
 #include "direct2d/dwriteText.h"
 #include "font/Font.h"
 #include "geometry/Point.h"
@@ -39,8 +40,10 @@ public:
         int height = CW_USEDEFAULT
     );
 
-    void Render(
-        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
+    void Render();
+
+    void SetDeviceContext(
+        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
     );
 
     [[nodiscard]] const std::wstring& GetText() const;
@@ -67,6 +70,8 @@ public:
     [[nodiscard]] Font::Weight GetFontWeight() const;
     HRESULT SetFontWeight(unsigned short weight);
     HRESULT SetFontWeight(Font::Weight weight);
+    [[nodiscard]] Color GetColor() const;
+    HRESULT SetColor(Color color);
 
 private:
     std::wstring m_text;
@@ -75,6 +80,9 @@ private:
     dwriteText m_dwriteText;
 
     Rectangle m_rect{};
+    Color m_color{};
+
+    Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_deviceContext;
 };
 
 }  // namespace element

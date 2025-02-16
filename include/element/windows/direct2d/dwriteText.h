@@ -37,6 +37,13 @@ public:
     HRESULT SetFontStyle(DWRITE_FONT_STYLE style);
     HRESULT SetFontStretch(DWRITE_FONT_STRETCH stretch);
     HRESULT SetFontWeight(DWRITE_FONT_WEIGHT weight);
+    HRESULT SetFontColor(
+        const D2D1_COLOR_F& color,
+        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+    );
+    void SetSolidColorBrush(
+        const Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>& brush
+    );
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;
