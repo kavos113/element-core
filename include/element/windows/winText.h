@@ -62,6 +62,8 @@ public:
     HRESULT SetFontFamily(const std::wstring& family);
     [[nodiscard]] Font::Style GetFontStyle() const;
     HRESULT SetFontStyle(Font::Style style);
+    [[nodiscard]] Font::Stretch GetFontStretch() const;
+    HRESULT SetFontStretch(Font::Stretch stretch);
 
 private:
     std::wstring m_text;

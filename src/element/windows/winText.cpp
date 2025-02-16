@@ -248,4 +248,64 @@ HRESULT winText::SetFontStyle(Font::Style style)
     return S_OK;
 }
 
+Font::Stretch winText::GetFontStretch() const
+{
+    return m_font.stretch;
+}
+
+HRESULT winText::SetFontStretch(Font::Stretch stretch)
+{
+    DWRITE_FONT_STRETCH dwrite_stretch;
+    switch (stretch)
+    {
+        case Font::Stretch::ULTRA_CONDENSED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_ULTRA_CONDENSED;
+            break;
+
+        case Font::Stretch::EXTRA_CONDENSED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_EXTRA_CONDENSED;
+            break;
+
+        case Font::Stretch::CONDENSED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_CONDENSED;
+            break;
+
+        case Font::Stretch::SEMI_CONDENSED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_SEMI_CONDENSED;
+            break;
+
+        case Font::Stretch::NORMAL:
+            dwrite_stretch = DWRITE_FONT_STRETCH_NORMAL;
+            break;
+
+        case Font::Stretch::SEMI_EXPANDED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_SEMI_EXPANDED;
+            break;
+
+        case Font::Stretch::EXPANDED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_EXPANDED;
+            break;
+
+        case Font::Stretch::EXTRA_EXPANDED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_EXTRA_EXPANDED;
+            break;
+
+        case Font::Stretch::ULTRA_EXPANDED:
+            dwrite_stretch = DWRITE_FONT_STRETCH_ULTRA_EXPANDED;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetFontStretch(dwrite_stretch);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.stretch = stretch;
+    return S_OK;
+}
+
 }  // namespace element

@@ -199,4 +199,18 @@ HRESULT dwriteText::SetFontStyle(DWRITE_FONT_STYLE style)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFontStretch(DWRITE_FONT_STRETCH stretch)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetFontStretch(stretch, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set font stretch" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

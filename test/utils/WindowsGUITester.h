@@ -123,7 +123,7 @@ private:
     };
 
     static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(500);
-    static constexpr auto INTERVAL = std::chrono::milliseconds(200);
+    static constexpr auto INTERVAL = std::chrono::milliseconds(2000);
 
     std::vector<Action> m_actions;
     std::unique_ptr<HWND> m_targetHwnd;
