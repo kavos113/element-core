@@ -185,4 +185,18 @@ HRESULT dwriteText::SetFontFamily(const std::wstring& family)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFontStyle(DWRITE_FONT_STYLE style)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetFontStyle(style, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set font style" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

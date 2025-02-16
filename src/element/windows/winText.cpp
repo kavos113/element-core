@@ -212,4 +212,40 @@ HRESULT winText::SetFontFamily(const std::wstring& family)
     return S_OK;
 }
 
+Font::Style winText::GetFontStyle() const
+{
+    return m_font.style;
+}
+
+HRESULT winText::SetFontStyle(Font::Style style)
+{
+    DWRITE_FONT_STYLE dwrite_style;
+    switch (style)
+    {
+        case Font::Style::NORMAL:
+            dwrite_style = DWRITE_FONT_STYLE_NORMAL;
+            break;
+
+        case Font::Style::ITALIC:
+            dwrite_style = DWRITE_FONT_STYLE_ITALIC;
+            break;
+
+        case Font::Style::OBLIQUE:
+            dwrite_style = DWRITE_FONT_STYLE_OBLIQUE;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetFontStyle(dwrite_style);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.style = style;
+    return S_OK;
+}
+
 }  // namespace element

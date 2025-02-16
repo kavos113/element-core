@@ -21,10 +21,18 @@ struct Font
         BOTTOM,
     };
 
+    enum class Style : std::uint8_t
+    {
+        NORMAL,
+        ITALIC,
+        OBLIQUE,
+    };
+
     float size;
     HorizontalAlignment horizontal_alignment;
     VerticalAlignment vertical_alignment;
     std::wstring family;
+    Style style;
 };
 
 }  // namespace element

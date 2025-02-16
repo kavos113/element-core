@@ -34,6 +34,7 @@ public:
     HRESULT SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment);
     HRESULT SetVerticalAlignment(DWRITE_PARAGRAPH_ALIGNMENT alignment);
     HRESULT SetFontFamily(const std::wstring& family);
+    HRESULT SetFontStyle(DWRITE_FONT_STYLE style);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;
