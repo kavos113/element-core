@@ -26,6 +26,9 @@ public:
     );
 
     HRESULT SetText(const std::wstring& new_text);
+    HRESULT SetSize(float width, float height);
+    void SetPosition(float x, float y);
+    HRESULT SetLayoutRect(D2D1_RECT_F rect);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

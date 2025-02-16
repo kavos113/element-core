@@ -10,6 +10,9 @@
 #include <string>
 
 #include "direct2d/dwriteText.h"
+#include "geometry/Point.h"
+#include "geometry/Rectangle.h"
+#include "geometry/Size.h"
 
 namespace element
 {
@@ -39,13 +42,21 @@ public:
         const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
     );
 
-    HRESULT SetText(const std::wstring& new_text);
     [[nodiscard]] const std::wstring& GetText() const;
+    HRESULT SetText(const std::wstring& new_text);
+    [[nodiscard]] Size GetSize() const;
+    HRESULT SetSize(Size size);
+    [[nodiscard]] Point GetPosition() const;
+    void SetPosition(Point position);
+    [[nodiscard]] Rectangle GetRectangle() const;
+    HRESULT SetRectangle(Rectangle rect);
 
 private:
     std::wstring m_text;
 
     dwriteText m_dwriteText;
+
+    Rectangle m_rect{};
 };
 
 }  // namespace element

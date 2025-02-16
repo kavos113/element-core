@@ -81,4 +81,55 @@ HRESULT dwriteText::SetText(const std::wstring& new_text)
     return S_OK;
 }
 
+HRESULT dwriteText::SetSize(const float width, float height)
+{
+    HRESULT hr = m_textLayout->SetMaxWidth(width);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set max width" << std::endl;
+        return hr;
+    }
+
+    hr = m_textLayout->SetMaxHeight(height);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set max height" << std::endl;
+        return hr;
+    }
+
+    m_layoutRect.right = m_layoutRect.left + width;
+    m_layoutRect.bottom = m_layoutRect.top + height;
+
+    return S_OK;
+}
+
+void dwriteText::SetPosition(float x, float y)
+{
+    m_layoutRect.right = x + m_layoutRect.right - m_layoutRect.left;
+    m_layoutRect.bottom = y + m_layoutRect.bottom - m_layoutRect.top;
+    m_layoutRect.left = x;
+    m_layoutRect.top = y;
+}
+
+HRESULT dwriteText::SetLayoutRect(D2D1_RECT_F rect)
+{
+    HRESULT hr = m_textLayout->SetMaxWidth(rect.right - rect.left);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set max width" << std::endl;
+        return hr;
+    }
+
+    hr = m_textLayout->SetMaxHeight(rect.bottom - rect.top);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set max height" << std::endl;
+        return hr;
+    }
+
+    m_layoutRect = rect;
+
+    return S_OK;
+}
+
 }  // namespace element

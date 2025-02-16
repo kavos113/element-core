@@ -55,4 +55,51 @@ const std::wstring& winText::GetText() const
     return m_text;
 }
 
+Size winText::GetSize() const
+{
+    return m_rect.GetSize();
+}
+
+HRESULT winText::SetSize(const Size size)
+{
+    HRESULT hr = m_dwriteText.SetSize(size.width, size.height);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_rect.SetSize(size);
+    return S_OK;
+}
+
+Point winText::GetPosition() const
+{
+    return m_rect.GetPosition();
+}
+
+void winText::SetPosition(const Point position)
+{
+    m_dwriteText.SetPosition(position.x, position.y);
+    m_rect.SetPosition(position);
+}
+
+Rectangle winText::GetRectangle() const
+{
+    return m_rect;
+}
+
+HRESULT winText::SetRectangle(const Rectangle rect)
+{
+    HRESULT hr = m_dwriteText.SetLayoutRect(
+        D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height)
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_rect = rect;
+    return S_OK;
+}
+
 }  // namespace element
