@@ -213,4 +213,18 @@ HRESULT dwriteText::SetFontStretch(DWRITE_FONT_STRETCH stretch)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetFontWeight(weight, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set font weight" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

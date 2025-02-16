@@ -308,4 +308,134 @@ HRESULT winText::SetFontStretch(Font::Stretch stretch)
     return S_OK;
 }
 
+Font::Weight winText::GetFontWeight() const
+{
+    return m_font.weight;
+}
+
+HRESULT winText::SetFontWeight(unsigned short weight)
+{
+    if (weight < 1 || weight > 999)
+    {
+        return E_INVALIDARG;
+    }
+
+    Font::Weight font_weight;
+    if (weight < 150)
+    {
+        font_weight = Font::Weight::THIN;
+    }
+    else if (weight < 250)
+    {
+        font_weight = Font::Weight::EXTRA_LIGHT;
+    }
+    else if (weight < 325)
+    {
+        font_weight = Font::Weight::LIGHT;
+    }
+    else if (weight < 375)
+    {
+        font_weight = Font::Weight::SEMI_LIGHT;
+    }
+    else if (weight < 450)
+    {
+        font_weight = Font::Weight::NORMAL;
+    }
+    else if (weight < 550)
+    {
+        font_weight = Font::Weight::MEDIUM;
+    }
+    else if (weight < 650)
+    {
+        font_weight = Font::Weight::SEMI_BOLD;
+    }
+    else if (weight < 750)
+    {
+        font_weight = Font::Weight::BOLD;
+    }
+    else if (weight < 850)
+    {
+        font_weight = Font::Weight::EXTRA_BOLD;
+    }
+    else if (weight < 950)
+    {
+        font_weight = Font::Weight::BLACK;
+    }
+    else
+    {
+        font_weight = Font::Weight::EXTRA_BLACK;
+    }
+
+    HRESULT hr = SetFontWeight(font_weight);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    return S_OK;
+}
+
+HRESULT winText::SetFontWeight(Font::Weight weight)
+{
+    DWRITE_FONT_WEIGHT dwrite_weight;
+    switch (weight)
+    {
+        case Font::Weight::THIN:
+            dwrite_weight = DWRITE_FONT_WEIGHT_THIN;
+            break;
+
+        case Font::Weight::EXTRA_LIGHT:
+            dwrite_weight = DWRITE_FONT_WEIGHT_EXTRA_LIGHT;
+            break;
+
+        case Font::Weight::LIGHT:
+            dwrite_weight = DWRITE_FONT_WEIGHT_LIGHT;
+            break;
+
+        case Font::Weight::SEMI_LIGHT:
+            dwrite_weight = DWRITE_FONT_WEIGHT_SEMI_LIGHT;
+            break;
+
+        case Font::Weight::NORMAL:
+            dwrite_weight = DWRITE_FONT_WEIGHT_NORMAL;
+            break;
+
+        case Font::Weight::MEDIUM:
+            dwrite_weight = DWRITE_FONT_WEIGHT_MEDIUM;
+            break;
+
+        case Font::Weight::SEMI_BOLD:
+            dwrite_weight = DWRITE_FONT_WEIGHT_SEMI_BOLD;
+            break;
+
+        case Font::Weight::BOLD:
+            dwrite_weight = DWRITE_FONT_WEIGHT_BOLD;
+            break;
+
+        case Font::Weight::EXTRA_BOLD:
+            dwrite_weight = DWRITE_FONT_WEIGHT_EXTRA_BOLD;
+            break;
+
+        case Font::Weight::BLACK:
+            dwrite_weight = DWRITE_FONT_WEIGHT_BLACK;
+            break;
+
+        case Font::Weight::EXTRA_BLACK:
+            dwrite_weight = DWRITE_FONT_WEIGHT_EXTRA_BLACK;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetFontWeight(dwrite_weight);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.weight = weight;
+    return S_OK;
+}
+
 }  // namespace element

@@ -36,6 +36,7 @@ public:
     HRESULT SetFontFamily(const std::wstring& family);
     HRESULT SetFontStyle(DWRITE_FONT_STYLE style);
     HRESULT SetFontStretch(DWRITE_FONT_STRETCH stretch);
+    HRESULT SetFontWeight(DWRITE_FONT_WEIGHT weight);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

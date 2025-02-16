@@ -64,6 +64,9 @@ public:
     HRESULT SetFontStyle(Font::Style style);
     [[nodiscard]] Font::Stretch GetFontStretch() const;
     HRESULT SetFontStretch(Font::Stretch stretch);
+    [[nodiscard]] Font::Weight GetFontWeight() const;
+    HRESULT SetFontWeight(unsigned short weight);
+    HRESULT SetFontWeight(Font::Weight weight);
 
 private:
     std::wstring m_text;
