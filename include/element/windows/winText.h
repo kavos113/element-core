@@ -56,6 +56,8 @@ public:
     HRESULT SetFontSize(float size);
     [[nodiscard]] Font::HorizontalAlignment GetHorizontalAlignment() const;
     HRESULT SetHorizontalAlignment(Font::HorizontalAlignment alignment);
+    [[nodiscard]] Font::VerticalAlignment GetVerticalAlignment() const;
+    HRESULT SetVerticalAlignment(Font::VerticalAlignment alignment);
 
 private:
     std::wstring m_text;

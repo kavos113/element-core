@@ -159,4 +159,16 @@ HRESULT dwriteText::SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment)
     return S_OK;
 }
 
+HRESULT dwriteText::SetVerticalAlignment(DWRITE_PARAGRAPH_ALIGNMENT alignment)
+{
+    HRESULT hr = m_textLayout->SetParagraphAlignment(alignment);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set paragraph alignment" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

@@ -14,8 +14,16 @@ struct Font
         JUSTIFIED,
     };
 
+    enum class VerticalAlignment : std::uint8_t
+    {
+        TOP,
+        CENTER,
+        BOTTOM,
+    };
+
     float size;
     HorizontalAlignment horizontal_alignment;
+    VerticalAlignment vertical_alignment;
 };
 
 }  // namespace element

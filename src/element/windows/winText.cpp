@@ -159,4 +159,40 @@ HRESULT winText::SetHorizontalAlignment(Font::HorizontalAlignment alignment)
     return S_OK;
 }
 
+Font::VerticalAlignment winText::GetVerticalAlignment() const
+{
+    return m_font.vertical_alignment;
+}
+
+HRESULT winText::SetVerticalAlignment(Font::VerticalAlignment alignment)
+{
+    DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment;
+    switch (alignment)
+    {
+        case Font::VerticalAlignment::TOP:
+            dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
+            break;
+
+        case Font::VerticalAlignment::CENTER:
+            dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
+            break;
+
+        case Font::VerticalAlignment::BOTTOM:
+            dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetVerticalAlignment(dwrite_alignment);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_font.vertical_alignment = alignment;
+    return S_OK;
+}
+
 }  // namespace element
