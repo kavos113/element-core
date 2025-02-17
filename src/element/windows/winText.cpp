@@ -518,4 +518,40 @@ HRESULT winText::SetTrimming(Paragraph::Trimming trimming)
     return S_OK;
 }
 
+Paragraph::Wrapping winText::GetWordWrapping() const
+{
+    return m_paragraph.wrapping;
+}
+
+HRESULT winText::SetWordWrapping(Paragraph::Wrapping wrapping)
+{
+    DWRITE_WORD_WRAPPING dwrite_wrapping;
+    switch (wrapping)
+    {
+        case Paragraph::Wrapping::NONE:
+            dwrite_wrapping = DWRITE_WORD_WRAPPING_NO_WRAP;
+            break;
+
+        case Paragraph::Wrapping::WORD:
+            dwrite_wrapping = DWRITE_WORD_WRAPPING_WRAP;
+            break;
+
+        case Paragraph::Wrapping::CHARACTER:
+            dwrite_wrapping = DWRITE_WORD_WRAPPING_CHARACTER;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetWordWrapping(dwrite_wrapping);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_paragraph.wrapping = wrapping;
+    return S_OK;
+}
+
 }  // namespace element

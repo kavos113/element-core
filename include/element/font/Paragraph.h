@@ -32,10 +32,18 @@ struct Paragraph
         CHARACTER,
     };
 
+    enum class Wrapping
+    {
+        NONE,
+        WORD,
+        CHARACTER,
+    };
+
     HorizontalAlignment horizontal_alignment;
     VerticalAlignment vertical_alignment;
     float line_spacing;
     Trimming trimming;
+    Wrapping wrapping;
 
     Font font;
 };

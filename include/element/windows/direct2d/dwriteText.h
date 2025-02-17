@@ -46,6 +46,7 @@ public:
     );
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);
+    HRESULT SetWordWrapping(DWRITE_WORD_WRAPPING wrapping);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

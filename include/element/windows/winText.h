@@ -90,6 +90,9 @@ public:
     [[nodiscard]] Paragraph::Trimming GetTrimming() const;
     HRESULT SetTrimming(Paragraph::Trimming trimming);
 
+    [[nodiscard]] Paragraph::Wrapping GetWordWrapping() const;
+    HRESULT SetWordWrapping(Paragraph::Wrapping wrapping);
+
 private:
     std::wstring m_text;
     Paragraph m_paragraph;

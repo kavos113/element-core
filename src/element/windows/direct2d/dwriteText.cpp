@@ -281,4 +281,16 @@ HRESULT dwriteText::SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity)
     return S_OK;
 }
 
+HRESULT dwriteText::SetWordWrapping(DWRITE_WORD_WRAPPING wrapping)
+{
+    HRESULT hr = m_textLayout->SetWordWrapping(wrapping);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set word wrapping" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element
