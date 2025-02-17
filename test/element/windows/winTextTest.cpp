@@ -1030,3 +1030,77 @@ TEST_F(winTextTest, SetDirection)
     window.Run();
     thread.join();
 }
+
+TEST_F(winTextTest, SetUnderline)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetUnderline(true);
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr] { ASSERT_TRUE(text_ptr->IsUnderlined()); }
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetLineThrough)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetLineThrough(true);
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr] { ASSERT_TRUE(text_ptr->IsLineThrough()); }
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}

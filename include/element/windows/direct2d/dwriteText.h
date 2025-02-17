@@ -49,6 +49,8 @@ public:
     HRESULT SetWordWrapping(DWRITE_WORD_WRAPPING wrapping);
     HRESULT SetFlowDirection(DWRITE_FLOW_DIRECTION direction);
     HRESULT SetReadingDirection(DWRITE_READING_DIRECTION direction);
+    HRESULT SetUnderline(bool underline);
+    HRESULT SetLineThrough(bool line_through);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

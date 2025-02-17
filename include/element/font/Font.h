@@ -46,6 +46,8 @@ struct Font
     Style style;
     Stretch stretch;
     Weight weight;
+    bool underline;
+    bool line_through;
 };
 
 }  // namespace element

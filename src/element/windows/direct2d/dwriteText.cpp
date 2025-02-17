@@ -317,4 +317,32 @@ HRESULT dwriteText::SetReadingDirection(DWRITE_READING_DIRECTION direction)
     return S_OK;
 }
 
+HRESULT dwriteText::SetUnderline(bool underline)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetUnderline(underline, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set underline" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
+HRESULT dwriteText::SetLineThrough(bool line_through)
+{
+    DWRITE_TEXT_RANGE text_range
+        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    HRESULT hr = m_textLayout->SetStrikethrough(line_through, text_range);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set line through" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

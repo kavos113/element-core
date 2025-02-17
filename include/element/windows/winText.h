@@ -100,6 +100,12 @@ public:
         Paragraph::Direction reading_direction
     );
 
+    [[nodiscard]] bool IsUnderlined() const;
+    HRESULT SetUnderline(bool underline);
+
+    [[nodiscard]] bool IsLineThrough() const;
+    HRESULT SetLineThrough(bool line_through);
+
 private:
     std::wstring m_text;
     Paragraph m_paragraph;

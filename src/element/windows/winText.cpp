@@ -661,4 +661,38 @@ HRESULT winText::SetDirection(
     return S_OK;
 }
 
+bool winText::IsUnderlined() const
+{
+    return m_paragraph.font.underline;
+}
+
+HRESULT winText::SetUnderline(bool underline)
+{
+    HRESULT hr = m_dwriteText.SetUnderline(underline);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_paragraph.font.underline = underline;
+    return S_OK;
+}
+
+bool winText::IsLineThrough() const
+{
+    return m_paragraph.font.line_through;
+}
+
+HRESULT winText::SetLineThrough(bool line_through)
+{
+    HRESULT hr = m_dwriteText.SetLineThrough(line_through);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_paragraph.font.line_through = line_through;
+    return S_OK;
+}
+
 }  // namespace element
