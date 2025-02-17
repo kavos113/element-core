@@ -313,7 +313,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Font::HorizontalAlignment::JUSTIFIED
+                element::Paragraph::HorizontalAlignment::JUSTIFIED
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -321,7 +321,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetHorizontalAlignment(),
-                element::Font::HorizontalAlignment::JUSTIFIED
+                element::Paragraph::HorizontalAlignment::JUSTIFIED
             );
         }
     );
@@ -329,7 +329,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Font::HorizontalAlignment::CENTER
+                element::Paragraph::HorizontalAlignment::CENTER
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -337,7 +337,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetHorizontalAlignment(),
-                element::Font::HorizontalAlignment::CENTER
+                element::Paragraph::HorizontalAlignment::CENTER
             );
         }
     );
@@ -345,7 +345,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Font::HorizontalAlignment::LEADING
+                element::Paragraph::HorizontalAlignment::LEADING
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -353,7 +353,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetHorizontalAlignment(),
-                element::Font::HorizontalAlignment::LEADING
+                element::Paragraph::HorizontalAlignment::LEADING
             );
         }
     );
@@ -361,7 +361,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Font::HorizontalAlignment::TRAILING
+                element::Paragraph::HorizontalAlignment::TRAILING
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -369,7 +369,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetHorizontalAlignment(),
-                element::Font::HorizontalAlignment::TRAILING
+                element::Paragraph::HorizontalAlignment::TRAILING
             );
         }
     );
@@ -406,7 +406,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Font::VerticalAlignment::BOTTOM
+                element::Paragraph::VerticalAlignment::BOTTOM
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -414,7 +414,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetVerticalAlignment(),
-                element::Font::VerticalAlignment::BOTTOM
+                element::Paragraph::VerticalAlignment::BOTTOM
             );
         }
     );
@@ -422,7 +422,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Font::VerticalAlignment::CENTER
+                element::Paragraph::VerticalAlignment::CENTER
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -430,7 +430,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetVerticalAlignment(),
-                element::Font::VerticalAlignment::CENTER
+                element::Paragraph::VerticalAlignment::CENTER
             );
         }
     );
@@ -438,7 +438,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         [&text_ptr]
         {
             HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Font::VerticalAlignment::TOP
+                element::Paragraph::VerticalAlignment::TOP
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -446,7 +446,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
         {
             ASSERT_EQ(
                 text_ptr->GetVerticalAlignment(),
-                element::Font::VerticalAlignment::TOP
+                element::Paragraph::VerticalAlignment::TOP
             );
         }
     );
@@ -769,4 +769,75 @@ TEST_F(winTextTest, SetLineHeight)
 
 TEST_F(winTextTest, SetTrimming)
 {
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr
+                = text_ptr->SetTrimming(element::Paragraph::Trimming::WORD);
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetTrimming(),
+                element::Paragraph::Trimming::WORD
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetTrimming(
+                element::Paragraph::Trimming::CHARACTER
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetTrimming(),
+                element::Paragraph::Trimming::CHARACTER
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr
+                = text_ptr->SetTrimming(element::Paragraph::Trimming::NONE);
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetTrimming(),
+                element::Paragraph::Trimming::NONE
+            );
+        }
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
 }

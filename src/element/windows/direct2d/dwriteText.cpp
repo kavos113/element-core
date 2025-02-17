@@ -268,4 +268,17 @@ HRESULT dwriteText::SetLineSpacing(float line_spacing)
     return S_OK;
 }
 
+HRESULT dwriteText::SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity)
+{
+    DWRITE_TRIMMING trimming = {granularity, 0, 0};
+    HRESULT hr = m_textLayout->SetTrimming(&trimming, nullptr);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set trimming" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

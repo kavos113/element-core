@@ -49,32 +49,46 @@ public:
 
     [[nodiscard]] const std::wstring& GetText() const;
     HRESULT SetText(const std::wstring& new_text);
+
     [[nodiscard]] Size GetSize() const;
     HRESULT SetSize(Size size);
+
     [[nodiscard]] Point GetPosition() const;
     void SetPosition(Point position);
+
     [[nodiscard]] Rectangle GetRectangle() const;
     HRESULT SetRectangle(Rectangle rect);
 
     [[nodiscard]] float GetFontSize() const;
     HRESULT SetFontSize(float size);
+
     [[nodiscard]] Paragraph::HorizontalAlignment GetHorizontalAlignment() const;
     HRESULT SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment);
+
     [[nodiscard]] Paragraph::VerticalAlignment GetVerticalAlignment() const;
     HRESULT SetVerticalAlignment(Paragraph::VerticalAlignment alignment);
+
     [[nodiscard]] std::wstring GetFontFamily() const;
     HRESULT SetFontFamily(const std::wstring& family);
+
     [[nodiscard]] Font::Style GetFontStyle() const;
     HRESULT SetFontStyle(Font::Style style);
+
     [[nodiscard]] Font::Stretch GetFontStretch() const;
     HRESULT SetFontStretch(Font::Stretch stretch);
+
     [[nodiscard]] Font::Weight GetFontWeight() const;
     HRESULT SetFontWeight(unsigned short weight);
     HRESULT SetFontWeight(Font::Weight weight);
+
     [[nodiscard]] Color GetColor() const;
     HRESULT SetColor(Color color);
+
     [[nodiscard]] float GetLineHeight() const;
     HRESULT SetLineHeight(float spacing);
+
+    [[nodiscard]] Paragraph::Trimming GetTrimming() const;
+    HRESULT SetTrimming(Paragraph::Trimming trimming);
 
 private:
     std::wstring m_text;

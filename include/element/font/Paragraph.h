@@ -25,9 +25,17 @@ struct Paragraph
         BOTTOM,
     };
 
+    enum class Trimming : std::uint8_t
+    {
+        NONE,
+        WORD,
+        CHARACTER,
+    };
+
     HorizontalAlignment horizontal_alignment;
     VerticalAlignment vertical_alignment;
     float line_spacing;
+    Trimming trimming;
 
     Font font;
 };

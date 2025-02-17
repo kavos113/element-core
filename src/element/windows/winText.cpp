@@ -482,4 +482,40 @@ HRESULT winText::SetLineHeight(float spacing)
     return S_OK;
 }
 
+Paragraph::Trimming winText::GetTrimming() const
+{
+    return m_paragraph.trimming;
+}
+
+HRESULT winText::SetTrimming(Paragraph::Trimming trimming)
+{
+    DWRITE_TRIMMING_GRANULARITY dwrite_trimming;
+    switch (trimming)
+    {
+        case Paragraph::Trimming::NONE:
+            dwrite_trimming = DWRITE_TRIMMING_GRANULARITY_NONE;
+            break;
+
+        case Paragraph::Trimming::WORD:
+            dwrite_trimming = DWRITE_TRIMMING_GRANULARITY_WORD;
+            break;
+
+        case Paragraph::Trimming::CHARACTER:
+            dwrite_trimming = DWRITE_TRIMMING_GRANULARITY_CHARACTER;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetTrimming(dwrite_trimming);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_paragraph.trimming = trimming;
+    return S_OK;
+}
+
 }  // namespace element
