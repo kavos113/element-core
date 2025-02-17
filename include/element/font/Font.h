@@ -6,21 +6,6 @@ namespace element
 
 struct Font
 {
-    enum class HorizontalAlignment : std::uint8_t
-    {
-        LEADING,
-        TRAILING,
-        CENTER,
-        JUSTIFIED,
-    };
-
-    enum class VerticalAlignment : std::uint8_t
-    {
-        TOP,
-        CENTER,
-        BOTTOM,
-    };
-
     enum class Style : std::uint8_t
     {
         NORMAL,
@@ -57,13 +42,10 @@ struct Font
     };
 
     float size;
-    HorizontalAlignment horizontal_alignment;
-    VerticalAlignment vertical_alignment;
     std::wstring family;
     Style style;
     Stretch stretch;
     Weight weight;
-    float line_spacing;
 };
 
 }  // namespace element

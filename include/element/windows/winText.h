@@ -12,6 +12,7 @@
 #include "color/Color.h"
 #include "direct2d/dwriteText.h"
 #include "font/Font.h"
+#include "font/Paragraph.h"
 #include "geometry/Point.h"
 #include "geometry/Rectangle.h"
 #include "geometry/Size.h"
@@ -22,7 +23,7 @@ namespace element
 class winText
 {
 public:
-    winText() : m_text(L""), m_font({})
+    winText() : m_text(L""), m_paragraph()
     {
     }
 
@@ -57,10 +58,10 @@ public:
 
     [[nodiscard]] float GetFontSize() const;
     HRESULT SetFontSize(float size);
-    [[nodiscard]] Font::HorizontalAlignment GetHorizontalAlignment() const;
-    HRESULT SetHorizontalAlignment(Font::HorizontalAlignment alignment);
-    [[nodiscard]] Font::VerticalAlignment GetVerticalAlignment() const;
-    HRESULT SetVerticalAlignment(Font::VerticalAlignment alignment);
+    [[nodiscard]] Paragraph::HorizontalAlignment GetHorizontalAlignment() const;
+    HRESULT SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment);
+    [[nodiscard]] Paragraph::VerticalAlignment GetVerticalAlignment() const;
+    HRESULT SetVerticalAlignment(Paragraph::VerticalAlignment alignment);
     [[nodiscard]] std::wstring GetFontFamily() const;
     HRESULT SetFontFamily(const std::wstring& family);
     [[nodiscard]] Font::Style GetFontStyle() const;
@@ -77,7 +78,7 @@ public:
 
 private:
     std::wstring m_text;
-    Font m_font;
+    Paragraph m_paragraph;
 
     dwriteText m_dwriteText;
 

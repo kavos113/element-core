@@ -109,7 +109,7 @@ HRESULT winText::SetRectangle(const Rectangle rect)
 
 float winText::GetFontSize() const
 {
-    return m_font.size;
+    return m_paragraph.font.size;
 }
 
 HRESULT winText::SetFontSize(float size)
@@ -120,33 +120,35 @@ HRESULT winText::SetFontSize(float size)
         return hr;
     }
 
-    m_font.size = size;
+    m_paragraph.font.size = size;
     return S_OK;
 }
 
-Font::HorizontalAlignment winText::GetHorizontalAlignment() const
+Paragraph::HorizontalAlignment winText::GetHorizontalAlignment() const
 {
-    return m_font.horizontal_alignment;
+    return m_paragraph.horizontal_alignment;
 }
 
-HRESULT winText::SetHorizontalAlignment(Font::HorizontalAlignment alignment)
+HRESULT winText::SetHorizontalAlignment(
+    Paragraph::HorizontalAlignment alignment
+)
 {
     DWRITE_TEXT_ALIGNMENT dwrite_alignment;
     switch (alignment)
     {
-        case Font::HorizontalAlignment::LEADING:
+        case Paragraph::HorizontalAlignment::LEADING:
             dwrite_alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
             break;
 
-        case Font::HorizontalAlignment::TRAILING:
+        case Paragraph::HorizontalAlignment::TRAILING:
             dwrite_alignment = DWRITE_TEXT_ALIGNMENT_TRAILING;
             break;
 
-        case Font::HorizontalAlignment::CENTER:
+        case Paragraph::HorizontalAlignment::CENTER:
             dwrite_alignment = DWRITE_TEXT_ALIGNMENT_CENTER;
             break;
 
-        case Font::HorizontalAlignment::JUSTIFIED:
+        case Paragraph::HorizontalAlignment::JUSTIFIED:
             dwrite_alignment = DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
             break;
 
@@ -160,29 +162,29 @@ HRESULT winText::SetHorizontalAlignment(Font::HorizontalAlignment alignment)
         return hr;
     }
 
-    m_font.horizontal_alignment = alignment;
+    m_paragraph.horizontal_alignment = alignment;
     return S_OK;
 }
 
-Font::VerticalAlignment winText::GetVerticalAlignment() const
+Paragraph::VerticalAlignment winText::GetVerticalAlignment() const
 {
-    return m_font.vertical_alignment;
+    return m_paragraph.vertical_alignment;
 }
 
-HRESULT winText::SetVerticalAlignment(Font::VerticalAlignment alignment)
+HRESULT winText::SetVerticalAlignment(Paragraph::VerticalAlignment alignment)
 {
     DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment;
     switch (alignment)
     {
-        case Font::VerticalAlignment::TOP:
+        case Paragraph::VerticalAlignment::TOP:
             dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
             break;
 
-        case Font::VerticalAlignment::CENTER:
+        case Paragraph::VerticalAlignment::CENTER:
             dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER;
             break;
 
-        case Font::VerticalAlignment::BOTTOM:
+        case Paragraph::VerticalAlignment::BOTTOM:
             dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_FAR;
             break;
 
@@ -196,13 +198,13 @@ HRESULT winText::SetVerticalAlignment(Font::VerticalAlignment alignment)
         return hr;
     }
 
-    m_font.vertical_alignment = alignment;
+    m_paragraph.vertical_alignment = alignment;
     return S_OK;
 }
 
 std::wstring winText::GetFontFamily() const
 {
-    return m_font.family;
+    return m_paragraph.font.family;
 }
 
 HRESULT winText::SetFontFamily(const std::wstring& family)
@@ -213,13 +215,13 @@ HRESULT winText::SetFontFamily(const std::wstring& family)
         return hr;
     }
 
-    m_font.family = family;
+    m_paragraph.font.family = family;
     return S_OK;
 }
 
 Font::Style winText::GetFontStyle() const
 {
-    return m_font.style;
+    return m_paragraph.font.style;
 }
 
 HRESULT winText::SetFontStyle(Font::Style style)
@@ -249,13 +251,13 @@ HRESULT winText::SetFontStyle(Font::Style style)
         return hr;
     }
 
-    m_font.style = style;
+    m_paragraph.font.style = style;
     return S_OK;
 }
 
 Font::Stretch winText::GetFontStretch() const
 {
-    return m_font.stretch;
+    return m_paragraph.font.stretch;
 }
 
 HRESULT winText::SetFontStretch(Font::Stretch stretch)
@@ -309,13 +311,13 @@ HRESULT winText::SetFontStretch(Font::Stretch stretch)
         return hr;
     }
 
-    m_font.stretch = stretch;
+    m_paragraph.font.stretch = stretch;
     return S_OK;
 }
 
 Font::Weight winText::GetFontWeight() const
 {
-    return m_font.weight;
+    return m_paragraph.font.weight;
 }
 
 HRESULT winText::SetFontWeight(unsigned short weight)
@@ -439,7 +441,7 @@ HRESULT winText::SetFontWeight(Font::Weight weight)
         return hr;
     }
 
-    m_font.weight = weight;
+    m_paragraph.font.weight = weight;
     return S_OK;
 }
 
@@ -465,7 +467,7 @@ HRESULT winText::SetColor(Color color)
 
 float winText::GetLineHeight() const
 {
-    return m_font.line_spacing;
+    return m_paragraph.line_spacing;
 }
 
 HRESULT winText::SetLineHeight(float spacing)
@@ -476,7 +478,7 @@ HRESULT winText::SetLineHeight(float spacing)
         return hr;
     }
 
-    m_font.line_spacing = spacing;
+    m_paragraph.line_spacing = spacing;
     return S_OK;
 }
 

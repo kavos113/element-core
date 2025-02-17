@@ -766,3 +766,7 @@ TEST_F(winTextTest, SetLineHeight)
     window.Run();
     thread.join();
 }
+
+TEST_F(winTextTest, SetTrimming)
+{
+}

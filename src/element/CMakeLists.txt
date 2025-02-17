@@ -29,6 +29,7 @@ set(headers_windows
         ${include_dir}/element/windows/direct2d/dwriteText.h
         ${include_dir}/element/color/Color.h
         ../../include/element/font/Font.h
+        ../../include/element/font/Paragraph.h
 )
 
 add_library(element ${srcs_windows} ${headers_windows})
