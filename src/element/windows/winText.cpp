@@ -554,4 +554,111 @@ HRESULT winText::SetWordWrapping(Paragraph::Wrapping wrapping)
     return S_OK;
 }
 
+Paragraph::Direction winText::GetFlowDirection() const
+{
+    return m_paragraph.flow_direction;
+}
+
+Paragraph::Direction winText::GetReadingDirection() const
+{
+    return m_paragraph.reading_direction;
+}
+
+HRESULT winText::SetDirection(
+    Paragraph::Direction flow_direction, Paragraph::Direction reading_direction
+)
+{
+    if (flow_direction == Paragraph::Direction::RIGHT_TO_LEFT
+        && reading_direction == Paragraph::Direction::LEFT_TO_RIGHT)
+    {
+        return E_INVALIDARG;
+    }
+
+    if (flow_direction == Paragraph::Direction::LEFT_TO_RIGHT
+        && reading_direction == Paragraph::Direction::RIGHT_TO_LEFT)
+    {
+        return E_INVALIDARG;
+    }
+
+    if (flow_direction == Paragraph::Direction::TOP_TO_BOTTOM
+        && reading_direction == Paragraph::Direction::BOTTOM_TO_TOP)
+    {
+        return E_INVALIDARG;
+    }
+
+    if (flow_direction == Paragraph::Direction::BOTTOM_TO_TOP
+        && reading_direction == Paragraph::Direction::TOP_TO_BOTTOM)
+    {
+        return E_INVALIDARG;
+    }
+
+    if (flow_direction == reading_direction)
+    {
+        return E_INVALIDARG;
+    }
+
+    DWRITE_FLOW_DIRECTION dwrite_flow_direction;
+    switch (flow_direction)
+    {
+        case Paragraph::Direction::TOP_TO_BOTTOM:
+            dwrite_flow_direction = DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM;
+            break;
+
+        case Paragraph::Direction::BOTTOM_TO_TOP:
+            dwrite_flow_direction = DWRITE_FLOW_DIRECTION_BOTTOM_TO_TOP;
+            break;
+
+        case Paragraph::Direction::LEFT_TO_RIGHT:
+            dwrite_flow_direction = DWRITE_FLOW_DIRECTION_LEFT_TO_RIGHT;
+            break;
+
+        case Paragraph::Direction::RIGHT_TO_LEFT:
+            dwrite_flow_direction = DWRITE_FLOW_DIRECTION_RIGHT_TO_LEFT;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    DWRITE_READING_DIRECTION dwrite_reading_direction;
+    switch (reading_direction)
+    {
+        case Paragraph::Direction::TOP_TO_BOTTOM:
+            dwrite_reading_direction = DWRITE_READING_DIRECTION_TOP_TO_BOTTOM;
+            break;
+
+        case Paragraph::Direction::BOTTOM_TO_TOP:
+            dwrite_reading_direction = DWRITE_READING_DIRECTION_BOTTOM_TO_TOP;
+            break;
+
+        case Paragraph::Direction::LEFT_TO_RIGHT:
+            dwrite_reading_direction = DWRITE_READING_DIRECTION_LEFT_TO_RIGHT;
+            break;
+
+        case Paragraph::Direction::RIGHT_TO_LEFT:
+            dwrite_reading_direction = DWRITE_READING_DIRECTION_RIGHT_TO_LEFT;
+            break;
+
+        default:
+            return E_INVALIDARG;
+    }
+
+    HRESULT hr = m_dwriteText.SetFlowDirection(dwrite_flow_direction);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    hr = m_dwriteText.SetReadingDirection(dwrite_reading_direction);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    m_paragraph.flow_direction = flow_direction;
+    m_paragraph.reading_direction = reading_direction;
+
+    return S_OK;
+}
+
 }  // namespace element

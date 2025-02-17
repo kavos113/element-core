@@ -47,6 +47,8 @@ public:
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);
     HRESULT SetWordWrapping(DWRITE_WORD_WRAPPING wrapping);
+    HRESULT SetFlowDirection(DWRITE_FLOW_DIRECTION direction);
+    HRESULT SetReadingDirection(DWRITE_READING_DIRECTION direction);
 
 private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;

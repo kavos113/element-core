@@ -39,11 +39,21 @@ struct Paragraph
         CHARACTER,
     };
 
+    enum class Direction
+    {
+        TOP_TO_BOTTOM,
+        BOTTOM_TO_TOP,
+        LEFT_TO_RIGHT,
+        RIGHT_TO_LEFT,
+    };
+
     HorizontalAlignment horizontal_alignment;
     VerticalAlignment vertical_alignment;
     float line_spacing;
     Trimming trimming;
     Wrapping wrapping;
+    Direction flow_direction;
+    Direction reading_direction;
 
     Font font;
 };

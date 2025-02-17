@@ -93,6 +93,13 @@ public:
     [[nodiscard]] Paragraph::Wrapping GetWordWrapping() const;
     HRESULT SetWordWrapping(Paragraph::Wrapping wrapping);
 
+    [[nodiscard]] Paragraph::Direction GetFlowDirection() const;
+    [[nodiscard]] Paragraph::Direction GetReadingDirection() const;
+    HRESULT SetDirection(
+        Paragraph::Direction flow_direction,
+        Paragraph::Direction reading_direction
+    );
+
 private:
     std::wstring m_text;
     Paragraph m_paragraph;

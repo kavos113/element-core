@@ -293,4 +293,28 @@ HRESULT dwriteText::SetWordWrapping(DWRITE_WORD_WRAPPING wrapping)
     return S_OK;
 }
 
+HRESULT dwriteText::SetFlowDirection(DWRITE_FLOW_DIRECTION direction)
+{
+    HRESULT hr = m_textLayout->SetFlowDirection(direction);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set flow direction" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
+HRESULT dwriteText::SetReadingDirection(DWRITE_READING_DIRECTION direction)
+{
+    HRESULT hr = m_textLayout->SetReadingDirection(direction);
+    if (FAILED(hr))
+    {
+        std::cout << "Failed to set reading direction" << std::endl;
+        return hr;
+    }
+
+    return S_OK;
+}
+
 }  // namespace element

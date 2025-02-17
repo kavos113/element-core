@@ -916,3 +916,117 @@ TEST_F(winTextTest, SetWordWrapping)
     window.Run();
     thread.join();
 }
+
+TEST_F(winTextTest, SetDirection)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winText* text_ptr = text.get();
+    window.Add(std::move(text));
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.AddAction<element::winWindow::ShowStatus>(
+        element::winWindow::WindowAction::SHOW,
+        0,
+        WindowsGUITester::Assertions::EQUAL,
+        element::winWindow::WindowAction::SHOWSTATUS,
+        element::winWindow::ShowStatus::SHOW
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetDirection(
+                element::Paragraph::Direction::TOP_TO_BOTTOM,
+                element::Paragraph::Direction::LEFT_TO_RIGHT
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetFlowDirection(),
+                element::Paragraph::Direction::TOP_TO_BOTTOM
+            );
+            ASSERT_EQ(
+                text_ptr->GetReadingDirection(),
+                element::Paragraph::Direction::LEFT_TO_RIGHT
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetDirection(
+                element::Paragraph::Direction::BOTTOM_TO_TOP,
+                element::Paragraph::Direction::RIGHT_TO_LEFT
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetFlowDirection(),
+                element::Paragraph::Direction::BOTTOM_TO_TOP
+            );
+            ASSERT_EQ(
+                text_ptr->GetReadingDirection(),
+                element::Paragraph::Direction::RIGHT_TO_LEFT
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetDirection(
+                element::Paragraph::Direction::RIGHT_TO_LEFT,
+                element::Paragraph::Direction::TOP_TO_BOTTOM
+            );
+            ASSERT_HRESULT_SUCCEEDED(hr);
+        },
+        [&text_ptr]
+        {
+            ASSERT_EQ(
+                text_ptr->GetFlowDirection(),
+                element::Paragraph::Direction::RIGHT_TO_LEFT
+            );
+            ASSERT_EQ(
+                text_ptr->GetReadingDirection(),
+                element::Paragraph::Direction::TOP_TO_BOTTOM
+            );
+        }
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetDirection(
+                element::Paragraph::Direction::RIGHT_TO_LEFT,
+                element::Paragraph::Direction::LEFT_TO_RIGHT
+            );
+            ASSERT_HRESULT_FAILED(hr);
+        },
+        [] {}
+    );
+    tester.AddAction(
+        [&text_ptr]
+        {
+            HRESULT hr = text_ptr->SetDirection(
+                element::Paragraph::Direction::TOP_TO_BOTTOM,
+                element::Paragraph::Direction::TOP_TO_BOTTOM
+            );
+            ASSERT_HRESULT_FAILED(hr);
+        },
+        [] {}
+    );
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
