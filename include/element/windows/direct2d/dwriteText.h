@@ -41,8 +41,8 @@ public:
         const D2D1_COLOR_F& color,
         const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
     );
-    void SetSolidColorBrush(
-        const Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>& brush
+    void SetBrush(
+        const Microsoft::WRL::ComPtr<ID2D1Brush>& brush
     );
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);
@@ -56,7 +56,7 @@ private:
     Microsoft::WRL::ComPtr<IDWriteTextLayout> m_textLayout;
     Microsoft::WRL::ComPtr<IDWriteTextFormat> m_textFormat;
 
-    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> m_textBrush;
+    Microsoft::WRL::ComPtr<ID2D1Brush> m_textBrush;
 
     D2D1_RECT_F m_layoutRect = D2D1::RectF(0.0f, 0.0f, 0.0f, 0.0f);
 };

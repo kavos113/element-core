@@ -42,6 +42,11 @@
 - [ ] 複数のテキストを表示
 - [ ] text_rangeを使用した設定
 
+### Panel
+
+- [ ] 生成
+- [ ] Windowへ追加
+
 ### Direct2D(初期化，デバイス関連)
 
 #### Factory
