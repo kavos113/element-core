@@ -5,14 +5,17 @@
 #define UNICODE
 #endif
 
-#include <geometry/Rectangle.h>
-#include <geometry/Size.h>
 #include <Windows.h>
 
 #include <thread>
+#include <vector>
 
 #include "color/Color.h"
 #include "direct2d/d2dWindow.h"
+#include "geometry/Point.h"
+#include "geometry/Rectangle.h"
+#include "geometry/Size.h"
+#include "winText.h"
 
 namespace element
 {
@@ -72,6 +75,8 @@ public:
     void Minimize();
     void Maximize();
 
+    void Add(std::unique_ptr<winText> text);
+
     [[nodiscard]] Size GetSize() const;
     void SetSize(Size size);
     [[nodiscard]] Point GetPosition() const;
@@ -95,6 +100,8 @@ private:
 
     Rectangle m_rect{};
     Color m_backgroundColor{Color::Colors::White};
+
+    std::vector<std::unique_ptr<winText>> m_texts;  // change to Component
 
     static constexpr auto class_name = L"element_window";
 };

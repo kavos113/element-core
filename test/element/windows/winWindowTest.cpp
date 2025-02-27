@@ -19,7 +19,7 @@ protected:
     void SetUp() override
     {
 #ifdef SLOW_TEST
-        is_slow_test = true;
+        is_slow_test = false;
 #endif
     }
 
