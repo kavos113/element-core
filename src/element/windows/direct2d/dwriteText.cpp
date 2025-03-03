@@ -8,10 +8,10 @@ namespace element
 {
 
 HRESULT dwriteText::Create(
-    const std::wstring& text, const D2D1_RECT_F& layoutRect
+    const std::wstring& text, const D2D1_RECT_F& layout_rect
 )
 {
-    m_layoutRect = layoutRect;
+    m_layoutRect = layout_rect;
 
     HRESULT hr = dwriteFactory::Get()->CreateTextFormat(
         L"Segoe UI",
@@ -19,7 +19,7 @@ HRESULT dwriteText::Create(
         DWRITE_FONT_WEIGHT_NORMAL,
         DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL,
-        24.0f,
+        DEFAULT_FONT_SIZE,
         L"en-us",
         m_textFormat.GetAddressOf()
     );
@@ -33,8 +33,8 @@ HRESULT dwriteText::Create(
         text.c_str(),
         static_cast<UINT32>(text.length()),
         m_textFormat.Get(),
-        layoutRect.right - layoutRect.left,
-        layoutRect.bottom - layoutRect.top,
+        layout_rect.right - layout_rect.left,
+        layout_rect.bottom - layout_rect.top,
         m_textLayout.GetAddressOf()
     );
     if (FAILED(hr))
@@ -47,21 +47,21 @@ HRESULT dwriteText::Create(
 }
 
 void dwriteText::Render(
-    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
 )
 {
     if (m_textBrush == nullptr)
     {
         const D2D1_COLOR_F color = D2D1::ColorF(D2D1::ColorF::Black);
         Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-        deviceContext->CreateSolidColorBrush(color, brush.GetAddressOf());
+        device_context->CreateSolidColorBrush(color, brush.GetAddressOf());
         m_textBrush = brush.Get();
     }
 
     const D2D1_POINT_2F origin
         = D2D1::Point2F(m_layoutRect.left, m_layoutRect.top);
 
-    deviceContext
+    device_context
         ->DrawTextLayout(origin, m_textLayout.Get(), m_textBrush.Get());
 }
 
@@ -84,7 +84,7 @@ HRESULT dwriteText::SetText(const std::wstring& new_text)
     return S_OK;
 }
 
-HRESULT dwriteText::SetSize(const float width, float height)
+HRESULT dwriteText::SetSize(const float width, const float height)
 {
     HRESULT hr = m_textLayout->SetMaxWidth(width);
     if (FAILED(hr))
@@ -237,12 +237,12 @@ HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
 
 HRESULT dwriteText::SetFontColor(
     const D2D1_COLOR_F& color,
-    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
+    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
 )
 {
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     const HRESULT hr
-        = deviceContext->CreateSolidColorBrush(color, brush.GetAddressOf());
+        = device_context->CreateSolidColorBrush(color, brush.GetAddressOf());
     if (FAILED(hr))
     {
         std::cout << "Failed to create solid color brush" << std::endl;

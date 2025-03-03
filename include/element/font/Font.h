@@ -44,13 +44,13 @@ struct Font
         EXTRA_BLACK = 950,
     };
 
-    float size;
+    float size = 0.0f;
     std::wstring family;
-    Style style;
-    Stretch stretch;
-    Weight weight;
-    bool underline;
-    bool line_through;
+    Style style = Style::NORMAL;
+    Stretch stretch = Stretch::NORMAL;
+    Weight weight = Weight::NORMAL;
+    bool underline = false;
+    bool line_through = false;
 };
 
 }  // namespace element

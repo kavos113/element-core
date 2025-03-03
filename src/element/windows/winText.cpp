@@ -13,7 +13,7 @@ HRESULT winText::Create(
 {
     m_text = text;
 
-    HRESULT const hr = m_dwriteText.Create(
+    const HRESULT hr = m_dwriteText.Create(
         text,
         D2D1::RectF(
             static_cast<float>(x),
@@ -44,7 +44,7 @@ void winText::SetDeviceContext(
 
 HRESULT winText::SetText(const std::wstring& new_text)
 {
-    HRESULT const hr = m_dwriteText.SetText(new_text);
+    const HRESULT hr = m_dwriteText.SetText(new_text);
     if (FAILED(hr))
     {
         return hr;
@@ -67,7 +67,7 @@ Size winText::GetSize() const
 
 HRESULT winText::SetSize(const Size size)
 {
-    HRESULT const hr = m_dwriteText.SetSize(size.width, size.height);
+    const HRESULT hr = m_dwriteText.SetSize(size.width, size.height);
     if (FAILED(hr))
     {
         return hr;
@@ -95,7 +95,7 @@ Rectangle winText::GetRectangle() const
 
 HRESULT winText::SetRectangle(const Rectangle rect)
 {
-    HRESULT const hr = m_dwriteText.SetLayoutRect(
+    const HRESULT hr = m_dwriteText.SetLayoutRect(
         D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height)
     );
     if (FAILED(hr))
@@ -112,9 +112,9 @@ float winText::GetFontSize() const
     return m_paragraph.font.size;
 }
 
-HRESULT winText::SetFontSize(float size)
+HRESULT winText::SetFontSize(const float size)
 {
-    HRESULT const hr = m_dwriteText.SetFontSize(size);
+    const HRESULT hr = m_dwriteText.SetFontSize(size);
     if (FAILED(hr))
     {
         return hr;
@@ -129,10 +129,11 @@ Paragraph::HorizontalAlignment winText::GetHorizontalAlignment() const
     return m_paragraph.horizontal_alignment;
 }
 
-HRESULT winText::SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment
+HRESULT winText::SetHorizontalAlignment(
+    const Paragraph::HorizontalAlignment alignment
 )
 {
-    DWRITE_TEXT_ALIGNMENT dwrite_alignment;
+    DWRITE_TEXT_ALIGNMENT dwrite_alignment = DWRITE_TEXT_ALIGNMENT_LEADING;
     switch (alignment)
     {
         case Paragraph::HorizontalAlignment::LEADING:
@@ -155,7 +156,7 @@ HRESULT winText::SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetHorizontalAlignment(dwrite_alignment);
+    const HRESULT hr = m_dwriteText.SetHorizontalAlignment(dwrite_alignment);
     if (FAILED(hr))
     {
         return hr;
@@ -170,9 +171,10 @@ Paragraph::VerticalAlignment winText::GetVerticalAlignment() const
     return m_paragraph.vertical_alignment;
 }
 
-HRESULT winText::SetVerticalAlignment(Paragraph::VerticalAlignment alignment)
+HRESULT winText::SetVerticalAlignment(
+    const Paragraph::VerticalAlignment alignment)
 {
-    DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment;
+    DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
     switch (alignment)
     {
         case Paragraph::VerticalAlignment::TOP:
@@ -191,7 +193,7 @@ HRESULT winText::SetVerticalAlignment(Paragraph::VerticalAlignment alignment)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetVerticalAlignment(dwrite_alignment);
+    const HRESULT hr = m_dwriteText.SetVerticalAlignment(dwrite_alignment);
     if (FAILED(hr))
     {
         return hr;
@@ -208,7 +210,7 @@ std::wstring winText::GetFontFamily() const
 
 HRESULT winText::SetFontFamily(const std::wstring& family)
 {
-    HRESULT const hr = m_dwriteText.SetFontFamily(family);
+    const HRESULT hr = m_dwriteText.SetFontFamily(family);
     if (FAILED(hr))
     {
         return hr;
@@ -223,9 +225,9 @@ Font::Style winText::GetFontStyle() const
     return m_paragraph.font.style;
 }
 
-HRESULT winText::SetFontStyle(Font::Style style)
+HRESULT winText::SetFontStyle(const Font::Style style)
 {
-    DWRITE_FONT_STYLE dwrite_style;
+    DWRITE_FONT_STYLE dwrite_style = DWRITE_FONT_STYLE_NORMAL;
     switch (style)
     {
         case Font::Style::NORMAL:
@@ -244,7 +246,7 @@ HRESULT winText::SetFontStyle(Font::Style style)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetFontStyle(dwrite_style);
+    const HRESULT hr = m_dwriteText.SetFontStyle(dwrite_style);
     if (FAILED(hr))
     {
         return hr;
@@ -259,9 +261,9 @@ Font::Stretch winText::GetFontStretch() const
     return m_paragraph.font.stretch;
 }
 
-HRESULT winText::SetFontStretch(Font::Stretch stretch)
+HRESULT winText::SetFontStretch(const Font::Stretch stretch)
 {
-    DWRITE_FONT_STRETCH dwrite_stretch;
+    DWRITE_FONT_STRETCH dwrite_stretch = DWRITE_FONT_STRETCH_NORMAL;
     switch (stretch)
     {
         case Font::Stretch::ULTRA_CONDENSED:
@@ -304,7 +306,7 @@ HRESULT winText::SetFontStretch(Font::Stretch stretch)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetFontStretch(dwrite_stretch);
+    const HRESULT hr = m_dwriteText.SetFontStretch(dwrite_stretch);
     if (FAILED(hr))
     {
         return hr;
@@ -319,51 +321,51 @@ Font::Weight winText::GetFontWeight() const
     return m_paragraph.font.weight;
 }
 
-HRESULT winText::SetFontWeight(unsigned short weight)
+HRESULT winText::SetFontWeight(const uint16_t weight)
 {
-    if (weight < 1 || weight > 999)
+    if (weight < MIN_FONT_WEIGHT || weight > MAX_FONT_WEIGHT)
     {
         return E_INVALIDARG;
     }
 
-    Font::Weight font_weight;
-    if (weight < 150)
+    Font::Weight font_weight = Font::Weight::NORMAL;
+    if (weight < FONT_WEIGHT_THIN + FONT_WEIGHT_EXTRA_LIGHT / 2)
     {
         font_weight = Font::Weight::THIN;
     }
-    else if (weight < 250)
+    else if (weight < FONT_WEIGHT_EXTRA_LIGHT + FONT_WEIGHT_LIGHT / 2)
     {
         font_weight = Font::Weight::EXTRA_LIGHT;
     }
-    else if (weight < 325)
+    else if (weight < FONT_WEIGHT_LIGHT + FONT_WEIGHT_SEMI_LIGHT / 2)
     {
         font_weight = Font::Weight::LIGHT;
     }
-    else if (weight < 375)
+    else if (weight < FONT_WEIGHT_SEMI_LIGHT + FONT_WEIGHT_NORMAL / 2)
     {
         font_weight = Font::Weight::SEMI_LIGHT;
     }
-    else if (weight < 450)
+    else if (weight < FONT_WEIGHT_NORMAL + FONT_WEIGHT_MEDIUM / 2)
     {
         font_weight = Font::Weight::NORMAL;
     }
-    else if (weight < 550)
+    else if (weight < FONT_WEIGHT_MEDIUM + FONT_WEIGHT_SEMI_BOLD / 2)
     {
         font_weight = Font::Weight::MEDIUM;
     }
-    else if (weight < 650)
+    else if (weight < FONT_WEIGHT_SEMI_BOLD + FONT_WEIGHT_BOLD / 2)
     {
         font_weight = Font::Weight::SEMI_BOLD;
     }
-    else if (weight < 750)
+    else if (weight < FONT_WEIGHT_BOLD + FONT_WEIGHT_EXTRA_BOLD / 2)
     {
         font_weight = Font::Weight::BOLD;
     }
-    else if (weight < 850)
+    else if (weight < FONT_WEIGHT_EXTRA_BOLD + FONT_WEIGHT_BLACK / 2)
     {
         font_weight = Font::Weight::EXTRA_BOLD;
     }
-    else if (weight < 950)
+    else if (weight < FONT_WEIGHT_BLACK + FONT_WEIGHT_EXTRA_BLACK / 2)
     {
         font_weight = Font::Weight::BLACK;
     }
@@ -372,7 +374,7 @@ HRESULT winText::SetFontWeight(unsigned short weight)
         font_weight = Font::Weight::EXTRA_BLACK;
     }
 
-    HRESULT const hr = SetFontWeight(font_weight);
+    const HRESULT hr = SetFontWeight(font_weight);
     if (FAILED(hr))
     {
         return hr;
@@ -381,9 +383,9 @@ HRESULT winText::SetFontWeight(unsigned short weight)
     return S_OK;
 }
 
-HRESULT winText::SetFontWeight(Font::Weight weight)
+HRESULT winText::SetFontWeight(const Font::Weight weight)
 {
-    DWRITE_FONT_WEIGHT dwrite_weight;
+    DWRITE_FONT_WEIGHT dwrite_weight = DWRITE_FONT_WEIGHT_NORMAL;
     switch (weight)
     {
         case Font::Weight::THIN:
@@ -434,7 +436,7 @@ HRESULT winText::SetFontWeight(Font::Weight weight)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetFontWeight(dwrite_weight);
+    const HRESULT hr = m_dwriteText.SetFontWeight(dwrite_weight);
     if (FAILED(hr))
     {
         return hr;
@@ -449,9 +451,9 @@ Color winText::GetColor() const
     return m_color;
 }
 
-HRESULT winText::SetColor(Color color)
+HRESULT winText::SetColor(const Color color)
 {
-    HRESULT const hr = m_dwriteText.SetFontColor(
+    const HRESULT hr = m_dwriteText.SetFontColor(
         D2D1_COLOR_F(color.r, color.g, color.b, color.a),
         m_deviceContext
     );
@@ -469,9 +471,9 @@ float winText::GetLineHeight() const
     return m_paragraph.line_spacing;
 }
 
-HRESULT winText::SetLineHeight(float spacing)
+HRESULT winText::SetLineHeight(const float spacing)
 {
-    HRESULT const hr = m_dwriteText.SetLineSpacing(spacing);
+    const HRESULT hr = m_dwriteText.SetLineSpacing(spacing);
     if (FAILED(hr))
     {
         return hr;
@@ -486,9 +488,9 @@ Paragraph::Trimming winText::GetTrimming() const
     return m_paragraph.trimming;
 }
 
-HRESULT winText::SetTrimming(Paragraph::Trimming trimming)
+HRESULT winText::SetTrimming(const Paragraph::Trimming trimming)
 {
-    DWRITE_TRIMMING_GRANULARITY dwrite_trimming;
+    DWRITE_TRIMMING_GRANULARITY dwrite_trimming = DWRITE_TRIMMING_GRANULARITY_NONE;
     switch (trimming)
     {
         case Paragraph::Trimming::NONE:
@@ -507,7 +509,7 @@ HRESULT winText::SetTrimming(Paragraph::Trimming trimming)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetTrimming(dwrite_trimming);
+    const HRESULT hr = m_dwriteText.SetTrimming(dwrite_trimming);
     if (FAILED(hr))
     {
         return hr;
@@ -522,9 +524,9 @@ Paragraph::Wrapping winText::GetWordWrapping() const
     return m_paragraph.wrapping;
 }
 
-HRESULT winText::SetWordWrapping(Paragraph::Wrapping wrapping)
+HRESULT winText::SetWordWrapping(const Paragraph::Wrapping wrapping)
 {
-    DWRITE_WORD_WRAPPING dwrite_wrapping;
+    DWRITE_WORD_WRAPPING dwrite_wrapping = DWRITE_WORD_WRAPPING_NO_WRAP;
     switch (wrapping)
     {
         case Paragraph::Wrapping::NONE:
@@ -543,7 +545,7 @@ HRESULT winText::SetWordWrapping(Paragraph::Wrapping wrapping)
             return E_INVALIDARG;
     }
 
-    HRESULT const hr = m_dwriteText.SetWordWrapping(dwrite_wrapping);
+    const HRESULT hr = m_dwriteText.SetWordWrapping(dwrite_wrapping);
     if (FAILED(hr))
     {
         return hr;
@@ -564,7 +566,8 @@ Paragraph::Direction winText::GetReadingDirection() const
 }
 
 HRESULT winText::SetDirection(
-    Paragraph::Direction flow_direction, Paragraph::Direction reading_direction
+    const Paragraph::Direction flow_direction,
+    const Paragraph::Direction reading_direction
 )
 {
     if (flow_direction == Paragraph::Direction::RIGHT_TO_LEFT
@@ -596,7 +599,7 @@ HRESULT winText::SetDirection(
         return E_INVALIDARG;
     }
 
-    DWRITE_FLOW_DIRECTION dwrite_flow_direction;
+    DWRITE_FLOW_DIRECTION dwrite_flow_direction = DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM;
     switch (flow_direction)
     {
         case Paragraph::Direction::TOP_TO_BOTTOM:
@@ -619,7 +622,7 @@ HRESULT winText::SetDirection(
             return E_INVALIDARG;
     }
 
-    DWRITE_READING_DIRECTION dwrite_reading_direction;
+    DWRITE_READING_DIRECTION dwrite_reading_direction = DWRITE_READING_DIRECTION_TOP_TO_BOTTOM;
     switch (reading_direction)
     {
         case Paragraph::Direction::TOP_TO_BOTTOM:
@@ -665,9 +668,9 @@ bool winText::IsUnderlined() const
     return m_paragraph.font.underline;
 }
 
-HRESULT winText::SetUnderline(bool underline)
+HRESULT winText::SetUnderline(const bool underline)
 {
-    HRESULT const hr = m_dwriteText.SetUnderline(underline);
+    const HRESULT hr = m_dwriteText.SetUnderline(underline);
     if (FAILED(hr))
     {
         return hr;
@@ -682,9 +685,9 @@ bool winText::IsLineThrough() const
     return m_paragraph.font.line_through;
 }
 
-HRESULT winText::SetLineThrough(bool line_through)
+HRESULT winText::SetLineThrough(const bool line_through)
 {
-    HRESULT const hr = m_dwriteText.SetLineThrough(line_through);
+    const HRESULT hr = m_dwriteText.SetLineThrough(line_through);
     if (FAILED(hr))
     {
         return hr;
