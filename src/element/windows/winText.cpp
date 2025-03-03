@@ -172,9 +172,11 @@ Paragraph::VerticalAlignment winText::GetVerticalAlignment() const
 }
 
 HRESULT winText::SetVerticalAlignment(
-    const Paragraph::VerticalAlignment alignment)
+    const Paragraph::VerticalAlignment alignment
+)
 {
-    DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
+    DWRITE_PARAGRAPH_ALIGNMENT dwrite_alignment
+        = DWRITE_PARAGRAPH_ALIGNMENT_NEAR;
     switch (alignment)
     {
         case Paragraph::VerticalAlignment::TOP:
@@ -490,7 +492,8 @@ Paragraph::Trimming winText::GetTrimming() const
 
 HRESULT winText::SetTrimming(const Paragraph::Trimming trimming)
 {
-    DWRITE_TRIMMING_GRANULARITY dwrite_trimming = DWRITE_TRIMMING_GRANULARITY_NONE;
+    DWRITE_TRIMMING_GRANULARITY dwrite_trimming
+        = DWRITE_TRIMMING_GRANULARITY_NONE;
     switch (trimming)
     {
         case Paragraph::Trimming::NONE:
@@ -599,7 +602,8 @@ HRESULT winText::SetDirection(
         return E_INVALIDARG;
     }
 
-    DWRITE_FLOW_DIRECTION dwrite_flow_direction = DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM;
+    DWRITE_FLOW_DIRECTION dwrite_flow_direction
+        = DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM;
     switch (flow_direction)
     {
         case Paragraph::Direction::TOP_TO_BOTTOM:
@@ -622,7 +626,8 @@ HRESULT winText::SetDirection(
             return E_INVALIDARG;
     }
 
-    DWRITE_READING_DIRECTION dwrite_reading_direction = DWRITE_READING_DIRECTION_TOP_TO_BOTTOM;
+    DWRITE_READING_DIRECTION dwrite_reading_direction
+        = DWRITE_READING_DIRECTION_TOP_TO_BOTTOM;
     switch (reading_direction)
     {
         case Paragraph::Direction::TOP_TO_BOTTOM:

@@ -7,8 +7,8 @@
 
 #include <Windows.h>
 
-#include <string>
 #include <cstdint>
+#include <string>
 
 #include "color/Color.h"
 #include "direct2d/dwriteText.h"
