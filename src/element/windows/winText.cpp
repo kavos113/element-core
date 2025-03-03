@@ -329,43 +329,43 @@ HRESULT winText::SetFontWeight(const uint16_t weight)
     }
 
     Font::Weight font_weight = Font::Weight::NORMAL;
-    if (weight < FONT_WEIGHT_THIN + FONT_WEIGHT_EXTRA_LIGHT / 2)
+    if (weight < (FONT_WEIGHT_THIN + FONT_WEIGHT_EXTRA_LIGHT) / 2)
     {
         font_weight = Font::Weight::THIN;
     }
-    else if (weight < FONT_WEIGHT_EXTRA_LIGHT + FONT_WEIGHT_LIGHT / 2)
+    else if (weight < (FONT_WEIGHT_EXTRA_LIGHT + FONT_WEIGHT_LIGHT) / 2)
     {
         font_weight = Font::Weight::EXTRA_LIGHT;
     }
-    else if (weight < FONT_WEIGHT_LIGHT + FONT_WEIGHT_SEMI_LIGHT / 2)
+    else if (weight < (FONT_WEIGHT_LIGHT + FONT_WEIGHT_SEMI_LIGHT) / 2)
     {
         font_weight = Font::Weight::LIGHT;
     }
-    else if (weight < FONT_WEIGHT_SEMI_LIGHT + FONT_WEIGHT_NORMAL / 2)
+    else if (weight < (FONT_WEIGHT_SEMI_LIGHT + FONT_WEIGHT_NORMAL) / 2)
     {
         font_weight = Font::Weight::SEMI_LIGHT;
     }
-    else if (weight < FONT_WEIGHT_NORMAL + FONT_WEIGHT_MEDIUM / 2)
+    else if (weight < (FONT_WEIGHT_NORMAL + FONT_WEIGHT_MEDIUM) / 2)
     {
         font_weight = Font::Weight::NORMAL;
     }
-    else if (weight < FONT_WEIGHT_MEDIUM + FONT_WEIGHT_SEMI_BOLD / 2)
+    else if (weight < (FONT_WEIGHT_MEDIUM + FONT_WEIGHT_SEMI_BOLD) / 2)
     {
         font_weight = Font::Weight::MEDIUM;
     }
-    else if (weight < FONT_WEIGHT_SEMI_BOLD + FONT_WEIGHT_BOLD / 2)
+    else if (weight < (FONT_WEIGHT_SEMI_BOLD + FONT_WEIGHT_BOLD) / 2)
     {
         font_weight = Font::Weight::SEMI_BOLD;
     }
-    else if (weight < FONT_WEIGHT_BOLD + FONT_WEIGHT_EXTRA_BOLD / 2)
+    else if (weight < (FONT_WEIGHT_BOLD + FONT_WEIGHT_EXTRA_BOLD) / 2)
     {
         font_weight = Font::Weight::BOLD;
     }
-    else if (weight < FONT_WEIGHT_EXTRA_BOLD + FONT_WEIGHT_BLACK / 2)
+    else if (weight < (FONT_WEIGHT_EXTRA_BOLD + FONT_WEIGHT_BLACK) / 2)
     {
         font_weight = Font::Weight::EXTRA_BOLD;
     }
-    else if (weight < FONT_WEIGHT_BLACK + FONT_WEIGHT_EXTRA_BLACK / 2)
+    else if (weight < (FONT_WEIGHT_BLACK + FONT_WEIGHT_EXTRA_BLACK) / 2)
     {
         font_weight = Font::Weight::BLACK;
     }
