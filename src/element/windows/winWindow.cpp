@@ -149,7 +149,7 @@ LRESULT winWindow::HandleMessage(
                 text->Render();
             }
 
-            HRESULT hr = m_d2dWindow.EndDraw();
+            const HRESULT hr = m_d2dWindow.EndDraw();
             if (FAILED(hr))
             {
                 std::cout << "Failed to end draw" << std::endl;

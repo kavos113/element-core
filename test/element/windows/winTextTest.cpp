@@ -55,7 +55,7 @@ protected:
 TEST_F(winTextTest, GenerateText)
 {
     element::winText text;
-    HRESULT hr = text.Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    const HRESULT hr = text.Create(TEXT, 0, 0, WIDTH, HEIGHT);
 
     ASSERT_HRESULT_SUCCEEDED(hr);
 }
@@ -115,7 +115,7 @@ TEST_F(winTextTest, SetText)
     tester.AddAction(
         [&text_ptr, this]
         {
-            HRESULT hr = text_ptr->SetText(NEW_TEXT);
+            const HRESULT hr = text_ptr->SetText(NEW_TEXT);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr, this] { ASSERT_EQ(text_ptr->GetText(), NEW_TEXT); }
@@ -186,7 +186,7 @@ TEST_F(winTextTest, SetSize)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetSize(element::Size(WIDTH * 2, HEIGHT * 2));
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -230,7 +230,7 @@ TEST_F(winTextTest, SetRectangle)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetRectangle(
+            const HRESULT hr = text_ptr->SetRectangle(
                 element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -275,7 +275,7 @@ TEST_F(winTextTest, SetFontSize)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontSize(CHANGED_FONT_SIZE);
+            const HRESULT hr = text_ptr->SetFontSize(CHANGED_FONT_SIZE);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_EQ(text_ptr->GetFontSize(), CHANGED_FONT_SIZE); }
@@ -312,7 +312,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetHorizontalAlignment(
+            const HRESULT hr = text_ptr->SetHorizontalAlignment(
                 element::Paragraph::HorizontalAlignment::JUSTIFIED
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -328,7 +328,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetHorizontalAlignment(
+            const HRESULT hr = text_ptr->SetHorizontalAlignment(
                 element::Paragraph::HorizontalAlignment::CENTER
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -344,7 +344,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetHorizontalAlignment(
+            const HRESULT hr = text_ptr->SetHorizontalAlignment(
                 element::Paragraph::HorizontalAlignment::LEADING
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -360,7 +360,7 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetHorizontalAlignment(
+            const HRESULT hr = text_ptr->SetHorizontalAlignment(
                 element::Paragraph::HorizontalAlignment::TRAILING
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -405,7 +405,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetVerticalAlignment(
+            const HRESULT hr = text_ptr->SetVerticalAlignment(
                 element::Paragraph::VerticalAlignment::BOTTOM
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -421,7 +421,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetVerticalAlignment(
+            const HRESULT hr = text_ptr->SetVerticalAlignment(
                 element::Paragraph::VerticalAlignment::CENTER
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -437,7 +437,7 @@ TEST_F(winTextTest, SetVerticalAlignment)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetVerticalAlignment(
+            const HRESULT hr = text_ptr->SetVerticalAlignment(
                 element::Paragraph::VerticalAlignment::TOP
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -482,7 +482,7 @@ TEST_F(winTextTest, SetFontFamily)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
+            const HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -491,7 +491,7 @@ TEST_F(winTextTest, SetFontFamily)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontFamily(L"Courier New");
+            const HRESULT hr = text_ptr->SetFontFamily(L"Courier New");
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_EQ(text_ptr->GetFontFamily(), L"Courier New"); }
@@ -528,7 +528,7 @@ TEST_F(winTextTest, SetFontStyle)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
+            const HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -537,7 +537,8 @@ TEST_F(winTextTest, SetFontStyle)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontStyle(element::Font::Style::ITALIC);
+            const HRESULT hr
+                = text_ptr->SetFontStyle(element::Font::Style::ITALIC);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -546,7 +547,8 @@ TEST_F(winTextTest, SetFontStyle)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontStyle(element::Font::Style::NORMAL);
+            const HRESULT hr
+                = text_ptr->SetFontStyle(element::Font::Style::NORMAL);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -555,7 +557,8 @@ TEST_F(winTextTest, SetFontStyle)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontStyle(element::Font::Style::OBLIQUE);
+            const HRESULT hr
+                = text_ptr->SetFontStyle(element::Font::Style::OBLIQUE);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -593,7 +596,7 @@ TEST_F(winTextTest, SetFontStretch)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontStretch(
+            const HRESULT hr = text_ptr->SetFontStretch(
                 element::Font::Stretch::ULTRA_CONDENSED
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -609,7 +612,7 @@ TEST_F(winTextTest, SetFontStretch)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontStretch(
+            const HRESULT hr = text_ptr->SetFontStretch(
                 element::Font::Stretch::ULTRA_EXPANDED
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -654,7 +657,8 @@ TEST_F(winTextTest, SetFontWeight)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontWeight(element::Font::Weight::THIN);
+            const HRESULT hr
+                = text_ptr->SetFontWeight(element::Font::Weight::THIN);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -663,7 +667,7 @@ TEST_F(winTextTest, SetFontWeight)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontWeight(909);
+            const HRESULT hr = text_ptr->SetFontWeight(909);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -672,7 +676,7 @@ TEST_F(winTextTest, SetFontWeight)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetFontWeight(2000);
+            const HRESULT hr = text_ptr->SetFontWeight(2000);
             ASSERT_HRESULT_FAILED(hr);
         },
         [] {}
@@ -709,7 +713,7 @@ TEST_F(winTextTest, SetFontColor)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetColor(element::Color(1.0f, 0, 0));
+            const HRESULT hr = text_ptr->SetColor(element::Color(1.0f, 0, 0));
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
@@ -747,7 +751,7 @@ TEST_F(winTextTest, SetLineHeight)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetLineHeight(2.0f);
+            const HRESULT hr = text_ptr->SetLineHeight(2.0f);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_EQ(text_ptr->GetLineHeight(), 2.0f); }
@@ -755,7 +759,7 @@ TEST_F(winTextTest, SetLineHeight)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetLineHeight(0.5f);
+            const HRESULT hr = text_ptr->SetLineHeight(0.5f);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_EQ(text_ptr->GetLineHeight(), 0.5f); }
@@ -792,7 +796,7 @@ TEST_F(winTextTest, SetTrimming)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetTrimming(element::Paragraph::Trimming::WORD);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -807,7 +811,7 @@ TEST_F(winTextTest, SetTrimming)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetTrimming(element::Paragraph::Trimming::CHARACTER
                 );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -823,7 +827,7 @@ TEST_F(winTextTest, SetTrimming)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetTrimming(element::Paragraph::Trimming::NONE);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -867,7 +871,7 @@ TEST_F(winTextTest, SetWordWrapping)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetWordWrapping(element::Paragraph::Wrapping::WORD);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -882,7 +886,7 @@ TEST_F(winTextTest, SetWordWrapping)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetWordWrapping(
+            const HRESULT hr = text_ptr->SetWordWrapping(
                 element::Paragraph::Wrapping::CHARACTER
             );
             ASSERT_HRESULT_SUCCEEDED(hr);
@@ -898,7 +902,7 @@ TEST_F(winTextTest, SetWordWrapping)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr
+            const HRESULT hr
                 = text_ptr->SetWordWrapping(element::Paragraph::Wrapping::NONE);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
@@ -942,7 +946,7 @@ TEST_F(winTextTest, SetDirection)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetDirection(
+            const HRESULT hr = text_ptr->SetDirection(
                 element::Paragraph::Direction::TOP_TO_BOTTOM,
                 element::Paragraph::Direction::LEFT_TO_RIGHT
             );
@@ -963,7 +967,7 @@ TEST_F(winTextTest, SetDirection)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetDirection(
+            const HRESULT hr = text_ptr->SetDirection(
                 element::Paragraph::Direction::BOTTOM_TO_TOP,
                 element::Paragraph::Direction::RIGHT_TO_LEFT
             );
@@ -984,7 +988,7 @@ TEST_F(winTextTest, SetDirection)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetDirection(
+            const HRESULT hr = text_ptr->SetDirection(
                 element::Paragraph::Direction::RIGHT_TO_LEFT,
                 element::Paragraph::Direction::TOP_TO_BOTTOM
             );
@@ -1005,7 +1009,7 @@ TEST_F(winTextTest, SetDirection)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetDirection(
+            const HRESULT hr = text_ptr->SetDirection(
                 element::Paragraph::Direction::RIGHT_TO_LEFT,
                 element::Paragraph::Direction::LEFT_TO_RIGHT
             );
@@ -1016,7 +1020,7 @@ TEST_F(winTextTest, SetDirection)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetDirection(
+            const HRESULT hr = text_ptr->SetDirection(
                 element::Paragraph::Direction::TOP_TO_BOTTOM,
                 element::Paragraph::Direction::TOP_TO_BOTTOM
             );
@@ -1056,7 +1060,7 @@ TEST_F(winTextTest, SetUnderline)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetUnderline(true);
+            const HRESULT hr = text_ptr->SetUnderline(true);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_TRUE(text_ptr->IsUnderlined()); }
@@ -1093,7 +1097,7 @@ TEST_F(winTextTest, SetLineThrough)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetLineThrough(true);
+            const HRESULT hr = text_ptr->SetLineThrough(true);
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr] { ASSERT_TRUE(text_ptr->IsLineThrough()); }

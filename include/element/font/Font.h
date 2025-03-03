@@ -1,6 +1,9 @@
 #ifndef ELEMENT_FONT_FONT_H
 #define ELEMENT_FONT_FONT_H
 
+#include <cstdint>
+#include <string>
+
 namespace element
 {
 

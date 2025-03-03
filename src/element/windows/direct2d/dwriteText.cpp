@@ -138,7 +138,8 @@ HRESULT dwriteText::SetLayoutRect(D2D1_RECT_F rect)
 HRESULT dwriteText::SetFontSize(const float size)
 {
     const DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
     const HRESULT hr = m_textLayout->SetFontSize(size, text_range);
     if (FAILED(hr))
     {
@@ -151,7 +152,7 @@ HRESULT dwriteText::SetFontSize(const float size)
 
 HRESULT dwriteText::SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment)
 {
-    HRESULT hr = m_textLayout->SetTextAlignment(alignment);
+    const HRESULT hr = m_textLayout->SetTextAlignment(alignment);
     if (FAILED(hr))
     {
         std::cout << "Failed to set text alignment" << std::endl;
@@ -163,7 +164,7 @@ HRESULT dwriteText::SetHorizontalAlignment(DWRITE_TEXT_ALIGNMENT alignment)
 
 HRESULT dwriteText::SetVerticalAlignment(DWRITE_PARAGRAPH_ALIGNMENT alignment)
 {
-    HRESULT hr = m_textLayout->SetParagraphAlignment(alignment);
+    const HRESULT hr = m_textLayout->SetParagraphAlignment(alignment);
     if (FAILED(hr))
     {
         std::cout << "Failed to set paragraph alignment" << std::endl;
@@ -175,9 +176,11 @@ HRESULT dwriteText::SetVerticalAlignment(DWRITE_PARAGRAPH_ALIGNMENT alignment)
 
 HRESULT dwriteText::SetFontFamily(const std::wstring& family)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetFontFamilyName(family.c_str(), text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr
+        = m_textLayout->SetFontFamilyName(family.c_str(), text_range);
     if (FAILED(hr))
     {
         std::cout << "Failed to set font family" << std::endl;
@@ -189,9 +192,10 @@ HRESULT dwriteText::SetFontFamily(const std::wstring& family)
 
 HRESULT dwriteText::SetFontStyle(DWRITE_FONT_STYLE style)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetFontStyle(style, text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr = m_textLayout->SetFontStyle(style, text_range);
     if (FAILED(hr))
     {
         std::cout << "Failed to set font style" << std::endl;
@@ -203,9 +207,10 @@ HRESULT dwriteText::SetFontStyle(DWRITE_FONT_STYLE style)
 
 HRESULT dwriteText::SetFontStretch(DWRITE_FONT_STRETCH stretch)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetFontStretch(stretch, text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr = m_textLayout->SetFontStretch(stretch, text_range);
     if (FAILED(hr))
     {
         std::cout << "Failed to set font stretch" << std::endl;
@@ -217,9 +222,10 @@ HRESULT dwriteText::SetFontStretch(DWRITE_FONT_STRETCH stretch)
 
 HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetFontWeight(weight, text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr = m_textLayout->SetFontWeight(weight, text_range);
     if (FAILED(hr))
     {
         std::cout << "Failed to set font weight" << std::endl;
@@ -235,7 +241,7 @@ HRESULT dwriteText::SetFontColor(
 )
 {
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-    HRESULT hr
+    const HRESULT hr
         = deviceContext->CreateSolidColorBrush(color, brush.GetAddressOf());
     if (FAILED(hr))
     {
@@ -255,7 +261,7 @@ void dwriteText::SetBrush(const Microsoft::WRL::ComPtr<ID2D1Brush>& brush)
 
 HRESULT dwriteText::SetLineSpacing(float line_spacing)
 {
-    HRESULT hr = m_textLayout->SetLineSpacing(
+    const HRESULT hr = m_textLayout->SetLineSpacing(
         DWRITE_LINE_SPACING_METHOD_PROPORTIONAL,
         line_spacing,
         min(line_spacing, 1.0f)
@@ -271,8 +277,9 @@ HRESULT dwriteText::SetLineSpacing(float line_spacing)
 
 HRESULT dwriteText::SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity)
 {
-    DWRITE_TRIMMING trimming = {granularity, 0, 0};
-    HRESULT hr = m_textLayout->SetTrimming(&trimming, nullptr);
+    const DWRITE_TRIMMING trimming
+        = {.granularity = granularity, .delimiter = 0, .delimiterCount = 0};
+    const HRESULT hr = m_textLayout->SetTrimming(&trimming, nullptr);
     if (FAILED(hr))
     {
         std::cout << "Failed to set trimming" << std::endl;
@@ -284,7 +291,7 @@ HRESULT dwriteText::SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity)
 
 HRESULT dwriteText::SetWordWrapping(DWRITE_WORD_WRAPPING wrapping)
 {
-    HRESULT hr = m_textLayout->SetWordWrapping(wrapping);
+    const HRESULT hr = m_textLayout->SetWordWrapping(wrapping);
     if (FAILED(hr))
     {
         std::cout << "Failed to set word wrapping" << std::endl;
@@ -296,7 +303,7 @@ HRESULT dwriteText::SetWordWrapping(DWRITE_WORD_WRAPPING wrapping)
 
 HRESULT dwriteText::SetFlowDirection(DWRITE_FLOW_DIRECTION direction)
 {
-    HRESULT hr = m_textLayout->SetFlowDirection(direction);
+    const HRESULT hr = m_textLayout->SetFlowDirection(direction);
     if (FAILED(hr))
     {
         std::cout << "Failed to set flow direction" << std::endl;
@@ -308,7 +315,7 @@ HRESULT dwriteText::SetFlowDirection(DWRITE_FLOW_DIRECTION direction)
 
 HRESULT dwriteText::SetReadingDirection(DWRITE_READING_DIRECTION direction)
 {
-    HRESULT hr = m_textLayout->SetReadingDirection(direction);
+    const HRESULT hr = m_textLayout->SetReadingDirection(direction);
     if (FAILED(hr))
     {
         std::cout << "Failed to set reading direction" << std::endl;
@@ -320,9 +327,11 @@ HRESULT dwriteText::SetReadingDirection(DWRITE_READING_DIRECTION direction)
 
 HRESULT dwriteText::SetUnderline(bool underline)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetUnderline(underline, text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr
+        = m_textLayout->SetUnderline(static_cast<BOOL>(underline), text_range);
     if (FAILED(hr))
     {
         std::cout << "Failed to set underline" << std::endl;
@@ -334,9 +343,13 @@ HRESULT dwriteText::SetUnderline(bool underline)
 
 HRESULT dwriteText::SetLineThrough(bool line_through)
 {
-    DWRITE_TEXT_RANGE text_range
-        = {0, static_cast<UINT32>(m_textLayout->GetMaxWidth())};
-    HRESULT hr = m_textLayout->SetStrikethrough(line_through, text_range);
+    const DWRITE_TEXT_RANGE text_range
+        = {.startPosition = 0,
+           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+    const HRESULT hr = m_textLayout->SetStrikethrough(
+        static_cast<BOOL>(line_through),
+        text_range
+    );
     if (FAILED(hr))
     {
         std::cout << "Failed to set line through" << std::endl;

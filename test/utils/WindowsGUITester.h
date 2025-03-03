@@ -31,7 +31,7 @@ public:
         const std::function<void()>& assertion
     )
     {
-        m_actions.push_back({action, assertion});
+        m_actions.push_back({.action = action, .assertion = assertion});
     }
 
     template<typename T>
@@ -89,7 +89,8 @@ public:
     void CloseWindow()
     {
         m_actions.push_back(
-            {[this] { SendMessage(*m_targetHwnd, WM_CLOSE, 0, 0); }, [] {}}
+            {.action = [this] { SendMessage(*m_targetHwnd, WM_CLOSE, 0, 0); },
+             .assertion = [] {}}
         );
     }
 

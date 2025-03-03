@@ -13,7 +13,7 @@ HRESULT winText::Create(
 {
     m_text = text;
 
-    HRESULT hr = m_dwriteText.Create(
+    HRESULT const hr = m_dwriteText.Create(
         text,
         D2D1::RectF(
             static_cast<float>(x),
@@ -44,7 +44,7 @@ void winText::SetDeviceContext(
 
 HRESULT winText::SetText(const std::wstring& new_text)
 {
-    HRESULT hr = m_dwriteText.SetText(new_text);
+    HRESULT const hr = m_dwriteText.SetText(new_text);
     if (FAILED(hr))
     {
         return hr;
@@ -67,7 +67,7 @@ Size winText::GetSize() const
 
 HRESULT winText::SetSize(const Size size)
 {
-    HRESULT hr = m_dwriteText.SetSize(size.width, size.height);
+    HRESULT const hr = m_dwriteText.SetSize(size.width, size.height);
     if (FAILED(hr))
     {
         return hr;
@@ -95,7 +95,7 @@ Rectangle winText::GetRectangle() const
 
 HRESULT winText::SetRectangle(const Rectangle rect)
 {
-    HRESULT hr = m_dwriteText.SetLayoutRect(
+    HRESULT const hr = m_dwriteText.SetLayoutRect(
         D2D1::RectF(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height)
     );
     if (FAILED(hr))
@@ -114,7 +114,7 @@ float winText::GetFontSize() const
 
 HRESULT winText::SetFontSize(float size)
 {
-    HRESULT hr = m_dwriteText.SetFontSize(size);
+    HRESULT const hr = m_dwriteText.SetFontSize(size);
     if (FAILED(hr))
     {
         return hr;
@@ -155,7 +155,7 @@ HRESULT winText::SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetHorizontalAlignment(dwrite_alignment);
+    HRESULT const hr = m_dwriteText.SetHorizontalAlignment(dwrite_alignment);
     if (FAILED(hr))
     {
         return hr;
@@ -191,7 +191,7 @@ HRESULT winText::SetVerticalAlignment(Paragraph::VerticalAlignment alignment)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetVerticalAlignment(dwrite_alignment);
+    HRESULT const hr = m_dwriteText.SetVerticalAlignment(dwrite_alignment);
     if (FAILED(hr))
     {
         return hr;
@@ -208,7 +208,7 @@ std::wstring winText::GetFontFamily() const
 
 HRESULT winText::SetFontFamily(const std::wstring& family)
 {
-    HRESULT hr = m_dwriteText.SetFontFamily(family);
+    HRESULT const hr = m_dwriteText.SetFontFamily(family);
     if (FAILED(hr))
     {
         return hr;
@@ -244,7 +244,7 @@ HRESULT winText::SetFontStyle(Font::Style style)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetFontStyle(dwrite_style);
+    HRESULT const hr = m_dwriteText.SetFontStyle(dwrite_style);
     if (FAILED(hr))
     {
         return hr;
@@ -304,7 +304,7 @@ HRESULT winText::SetFontStretch(Font::Stretch stretch)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetFontStretch(dwrite_stretch);
+    HRESULT const hr = m_dwriteText.SetFontStretch(dwrite_stretch);
     if (FAILED(hr))
     {
         return hr;
@@ -372,7 +372,7 @@ HRESULT winText::SetFontWeight(unsigned short weight)
         font_weight = Font::Weight::EXTRA_BLACK;
     }
 
-    HRESULT hr = SetFontWeight(font_weight);
+    HRESULT const hr = SetFontWeight(font_weight);
     if (FAILED(hr))
     {
         return hr;
@@ -434,7 +434,7 @@ HRESULT winText::SetFontWeight(Font::Weight weight)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetFontWeight(dwrite_weight);
+    HRESULT const hr = m_dwriteText.SetFontWeight(dwrite_weight);
     if (FAILED(hr))
     {
         return hr;
@@ -451,7 +451,7 @@ Color winText::GetColor() const
 
 HRESULT winText::SetColor(Color color)
 {
-    HRESULT hr = m_dwriteText.SetFontColor(
+    HRESULT const hr = m_dwriteText.SetFontColor(
         D2D1_COLOR_F(color.r, color.g, color.b, color.a),
         m_deviceContext
     );
@@ -471,7 +471,7 @@ float winText::GetLineHeight() const
 
 HRESULT winText::SetLineHeight(float spacing)
 {
-    HRESULT hr = m_dwriteText.SetLineSpacing(spacing);
+    HRESULT const hr = m_dwriteText.SetLineSpacing(spacing);
     if (FAILED(hr))
     {
         return hr;
@@ -507,7 +507,7 @@ HRESULT winText::SetTrimming(Paragraph::Trimming trimming)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetTrimming(dwrite_trimming);
+    HRESULT const hr = m_dwriteText.SetTrimming(dwrite_trimming);
     if (FAILED(hr))
     {
         return hr;
@@ -543,7 +543,7 @@ HRESULT winText::SetWordWrapping(Paragraph::Wrapping wrapping)
             return E_INVALIDARG;
     }
 
-    HRESULT hr = m_dwriteText.SetWordWrapping(dwrite_wrapping);
+    HRESULT const hr = m_dwriteText.SetWordWrapping(dwrite_wrapping);
     if (FAILED(hr))
     {
         return hr;
@@ -667,7 +667,7 @@ bool winText::IsUnderlined() const
 
 HRESULT winText::SetUnderline(bool underline)
 {
-    HRESULT hr = m_dwriteText.SetUnderline(underline);
+    HRESULT const hr = m_dwriteText.SetUnderline(underline);
     if (FAILED(hr))
     {
         return hr;
@@ -684,7 +684,7 @@ bool winText::IsLineThrough() const
 
 HRESULT winText::SetLineThrough(bool line_through)
 {
-    HRESULT hr = m_dwriteText.SetLineThrough(line_through);
+    HRESULT const hr = m_dwriteText.SetLineThrough(line_through);
     if (FAILED(hr))
     {
         return hr;

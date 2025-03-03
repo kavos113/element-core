@@ -16,7 +16,7 @@ public:
         static Microsoft::WRL::ComPtr<IDWriteFactory> factory = nullptr;
         if (factory == nullptr)
         {
-            HRESULT hr = DWriteCreateFactory(
+            const HRESULT hr = DWriteCreateFactory(
                 DWRITE_FACTORY_TYPE_SHARED,
                 __uuidof(IDWriteFactory),
                 &factory

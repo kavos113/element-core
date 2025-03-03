@@ -230,3 +230,5 @@ SpacesInSquareBrackets: false
 Standard: Latest
 TabWidth: 4
 UseTab: Never
+QualifierAlignment: Custom
+QualifierOrder: [inline, static, const, type]
