@@ -21,8 +21,7 @@ public:
 
     HRESULT Create(const std::wstring& text, const D2D1_RECT_F& layout_rect);
 
-    void Render(
-        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
+    void Render(const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
     );
 
     HRESULT SetText(const std::wstring& new_text);
@@ -41,9 +40,7 @@ public:
         const D2D1_COLOR_F& color,
         const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& deviceContext
     );
-    void SetBrush(
-        const Microsoft::WRL::ComPtr<ID2D1Brush>& brush
-    );
+    void SetBrush(const Microsoft::WRL::ComPtr<ID2D1Brush>& brush);
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);
     HRESULT SetWordWrapping(DWRITE_WORD_WRAPPING wrapping);

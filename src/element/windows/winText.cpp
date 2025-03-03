@@ -129,8 +129,7 @@ Paragraph::HorizontalAlignment winText::GetHorizontalAlignment() const
     return m_paragraph.horizontal_alignment;
 }
 
-HRESULT winText::SetHorizontalAlignment(
-    Paragraph::HorizontalAlignment alignment
+HRESULT winText::SetHorizontalAlignment(Paragraph::HorizontalAlignment alignment
 )
 {
     DWRITE_TEXT_ALIGNMENT dwrite_alignment;

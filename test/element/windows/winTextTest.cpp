@@ -807,9 +807,9 @@ TEST_F(winTextTest, SetTrimming)
     tester.AddAction(
         [&text_ptr]
         {
-            HRESULT hr = text_ptr->SetTrimming(
-                element::Paragraph::Trimming::CHARACTER
-            );
+            HRESULT hr
+                = text_ptr->SetTrimming(element::Paragraph::Trimming::CHARACTER
+                );
             ASSERT_HRESULT_SUCCEEDED(hr);
         },
         [&text_ptr]
