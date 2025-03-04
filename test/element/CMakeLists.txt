@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(test_srcs_windows
         windows/winWindowTest.cpp
+        windows/winTextTest.cpp
         ../utils/WindowsGUITester.h
 )
 
@@ -14,6 +15,7 @@ set(test_srcs_direct2d
         windows/direct2d/d2dDeviceTest.cpp
         windows/direct2d/d2dWindowTest.cpp
         windows/direct2d/dxgiDeviceTest.cpp
+        windows/direct2d/dwriteFactoryTest.cpp
 )
 
 set(test_srcs_geometry

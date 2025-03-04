@@ -143,7 +143,14 @@ LRESULT winWindow::HandleMessage(
         case WM_PAINT:
         {
             m_d2dWindow.BeginDraw();
-            if (const HRESULT hr = m_d2dWindow.EndDraw(); FAILED(hr))
+
+            for (const auto &text : m_texts)
+            {
+                text->Render();
+            }
+
+            const HRESULT hr = m_d2dWindow.EndDraw();
+            if (FAILED(hr))
             {
                 std::cout << "Failed to end draw" << std::endl;
                 DestroyWindow(m_hwnd);
@@ -235,6 +242,12 @@ void winWindow::Maximize()
         ShowWindow(m_hwnd, SW_MAXIMIZE);
         m_showStatus = ShowStatus::MAXIMIZE;
     }
+}
+
+void winWindow::Add(std::unique_ptr<winText> text)
+{
+    text->SetDeviceContext(m_d2dWindow.GetDeviceContext());
+    m_texts.push_back(std::move(text));
 }
 
 Size winWindow::GetSize() const

@@ -15,9 +15,9 @@ struct Rectangle
 
     bool operator==(const Rectangle &rectangle) const;
 
-    Point GetPosition() const;
+    [[nodiscard]] Point GetPosition() const;
     void SetPosition(Point position);
-    Size GetSize() const;
+    [[nodiscard]] Size GetSize() const;
     void SetSize(Size size);
 };
 

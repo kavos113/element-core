@@ -24,7 +24,7 @@ public:
     HRESULT Create(HWND hwnd);
 
     void BeginDraw() const;
-    HRESULT EndDraw() const;
+    [[nodiscard]] HRESULT EndDraw() const;
 
     void Resize(D2D1_SIZE_F size) const;
 
