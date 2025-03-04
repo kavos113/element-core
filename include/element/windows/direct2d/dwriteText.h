@@ -55,6 +55,8 @@ private:
 
     Microsoft::WRL::ComPtr<ID2D1Brush> m_textBrush;
 
+    uint32_t m_textLength = 0;
+
     D2D1_RECT_F m_layoutRect = D2D1::RectF(0.0f, 0.0f, 0.0f, 0.0f);
 
     static constexpr float DEFAULT_FONT_SIZE = 24.0f;

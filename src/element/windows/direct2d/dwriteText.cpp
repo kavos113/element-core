@@ -43,6 +43,8 @@ HRESULT dwriteText::Create(
         return hr;
     }
 
+    m_textLength = text.length();
+
     return S_OK;
 }
 
@@ -60,6 +62,11 @@ void dwriteText::Render(
 
     const D2D1_POINT_2F origin
         = D2D1::Point2F(m_layoutRect.left, m_layoutRect.top);
+
+    if (!device_context) {
+        std::cerr << "Error: ID2D1DeviceContext is null" << std::endl;
+        return;
+    }
 
     device_context
         ->DrawTextLayout(origin, m_textLayout.Get(), m_textBrush.Get());
@@ -80,6 +87,8 @@ HRESULT dwriteText::SetText(const std::wstring& new_text)
         std::cout << "Failed to create text layout" << std::endl;
         return hr;
     }
+
+    m_textLength = new_text.length();
 
     return S_OK;
 }
@@ -139,7 +148,7 @@ HRESULT dwriteText::SetFontSize(const float size)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr = m_textLayout->SetFontSize(size, text_range);
     if (FAILED(hr))
     {
@@ -178,7 +187,7 @@ HRESULT dwriteText::SetFontFamily(const std::wstring& family)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr
         = m_textLayout->SetFontFamilyName(family.c_str(), text_range);
     if (FAILED(hr))
@@ -194,7 +203,7 @@ HRESULT dwriteText::SetFontStyle(DWRITE_FONT_STYLE style)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr = m_textLayout->SetFontStyle(style, text_range);
     if (FAILED(hr))
     {
@@ -209,7 +218,7 @@ HRESULT dwriteText::SetFontStretch(DWRITE_FONT_STRETCH stretch)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr = m_textLayout->SetFontStretch(stretch, text_range);
     if (FAILED(hr))
     {
@@ -224,7 +233,7 @@ HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr = m_textLayout->SetFontWeight(weight, text_range);
     if (FAILED(hr))
     {
@@ -329,7 +338,7 @@ HRESULT dwriteText::SetUnderline(bool underline)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr
         = m_textLayout->SetUnderline(static_cast<BOOL>(underline), text_range);
     if (FAILED(hr))
@@ -345,7 +354,7 @@ HRESULT dwriteText::SetLineThrough(bool line_through)
 {
     const DWRITE_TEXT_RANGE text_range
         = {.startPosition = 0,
-           .length = static_cast<UINT32>(m_textLayout->GetMaxWidth())};
+           .length = m_textLength};
     const HRESULT hr = m_textLayout->SetStrikethrough(
         static_cast<BOOL>(line_through),
         text_range
