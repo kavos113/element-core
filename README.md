@@ -1,1 +1,1 @@
-# element-core
+# karin-core
