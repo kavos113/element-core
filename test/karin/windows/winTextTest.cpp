@@ -356,8 +356,7 @@ TEST_F(winTextTest, SetVerticalAlignmentBottom)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetVerticalAlignment(
-        karin::Paragraph::VerticalAlignment::BOTTOM
+    hr = text->SetVerticalAlignment(karin::Paragraph::VerticalAlignment::BOTTOM
     );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
@@ -416,8 +415,7 @@ TEST_F(winTextTest, SetVerticalAlignmentCenter)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetVerticalAlignment(
-        karin::Paragraph::VerticalAlignment::CENTER
+    hr = text->SetVerticalAlignment(karin::Paragraph::VerticalAlignment::CENTER
     );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(

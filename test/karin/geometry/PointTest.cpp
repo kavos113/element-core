@@ -40,10 +40,7 @@ TEST_F(PointTest, addition)
     constexpr karin::Point p1(DEFAULT_X, DEFAULT_Y);
     constexpr karin::Point p2(DEFAULT_X + 1, DEFAULT_Y + 1);
 
-    ASSERT_EQ(
-        p1 + p2,
-        karin::Point((DEFAULT_X * 2) + 1, (DEFAULT_Y * 2) + 1)
-    );
+    ASSERT_EQ(p1 + p2, karin::Point((DEFAULT_X * 2) + 1, (DEFAULT_Y * 2) + 1));
 }
 
 TEST_F(PointTest, subtraction)

@@ -1,5 +1,5 @@
-#include <karin/windows/direct2d/d2dFactory.h>
 #include <gtest/gtest.h>
+#include <karin/windows/direct2d/d2dFactory.h>
 #include <windows.h>
 
 TEST(d2dFactoryTest, GetFactory)

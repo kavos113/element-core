@@ -1,5 +1,5 @@
-#include <karin/windows/direct2d/d2dDevice.h>
 #include <gtest/gtest.h>
+#include <karin/windows/direct2d/d2dDevice.h>
 
 TEST(d2dDeviceTest, GetDevice)
 {
