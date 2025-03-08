@@ -239,9 +239,7 @@ HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
     return S_OK;
 }
 
-HRESULT dwriteText::SetFontColor(
-    const D2D1_COLOR_F& color
-)
+HRESULT dwriteText::SetFontColor(const D2D1_COLOR_F& color)
 {
     m_color = color;
     m_textBrush = nullptr;

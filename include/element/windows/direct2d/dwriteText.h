@@ -36,9 +36,7 @@ public:
     HRESULT SetFontStyle(DWRITE_FONT_STYLE style);
     HRESULT SetFontStretch(DWRITE_FONT_STRETCH stretch);
     HRESULT SetFontWeight(DWRITE_FONT_WEIGHT weight);
-    HRESULT SetFontColor(
-        const D2D1_COLOR_F& color
-    );
+    HRESULT SetFontColor(const D2D1_COLOR_F& color);
     void SetBrush(const Microsoft::WRL::ComPtr<ID2D1Brush>& brush);
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);

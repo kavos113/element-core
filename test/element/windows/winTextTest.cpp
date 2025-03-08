@@ -172,7 +172,8 @@ TEST_F(winTextTest, SetRectangle)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetRectangle(element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2));
+    hr = text->SetRectangle(element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetRectangle(),
@@ -227,7 +228,9 @@ TEST_F(winTextTest, SetHorizontalAlignment_leading)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetHorizontalAlignment(element::Paragraph::HorizontalAlignment::LEADING);
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::LEADING
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetHorizontalAlignment(),
@@ -256,7 +259,9 @@ TEST_F(winTextTest, SetHorizontalAlignment_trailing)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetHorizontalAlignment(element::Paragraph::HorizontalAlignment::TRAILING);
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::TRAILING
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetHorizontalAlignment(),
@@ -285,7 +290,9 @@ TEST_F(winTextTest, SetHorizontalAlignment_center)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetHorizontalAlignment(element::Paragraph::HorizontalAlignment::CENTER);
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::CENTER
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetHorizontalAlignment(),
@@ -304,7 +311,6 @@ TEST_F(winTextTest, SetHorizontalAlignment_center)
     thread.join();
 }
 
-
 TEST_F(winTextTest, SetHorizontalAlignment_justified)
 {
     auto text = std::make_unique<element::winText>();
@@ -315,7 +321,9 @@ TEST_F(winTextTest, SetHorizontalAlignment_justified)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetHorizontalAlignment(element::Paragraph::HorizontalAlignment::JUSTIFIED);
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::JUSTIFIED
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetHorizontalAlignment(),
@@ -334,7 +342,6 @@ TEST_F(winTextTest, SetHorizontalAlignment_justified)
     thread.join();
 }
 
-
 TEST_F(winTextTest, SetVerticalAlignment_bottom)
 {
     auto text = std::make_unique<element::winText>();
@@ -345,7 +352,9 @@ TEST_F(winTextTest, SetVerticalAlignment_bottom)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetVerticalAlignment(element::Paragraph::VerticalAlignment::BOTTOM);
+    hr = text->SetVerticalAlignment(
+        element::Paragraph::VerticalAlignment::BOTTOM
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetVerticalAlignment(),
@@ -403,7 +412,9 @@ TEST_F(winTextTest, SetVerticalAlignment_center)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetVerticalAlignment(element::Paragraph::VerticalAlignment::CENTER);
+    hr = text->SetVerticalAlignment(
+        element::Paragraph::VerticalAlignment::CENTER
+    );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetVerticalAlignment(),
@@ -421,8 +432,6 @@ TEST_F(winTextTest, SetVerticalAlignment_center)
     window.Run();
     thread.join();
 }
-
-
 
 TEST_F(winTextTest, SetFontFamily)
 {
@@ -975,7 +984,7 @@ TEST_F(winTextTest, SetDirection_failedInvalidDirection)
     );
     ASSERT_HRESULT_FAILED(hr);
 
-    hr  = text->SetDirection(
+    hr = text->SetDirection(
         element::Paragraph::Direction::TOP_TO_BOTTOM,
         element::Paragraph::Direction::TOP_TO_BOTTOM
     );

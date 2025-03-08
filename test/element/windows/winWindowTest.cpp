@@ -207,10 +207,14 @@ TEST_F(winWindowTest, SetRectangle)
 
     ASSERT_EQ(window.GetRectangle(), element::Rectangle(0, 0, WIDTH, HEIGHT));
 
-    constexpr element::Rectangle changed_rect(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2);
+    constexpr element::Rectangle
+        changed_rect(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2);
 
     window.SetRectangle(changed_rect);
-    ASSERT_EQ(window.GetRectangle(), element::Rectangle(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2));
+    ASSERT_EQ(
+        window.GetRectangle(),
+        element::Rectangle(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2)
+    );
 
     window.Show();
 
