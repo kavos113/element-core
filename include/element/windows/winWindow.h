@@ -23,9 +23,6 @@ namespace element
 class winWindow
 {
 public:
-    static constexpr UINT WM_ELEMENT_INVOKE = WM_APP + 1;
-    static constexpr UINT WM_ELEMENT_GETSTATUS = WM_APP + 2;
-
     enum class ShowStatus : std::uint8_t
     {
         HIDE,
@@ -91,8 +88,6 @@ public:
 
 private:
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-    void Invoke(WPARAM wParam, LPARAM lParam);
-    void GetStatus(WPARAM wParam, LPARAM lParam) const;
 
     HWND m_hwnd{nullptr};
     ShowStatus m_showStatus{ShowStatus::HIDE};

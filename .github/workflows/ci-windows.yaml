@@ -11,6 +11,7 @@ on:
 env:
   BUILD_TYPE: Release
   BUILD_DIR: build
+  VS_INSTALL_DIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise'
 
 jobs:
   build:
@@ -18,6 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Update LLVM
         run: choco upgrade llvm -y
@@ -28,14 +30,22 @@ jobs:
       - name: check clang-tidy
         run: clang-tidy --version
 
+      - name: install ninja
+        run: choco install ninja -y
+
+      - name: setup msbuild
+        uses: microsoft/setup-msbuild@v2
+
       - name: Configure CMake
-        run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+        run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        shell: cmd
 
       - name: Build
         run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
+        shell: cmd
 
-#      - name: Test
-#        run: cd ${{ env.BUILD_DIR }}/test/element && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+      - name: Test
+        run: cd ${{ env.BUILD_DIR }}/test/element && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
 
       - name: Run clang-format
         run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
@@ -44,10 +54,10 @@ jobs:
       - name: Check clang-format
         run: git diff --exit-code
 
-#      - name: Run clang-tidy, src
-#        run: clang-tidy $(find ./src ./include -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
-#        shell: bash
-#
-#      - name: Run clang-tidy, test
-#        run: clang-tidy $(find ./test -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy-test -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
-#        shell: bash
+      - name: Run clang-tidy, src
+        run: clang-tidy $(find ./src ./include -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
+        shell: bash
+
+      - name: Run clang-tidy, test
+        run: clang-tidy $(find ./test -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy-test -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
+        shell: bash

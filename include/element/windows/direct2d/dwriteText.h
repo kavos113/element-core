@@ -36,10 +36,7 @@ public:
     HRESULT SetFontStyle(DWRITE_FONT_STYLE style);
     HRESULT SetFontStretch(DWRITE_FONT_STRETCH stretch);
     HRESULT SetFontWeight(DWRITE_FONT_WEIGHT weight);
-    HRESULT SetFontColor(
-        const D2D1_COLOR_F& color,
-        const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
-    );
+    HRESULT SetFontColor(const D2D1_COLOR_F& color);
     void SetBrush(const Microsoft::WRL::ComPtr<ID2D1Brush>& brush);
     HRESULT SetLineSpacing(float line_spacing);
     HRESULT SetTrimming(DWRITE_TRIMMING_GRANULARITY granularity);
@@ -58,6 +55,7 @@ private:
     uint32_t m_textLength = 0;
 
     D2D1_RECT_F m_layoutRect = D2D1::RectF(0.0f, 0.0f, 0.0f, 0.0f);
+    D2D1_COLOR_F m_color = D2D1::ColorF(D2D1::ColorF::Black);
 
     static constexpr float DEFAULT_FONT_SIZE = 24.0f;
 };

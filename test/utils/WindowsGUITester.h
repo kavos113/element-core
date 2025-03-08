@@ -34,58 +34,6 @@ public:
         m_actions.push_back({.action = action, .assertion = assertion});
     }
 
-    template<typename T>
-    void AddAction(
-        const element::winWindow::WindowAction action_type,
-        const LPARAM lParam,
-        const Assertions assertion_type,
-        const element::winWindow::WindowAction assertion_wParam,
-        const T& expected
-    )
-    {
-        m_actions.push_back(
-            {.action =
-                 [this, action_type, lParam]
-             {
-                 SendMessage(
-                     *m_targetHwnd,
-                     element::winWindow::WM_ELEMENT_INVOKE,
-                     static_cast<WPARAM>(action_type),
-                     lParam
-                 );
-             },
-             .assertion =
-                 [this, expected, assertion_wParam, assertion_type]
-             {
-                 if (assertion_type == Assertions::NONE)
-                 {
-                     return;
-                 }
-
-                 T actual = {};
-                 SendMessage(
-                     *m_targetHwnd,
-                     element::winWindow::WM_ELEMENT_GETSTATUS,
-                     static_cast<WPARAM>(assertion_wParam),
-                     reinterpret_cast<LPARAM>(&actual)
-                 );
-                 switch (assertion_type)
-                 {
-                     case Assertions::EQUAL:
-                         ASSERT_EQ(expected, actual);
-                         break;
-
-                     case Assertions::NOT_EQUAL:
-                         ASSERT_NE(expected, actual);
-                         break;
-
-                     default:
-                         break;
-                 }
-             }}
-        );
-    }
-
     void CloseWindow()
     {
         m_actions.push_back(
@@ -123,7 +71,7 @@ private:
         std::function<void()> assertion;
     };
 
-    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(500);
+    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(200);
     static constexpr auto INTERVAL = std::chrono::milliseconds(200);
 
     std::vector<Action> m_actions;

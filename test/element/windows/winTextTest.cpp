@@ -39,6 +39,9 @@ protected:
     static constexpr int WINDOW_WIDTH = 800;
     static constexpr int WINDOW_HEIGHT = 600;
 
+    static constexpr int CHANGED_X = 100;
+    static constexpr int CHANGED_Y = 100;
+
     static constexpr float CHANGED_FONT_SIZE = 72.0f;
 
     const std::wstring TEXT = L"Test Text";
@@ -72,15 +75,10 @@ TEST_F(winTextTest, ShowText)
 
     window.Add(std::move(text));
 
+    window.Show();
+
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -100,26 +98,15 @@ TEST_F(winTextTest, SetText)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetText(NEW_TEXT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetText(), NEW_TEXT);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr, this]
-        {
-            const HRESULT hr = text_ptr->SetText(NEW_TEXT);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr, this] { ASSERT_EQ(text_ptr->GetText(), NEW_TEXT); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -137,23 +124,14 @@ TEST_F(winTextTest, SetPosition)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    text->SetPosition(element::Point(CHANGED_X, CHANGED_Y));
+    ASSERT_EQ(text->GetPosition(), element::Point(CHANGED_X, CHANGED_Y));
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr] { text_ptr->SetPosition(element::Point(100, 100)); },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetPosition(), element::Point(100, 100)); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -171,33 +149,15 @@ TEST_F(winTextTest, SetSize)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetSize(element::Size(WIDTH * 2, HEIGHT * 2));
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetSize(), element::Size(WIDTH * 2, HEIGHT * 2));
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetSize(element::Size(WIDTH * 2, HEIGHT * 2));
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetSize(),
-                element::Size(WIDTH * 2, HEIGHT * 2)
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -215,34 +175,20 @@ TEST_F(winTextTest, SetRectangle)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetRectangle(
+        element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetRectangle(),
+        element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
+    );
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetRectangle(
-                element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetRectangle(),
-                element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -260,26 +206,15 @@ TEST_F(winTextTest, SetFontSize)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetFontSize(CHANGED_FONT_SIZE);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontSize(), CHANGED_FONT_SIZE);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontSize(CHANGED_FONT_SIZE);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_EQ(text_ptr->GetFontSize(), CHANGED_FONT_SIZE); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -287,7 +222,7 @@ TEST_F(winTextTest, SetFontSize)
     thread.join();
 }
 
-TEST_F(winTextTest, SetHorizontalAlignment)
+TEST_F(winTextTest, SetHorizontalAlignmentLeading)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -297,82 +232,20 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::LEADING
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetHorizontalAlignment(),
+        element::Paragraph::HorizontalAlignment::LEADING
+    );
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Paragraph::HorizontalAlignment::JUSTIFIED
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetHorizontalAlignment(),
-                element::Paragraph::HorizontalAlignment::JUSTIFIED
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Paragraph::HorizontalAlignment::CENTER
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetHorizontalAlignment(),
-                element::Paragraph::HorizontalAlignment::CENTER
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Paragraph::HorizontalAlignment::LEADING
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetHorizontalAlignment(),
-                element::Paragraph::HorizontalAlignment::LEADING
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetHorizontalAlignment(
-                element::Paragraph::HorizontalAlignment::TRAILING
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetHorizontalAlignment(),
-                element::Paragraph::HorizontalAlignment::TRAILING
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -380,7 +253,100 @@ TEST_F(winTextTest, SetHorizontalAlignment)
     thread.join();
 }
 
-TEST_F(winTextTest, SetVerticalAlignment)
+TEST_F(winTextTest, SetHorizontalAlignmentTrailing)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::TRAILING
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetHorizontalAlignment(),
+        element::Paragraph::HorizontalAlignment::TRAILING
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetHorizontalAlignmentCenter)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::CENTER
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetHorizontalAlignment(),
+        element::Paragraph::HorizontalAlignment::CENTER
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetHorizontalAlignmentJustified)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetHorizontalAlignment(
+        element::Paragraph::HorizontalAlignment::JUSTIFIED
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetHorizontalAlignment(),
+        element::Paragraph::HorizontalAlignment::JUSTIFIED
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetVerticalAlignmentBottom)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -390,66 +356,80 @@ TEST_F(winTextTest, SetVerticalAlignment)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetVerticalAlignment(
+        element::Paragraph::VerticalAlignment::BOTTOM
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetVerticalAlignment(),
+        element::Paragraph::VerticalAlignment::BOTTOM
+    );
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetVerticalAlignmentTop)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetVerticalAlignment(element::Paragraph::VerticalAlignment::TOP);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetVerticalAlignment(),
+        element::Paragraph::VerticalAlignment::TOP
     );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Paragraph::VerticalAlignment::BOTTOM
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetVerticalAlignment(),
-                element::Paragraph::VerticalAlignment::BOTTOM
-            );
-        }
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetVerticalAlignmentCenter)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetVerticalAlignment(
+        element::Paragraph::VerticalAlignment::CENTER
     );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Paragraph::VerticalAlignment::CENTER
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetVerticalAlignment(),
-                element::Paragraph::VerticalAlignment::CENTER
-            );
-        }
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetVerticalAlignment(),
+        element::Paragraph::VerticalAlignment::CENTER
     );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetVerticalAlignment(
-                element::Paragraph::VerticalAlignment::TOP
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetVerticalAlignment(),
-                element::Paragraph::VerticalAlignment::TOP
-            );
-        }
-    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -467,35 +447,15 @@ TEST_F(winTextTest, SetFontFamily)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetFontFamily(L"Times New Roman");
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontFamily(), L"Times New Roman");
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontFamily(), L"Times New Roman"); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontFamily(L"Courier New");
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_EQ(text_ptr->GetFontFamily(), L"Courier New"); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -503,7 +463,7 @@ TEST_F(winTextTest, SetFontFamily)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStyle)
+TEST_F(winTextTest, SetFontStyleItalic)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -513,57 +473,16 @@ TEST_F(winTextTest, SetFontStyle)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    text->SetFontFamily(L"Times New Roman");
+    hr = text->SetFontStyle(element::Font::Style::ITALIC);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontStyle(), element::Font::Style::ITALIC);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontFamily(L"Times New Roman");
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontFamily(), L"Times New Roman"); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetFontStyle(element::Font::Style::ITALIC);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontStyle(), element::Font::Style::ITALIC); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetFontStyle(element::Font::Style::NORMAL);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontStyle(), element::Font::Style::NORMAL); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetFontStyle(element::Font::Style::OBLIQUE);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontStyle(), element::Font::Style::OBLIQUE); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -571,7 +490,7 @@ TEST_F(winTextTest, SetFontStyle)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStretch)
+TEST_F(winTextTest, SetFontStyleNormal)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -581,50 +500,16 @@ TEST_F(winTextTest, SetFontStretch)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    text->SetFontFamily(L"Times New Roman");
+    hr = text->SetFontStyle(element::Font::Style::NORMAL);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontStyle(), element::Font::Style::NORMAL);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontStretch(
-                element::Font::Stretch::ULTRA_CONDENSED
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetFontStretch(),
-                element::Font::Stretch::ULTRA_CONDENSED
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontStretch(
-                element::Font::Stretch::ULTRA_EXPANDED
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetFontStretch(),
-                element::Font::Stretch::ULTRA_EXPANDED
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -632,7 +517,7 @@ TEST_F(winTextTest, SetFontStretch)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontWeight)
+TEST_F(winTextTest, SetFontStyleOblique)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -642,50 +527,139 @@ TEST_F(winTextTest, SetFontWeight)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    text->SetFontFamily(L"Times New Roman");
+    hr = text->SetFontStyle(element::Font::Style::OBLIQUE);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontStyle(), element::Font::Style::OBLIQUE);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetFontWeight(element::Font::Weight::THIN);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontWeight(), element::Font::Weight::THIN); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontWeight(909);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetFontWeight(), element::Font::Weight::BLACK); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetFontWeight(2000);
-            ASSERT_HRESULT_FAILED(hr);
-        },
-        [] {}
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
     window.Run();
     thread.join();
+}
+
+TEST_F(winTextTest, SetFontStretchUltracondensed)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    text->SetFontFamily(L"Times New Roman");
+    hr = text->SetFontStretch(element::Font::Stretch::ULTRA_CONDENSED);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontStretch(), element::Font::Stretch::ULTRA_CONDENSED);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetFontStretchUltraexpanded)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    text->SetFontFamily(L"Times New Roman");
+    hr = text->SetFontStretch(element::Font::Stretch::ULTRA_EXPANDED);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontStretch(), element::Font::Stretch::ULTRA_EXPANDED);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetFontWeightThin)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetFontWeight(element::Font::Weight::THIN);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontWeight(), element::Font::Weight::THIN);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetFontWeightCalculatedBlack)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    constexpr int black_weight = 909;
+    hr = text->SetFontWeight(black_weight);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetFontWeight(), element::Font::Weight::BLACK);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetFontWeightFailedInvalidWeight)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    constexpr uint16_t invalid_weight = 10000;
+    hr = text->SetFontWeight(invalid_weight);
+    ASSERT_HRESULT_FAILED(hr);
 }
 
 TEST_F(winTextTest, SetFontColor)
@@ -698,27 +672,15 @@ TEST_F(winTextTest, SetFontColor)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetColor(element::Color(1.0f, 0.0f, 0.0f, 1.0f));
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetColor(), element::Color(1.0f, 0.0f, 0.0f, 1.0f));
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetColor(element::Color(1.0f, 0, 0));
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        { ASSERT_EQ(text_ptr->GetColor(), element::Color(1.0f, 0, 0)); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -736,34 +698,17 @@ TEST_F(winTextTest, SetLineHeight)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    constexpr float changed_line_height = 2.0f;
+
+    hr = text->SetLineHeight(changed_line_height);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetLineHeight(), changed_line_height);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetLineHeight(2.0f);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_EQ(text_ptr->GetLineHeight(), 2.0f); }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetLineHeight(0.5f);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_EQ(text_ptr->GetLineHeight(), 0.5f); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -771,7 +716,7 @@ TEST_F(winTextTest, SetLineHeight)
     thread.join();
 }
 
-TEST_F(winTextTest, SetTrimming)
+TEST_F(winTextTest, SetTrimmingWord)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -781,64 +726,15 @@ TEST_F(winTextTest, SetTrimming)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetTrimming(element::Paragraph::Trimming::WORD);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetTrimming(), element::Paragraph::Trimming::WORD);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetTrimming(element::Paragraph::Trimming::WORD);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetTrimming(),
-                element::Paragraph::Trimming::WORD
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetTrimming(element::Paragraph::Trimming::CHARACTER
-                );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetTrimming(),
-                element::Paragraph::Trimming::CHARACTER
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetTrimming(element::Paragraph::Trimming::NONE);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetTrimming(),
-                element::Paragraph::Trimming::NONE
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -846,7 +742,7 @@ TEST_F(winTextTest, SetTrimming)
     thread.join();
 }
 
-TEST_F(winTextTest, SetWordWrapping)
+TEST_F(winTextTest, SetTrimmingCharacter)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -856,64 +752,15 @@ TEST_F(winTextTest, SetWordWrapping)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetTrimming(element::Paragraph::Trimming::CHARACTER);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetTrimming(), element::Paragraph::Trimming::CHARACTER);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetWordWrapping(element::Paragraph::Wrapping::WORD);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetWordWrapping(),
-                element::Paragraph::Wrapping::WORD
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetWordWrapping(
-                element::Paragraph::Wrapping::CHARACTER
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetWordWrapping(),
-                element::Paragraph::Wrapping::CHARACTER
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr
-                = text_ptr->SetWordWrapping(element::Paragraph::Wrapping::NONE);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetWordWrapping(),
-                element::Paragraph::Wrapping::NONE
-            );
-        }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -921,118 +768,235 @@ TEST_F(winTextTest, SetWordWrapping)
     thread.join();
 }
 
-TEST_F(winTextTest, SetDirection)
+TEST_F(winTextTest, SetTrimmingNone)
 {
     auto text = std::make_unique<element::winText>();
-    HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
     element::winWindow window;
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetTrimming(element::Paragraph::Trimming::NONE);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetTrimming(), element::Paragraph::Trimming::NONE);
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetDirection(
-                element::Paragraph::Direction::TOP_TO_BOTTOM,
-                element::Paragraph::Direction::LEFT_TO_RIGHT
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetFlowDirection(),
-                element::Paragraph::Direction::TOP_TO_BOTTOM
-            );
-            ASSERT_EQ(
-                text_ptr->GetReadingDirection(),
-                element::Paragraph::Direction::LEFT_TO_RIGHT
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetDirection(
-                element::Paragraph::Direction::BOTTOM_TO_TOP,
-                element::Paragraph::Direction::RIGHT_TO_LEFT
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetFlowDirection(),
-                element::Paragraph::Direction::BOTTOM_TO_TOP
-            );
-            ASSERT_EQ(
-                text_ptr->GetReadingDirection(),
-                element::Paragraph::Direction::RIGHT_TO_LEFT
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetDirection(
-                element::Paragraph::Direction::RIGHT_TO_LEFT,
-                element::Paragraph::Direction::TOP_TO_BOTTOM
-            );
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr]
-        {
-            ASSERT_EQ(
-                text_ptr->GetFlowDirection(),
-                element::Paragraph::Direction::RIGHT_TO_LEFT
-            );
-            ASSERT_EQ(
-                text_ptr->GetReadingDirection(),
-                element::Paragraph::Direction::TOP_TO_BOTTOM
-            );
-        }
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetDirection(
-                element::Paragraph::Direction::RIGHT_TO_LEFT,
-                element::Paragraph::Direction::LEFT_TO_RIGHT
-            );
-            ASSERT_HRESULT_FAILED(hr);
-        },
-        [] {}
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetDirection(
-                element::Paragraph::Direction::TOP_TO_BOTTOM,
-                element::Paragraph::Direction::TOP_TO_BOTTOM
-            );
-            ASSERT_HRESULT_FAILED(hr);
-        },
-        [] {}
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
     window.Run();
     thread.join();
+}
+
+TEST_F(winTextTest, SetWordWrappingWord)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetWordWrapping(element::Paragraph::Wrapping::WORD);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetWordWrapping(), element::Paragraph::Wrapping::WORD);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetWordWrappingCharacter)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetWordWrapping(element::Paragraph::Wrapping::CHARACTER);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetWordWrapping(), element::Paragraph::Wrapping::CHARACTER);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetWordWrappingNone)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetWordWrapping(element::Paragraph::Wrapping::NONE);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(text->GetWordWrapping(), element::Paragraph::Wrapping::NONE);
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetDirectionTopToBottom)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetDirection(
+        element::Paragraph::Direction::TOP_TO_BOTTOM,
+        element::Paragraph::Direction::LEFT_TO_RIGHT
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetFlowDirection(),
+        element::Paragraph::Direction::TOP_TO_BOTTOM
+    );
+    ASSERT_EQ(
+        text->GetReadingDirection(),
+        element::Paragraph::Direction::LEFT_TO_RIGHT
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetDirectionBottomToTop)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetDirection(
+        element::Paragraph::Direction::BOTTOM_TO_TOP,
+        element::Paragraph::Direction::RIGHT_TO_LEFT
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetFlowDirection(),
+        element::Paragraph::Direction::BOTTOM_TO_TOP
+    );
+    ASSERT_EQ(
+        text->GetReadingDirection(),
+        element::Paragraph::Direction::RIGHT_TO_LEFT
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetDirectionRightToLeft)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    element::winWindow window;
+    hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetDirection(
+        element::Paragraph::Direction::RIGHT_TO_LEFT,
+        element::Paragraph::Direction::TOP_TO_BOTTOM
+    );
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_EQ(
+        text->GetFlowDirection(),
+        element::Paragraph::Direction::RIGHT_TO_LEFT
+    );
+    ASSERT_EQ(
+        text->GetReadingDirection(),
+        element::Paragraph::Direction::TOP_TO_BOTTOM
+    );
+
+    window.Add(std::move(text));
+    window.Show();
+
+    WindowsGUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(winTextTest, SetDirectionFailedInvalidDirection)
+{
+    auto text = std::make_unique<element::winText>();
+    HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+
+    hr = text->SetDirection(
+        element::Paragraph::Direction::RIGHT_TO_LEFT,
+        element::Paragraph::Direction::LEFT_TO_RIGHT
+    );
+    ASSERT_HRESULT_FAILED(hr);
+
+    hr = text->SetDirection(
+        element::Paragraph::Direction::TOP_TO_BOTTOM,
+        element::Paragraph::Direction::TOP_TO_BOTTOM
+    );
+    ASSERT_HRESULT_FAILED(hr);
 }
 
 TEST_F(winTextTest, SetUnderline)
@@ -1045,26 +1009,15 @@ TEST_F(winTextTest, SetUnderline)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetUnderline(true);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_TRUE(text->IsUnderlined());
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetUnderline(true);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_TRUE(text_ptr->IsUnderlined()); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);
@@ -1082,26 +1035,15 @@ TEST_F(winTextTest, SetLineThrough)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    element::winText* text_ptr = text.get();
+    hr = text->SetLineThrough(true);
+    ASSERT_HRESULT_SUCCEEDED(hr);
+    ASSERT_TRUE(text->IsLineThrough());
+
     window.Add(std::move(text));
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction(
-        [&text_ptr]
-        {
-            const HRESULT hr = text_ptr->SetLineThrough(true);
-            ASSERT_HRESULT_SUCCEEDED(hr);
-        },
-        [&text_ptr] { ASSERT_TRUE(text_ptr->IsLineThrough()); }
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, m_isSlowTest);

@@ -74,15 +74,11 @@ TEST_F(winWindowTest, ShowWindow)
 
     ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::SHOW);
+
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -99,29 +95,14 @@ TEST_F(winWindowTest, HideWindow)
 
     ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::SHOW);
+
+    window.Hide();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
+
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::HIDE,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::HIDE
-    );
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -136,22 +117,14 @@ TEST_F(winWindowTest, MinimizeWindow)
 
     ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::SHOW);
+
+    window.Minimize();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::MINIMIZE);
+
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::MINIMIZE,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::MINIMIZE
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -166,22 +139,14 @@ TEST_F(winWindowTest, MaximizeWindow)
 
     ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::HIDE);
 
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::SHOW);
+
+    window.Maximize();
+    ASSERT_EQ(window.GetShowStatus(), element::winWindow::ShowStatus::MAXIMIZE);
+
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::MAXIMIZE,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::MAXIMIZE
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -196,24 +161,15 @@ TEST_F(winWindowTest, SetSize)
 
     ASSERT_EQ(window.GetSize(), element::Size(WIDTH, HEIGHT));
 
-    element::Size changed_size(WIDTH * 2, HEIGHT * 2);
+    constexpr element::Size changed_size(WIDTH * 2, HEIGHT * 2);
+
+    window.SetSize(changed_size);
+    ASSERT_EQ(window.GetSize(), element::Size(WIDTH * 2, HEIGHT * 2));
+
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::Size>(
-        element::winWindow::WindowAction::SIZE,
-        reinterpret_cast<LPARAM>(&changed_size),
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SIZE,
-        element::Size(WIDTH * 2, HEIGHT * 2)
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -228,24 +184,15 @@ TEST_F(winWindowTest, SetPosition)
 
     ASSERT_EQ(window.GetPosition(), element::Point(0, 0));
 
-    element::Point changed_position(MOVED_X, MOVED_Y);
+    constexpr element::Point changed_position(MOVED_X, MOVED_Y);
+
+    window.SetPosition(changed_position);
+    ASSERT_EQ(window.GetPosition(), element::Point(MOVED_X, MOVED_Y));
+
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::Point>(
-        element::winWindow::WindowAction::POSITION,
-        reinterpret_cast<LPARAM>(&changed_position),
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::POSITION,
-        element::Point(MOVED_X, MOVED_Y)
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -260,24 +207,19 @@ TEST_F(winWindowTest, SetRectangle)
 
     ASSERT_EQ(window.GetRectangle(), element::Rectangle(0, 0, WIDTH, HEIGHT));
 
-    element::Rectangle changed_rect(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2);
+    constexpr element::Rectangle
+        changed_rect(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2);
+
+    window.SetRectangle(changed_rect);
+    ASSERT_EQ(
+        window.GetRectangle(),
+        element::Rectangle(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2)
+    );
+
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::Rectangle>(
-        element::winWindow::WindowAction::RECTANGLE,
-        reinterpret_cast<LPARAM>(&changed_rect),
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::RECTANGLE,
-        element::Rectangle(MOVED_X, MOVED_Y, WIDTH * 2, HEIGHT * 2)
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
@@ -295,24 +237,15 @@ TEST_F(winWindowTest, SetBackgroundColor)
         element::Color(1.0f, 1.0f, 1.0f, 1.0f)
     );
 
-    element::Color changed_color(1.0f, 0.0f, 0.0f, 1.0f);
+    const element::Color changed_color(1.0f, 0.0f, 0.0f, 1.0f);
+
+    window.SetBackgroundColor(changed_color);
+    ASSERT_EQ(window.GetBackgroundColor(), changed_color);
+
+    window.Show();
 
     WindowsGUITester tester;
     tester.RegisterWindow(window);
-    tester.AddAction<element::winWindow::ShowStatus>(
-        element::winWindow::WindowAction::SHOW,
-        0,
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::SHOWSTATUS,
-        element::winWindow::ShowStatus::SHOW
-    );
-    tester.AddAction<element::Color>(
-        element::winWindow::WindowAction::BACKGROUND_COLOR,
-        reinterpret_cast<LPARAM>(&changed_color),
-        WindowsGUITester::Assertions::EQUAL,
-        element::winWindow::WindowAction::BACKGROUND_COLOR,
-        element::Color(1.0f, 0.0f, 0.0f, 1.0f)
-    );
     tester.CloseWindow();
 
     std::thread thread(&WindowsGUITester::Run, &tester, is_slow_test);
