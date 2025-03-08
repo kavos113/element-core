@@ -62,7 +62,7 @@ void dwriteText::Render(
     const D2D1_POINT_2F origin
         = D2D1::Point2F(m_layoutRect.left, m_layoutRect.top);
 
-    if (!device_context)
+    if (device_context == nullptr)
     {
         std::cerr << "Error: ID2D1DeviceContext is null" << std::endl;
         return;
