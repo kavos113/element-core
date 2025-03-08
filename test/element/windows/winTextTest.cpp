@@ -634,7 +634,8 @@ TEST_F(winTextTest, SetFontWeightCalculatedBlack)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetFontWeight(909);
+    constexpr int black_weight = 909;
+    hr = text->SetFontWeight(black_weight);
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(text->GetFontWeight(), element::Font::Weight::BLACK);
 
@@ -656,7 +657,8 @@ TEST_F(winTextTest, SetFontWeightFailedInvalidWeight)
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetFontWeight(2000);
+    constexpr uint16_t invalid_weight = 10000;
+    hr = text->SetFontWeight(invalid_weight);
     ASSERT_HRESULT_FAILED(hr);
 }
 
@@ -696,9 +698,11 @@ TEST_F(winTextTest, SetLineHeight)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetLineHeight(2.0f);
+    constexpr float changed_line_height = 2.0f;
+
+    hr = text->SetLineHeight(changed_line_height);
     ASSERT_HRESULT_SUCCEEDED(hr);
-    ASSERT_EQ(text->GetLineHeight(), 2.0f);
+    ASSERT_EQ(text->GetLineHeight(), changed_line_height);
 
     window.Add(std::move(text));
     window.Show();

@@ -71,7 +71,7 @@ private:
         std::function<void()> assertion;
     };
 
-    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(500);
+    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(200);
     static constexpr auto INTERVAL = std::chrono::milliseconds(200);
 
     std::vector<Action> m_actions;
