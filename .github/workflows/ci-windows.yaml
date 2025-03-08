@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: set msvc compiler
+        shell: bash
+        run: find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe
+
       - name: Update LLVM
         run: choco upgrade llvm -y
 
