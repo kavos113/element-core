@@ -20,10 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: set msvc compiler
-        shell: bash
-        run: find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe | tail -n 1
-
       - name: Update LLVM
         run: choco upgrade llvm -y
 
@@ -41,10 +37,10 @@ jobs:
         run: echo MSVC_COMPILER=$(find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe | tail -n 1) >> $GITHUB_ENV
 
       - name: check msvc compiler
-        run: echo ${{ env.MSVC_COMPILER }}
+        run: echo "${{ env.MSVC_COMPILER }}"
 
       - name: Configure CMake
-        run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_CXX_COMPILER=$MSVC_COMPILER -DCMAKE_C_COMPILER=$MSVC_COMPILER
+        run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_CXX_COMPILER=${{ env.MSVC_COMPILER }} -DCMAKE_C_COMPILER=${{ env.MSVC_COMPILER }}
 
       - name: Build
         run: cmake --build ${{ env.BUILD_DIR }} --config ${{ env.BUILD_TYPE }}
