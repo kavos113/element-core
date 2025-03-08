@@ -175,7 +175,8 @@ TEST_F(winTextTest, SetRectangle)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetRectangle(element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
+    hr = text->SetRectangle(
+        element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
     );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
