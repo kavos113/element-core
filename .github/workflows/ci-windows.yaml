@@ -38,10 +38,10 @@ jobs:
 
       - name: set msvc compiler
         shell: bash
-        run: export MSVC_COMPILER=$(find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe | tail -n 1)
+        run: echo MSVC_COMPILER=$(find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe | tail -n 1) >> $GITHUB_ENV
 
       - name: check msvc compiler
-        run: echo $MSVC_COMPILER
+        run: echo ${{ env.MSVC_COMPILER }}
 
       - name: Configure CMake
         run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_CXX_COMPILER=$MSVC_COMPILER -DCMAKE_C_COMPILER=$MSVC_COMPILER
