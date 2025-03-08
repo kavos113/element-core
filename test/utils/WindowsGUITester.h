@@ -1,5 +1,5 @@
-#ifndef TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H
-#define TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H
+#ifndef TEST_KARIN_UTILS_WINDOWSGUITESTER_H
+#define TEST_KARIN_UTILS_WINDOWSGUITESTER_H
 
 #include <Windows.h>
 #include <windows/winWindow.h>
@@ -21,7 +21,7 @@ public:
 
     WindowsGUITester() = default;
 
-    void RegisterWindow(const element::winWindow& window)
+    void RegisterWindow(const karin::winWindow& window)
     {
         m_targetHwnd = std::make_unique<HWND>(window.GetHwnd());
     }
@@ -78,4 +78,4 @@ private:
     std::unique_ptr<HWND> m_targetHwnd;
 };
 
-#endif  // TEST_ELEMENT_UTILS_WINDOWSGUITESTER_H
+#endif  // TEST_KARIN_UTILS_WINDOWSGUITESTER_H

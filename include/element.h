@@ -1,4 +1,0 @@
-#ifndef ELEMENT_ELEMENT_H
-#define ELEMENT_ELEMENT_H
-
-#endif  // ELEMENT_ELEMENT_H
