@@ -45,7 +45,7 @@ jobs:
         shell: cmd
 
       - name: Test
-        run: cd ${{ env.BUILD_DIR }}/test/element && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+        run: cd ${{ env.BUILD_DIR }}/test/karin && ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
 
       - name: Run clang-format
         run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
