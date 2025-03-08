@@ -39,6 +39,9 @@ protected:
     static constexpr int WINDOW_WIDTH = 800;
     static constexpr int WINDOW_HEIGHT = 600;
 
+    static constexpr int CHANGED_X = 100;
+    static constexpr int CHANGED_Y = 100;
+
     static constexpr float CHANGED_FONT_SIZE = 72.0f;
 
     const std::wstring TEXT = L"Test Text";
@@ -121,8 +124,8 @@ TEST_F(winTextTest, SetPosition)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    text->SetPosition(element::Point(100, 100));
-    ASSERT_EQ(text->GetPosition(), element::Point(100, 100));
+    text->SetPosition(element::Point(CHANGED_X, CHANGED_Y));
+    ASSERT_EQ(text->GetPosition(), element::Point(CHANGED_X, CHANGED_Y));
 
     window.Add(std::move(text));
     window.Show();
@@ -172,12 +175,12 @@ TEST_F(winTextTest, SetRectangle)
     hr = window.Create(L"Test Window", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ASSERT_HRESULT_SUCCEEDED(hr);
 
-    hr = text->SetRectangle(element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
+    hr = text->SetRectangle(element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
     );
     ASSERT_HRESULT_SUCCEEDED(hr);
     ASSERT_EQ(
         text->GetRectangle(),
-        element::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
+        element::Rectangle(CHANGED_X, CHANGED_Y, WIDTH * 2, HEIGHT * 2)
     );
 
     window.Add(std::move(text));
@@ -218,7 +221,7 @@ TEST_F(winTextTest, SetFontSize)
     thread.join();
 }
 
-TEST_F(winTextTest, SetHorizontalAlignment_leading)
+TEST_F(winTextTest, SetHorizontalAlignmentLeading)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -249,7 +252,7 @@ TEST_F(winTextTest, SetHorizontalAlignment_leading)
     thread.join();
 }
 
-TEST_F(winTextTest, SetHorizontalAlignment_trailing)
+TEST_F(winTextTest, SetHorizontalAlignmentTrailing)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -280,7 +283,7 @@ TEST_F(winTextTest, SetHorizontalAlignment_trailing)
     thread.join();
 }
 
-TEST_F(winTextTest, SetHorizontalAlignment_center)
+TEST_F(winTextTest, SetHorizontalAlignmentCenter)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -311,7 +314,7 @@ TEST_F(winTextTest, SetHorizontalAlignment_center)
     thread.join();
 }
 
-TEST_F(winTextTest, SetHorizontalAlignment_justified)
+TEST_F(winTextTest, SetHorizontalAlignmentJustified)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -342,7 +345,7 @@ TEST_F(winTextTest, SetHorizontalAlignment_justified)
     thread.join();
 }
 
-TEST_F(winTextTest, SetVerticalAlignment_bottom)
+TEST_F(winTextTest, SetVerticalAlignmentBottom)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -373,7 +376,7 @@ TEST_F(winTextTest, SetVerticalAlignment_bottom)
     thread.join();
 }
 
-TEST_F(winTextTest, SetVerticalAlignment_top)
+TEST_F(winTextTest, SetVerticalAlignmentTop)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -402,7 +405,7 @@ TEST_F(winTextTest, SetVerticalAlignment_top)
     thread.join();
 }
 
-TEST_F(winTextTest, SetVerticalAlignment_center)
+TEST_F(winTextTest, SetVerticalAlignmentCenter)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -459,7 +462,7 @@ TEST_F(winTextTest, SetFontFamily)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStyle_italic)
+TEST_F(winTextTest, SetFontStyleItalic)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -486,7 +489,7 @@ TEST_F(winTextTest, SetFontStyle_italic)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStyle_normal)
+TEST_F(winTextTest, SetFontStyleNormal)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -513,7 +516,7 @@ TEST_F(winTextTest, SetFontStyle_normal)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStyle_oblique)
+TEST_F(winTextTest, SetFontStyleOblique)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -540,7 +543,7 @@ TEST_F(winTextTest, SetFontStyle_oblique)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStretch_ultracondensed)
+TEST_F(winTextTest, SetFontStretchUltracondensed)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -567,7 +570,7 @@ TEST_F(winTextTest, SetFontStretch_ultracondensed)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontStretch_ultraexpanded)
+TEST_F(winTextTest, SetFontStretchUltraexpanded)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -594,7 +597,7 @@ TEST_F(winTextTest, SetFontStretch_ultraexpanded)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontWeight_thin)
+TEST_F(winTextTest, SetFontWeightThin)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -620,7 +623,7 @@ TEST_F(winTextTest, SetFontWeight_thin)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontWeight_calculatedBlack)
+TEST_F(winTextTest, SetFontWeightCalculatedBlack)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -646,7 +649,7 @@ TEST_F(winTextTest, SetFontWeight_calculatedBlack)
     thread.join();
 }
 
-TEST_F(winTextTest, SetFontWeight_failedInvalidWeight)
+TEST_F(winTextTest, SetFontWeightFailedInvalidWeight)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(TEXT, 0, 0, WIDTH, HEIGHT);
@@ -708,7 +711,7 @@ TEST_F(winTextTest, SetLineHeight)
     thread.join();
 }
 
-TEST_F(winTextTest, SetTrimming_word)
+TEST_F(winTextTest, SetTrimmingWord)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -734,7 +737,7 @@ TEST_F(winTextTest, SetTrimming_word)
     thread.join();
 }
 
-TEST_F(winTextTest, SetTrimming_character)
+TEST_F(winTextTest, SetTrimmingCharacter)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -760,7 +763,7 @@ TEST_F(winTextTest, SetTrimming_character)
     thread.join();
 }
 
-TEST_F(winTextTest, SetTrimming_none)
+TEST_F(winTextTest, SetTrimmingNone)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -786,7 +789,7 @@ TEST_F(winTextTest, SetTrimming_none)
     thread.join();
 }
 
-TEST_F(winTextTest, SetWordWrapping_word)
+TEST_F(winTextTest, SetWordWrappingWord)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -812,7 +815,7 @@ TEST_F(winTextTest, SetWordWrapping_word)
     thread.join();
 }
 
-TEST_F(winTextTest, SetWordWrapping_character)
+TEST_F(winTextTest, SetWordWrappingCharacter)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -838,7 +841,7 @@ TEST_F(winTextTest, SetWordWrapping_character)
     thread.join();
 }
 
-TEST_F(winTextTest, SetWordWrapping_none)
+TEST_F(winTextTest, SetWordWrappingNone)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -864,7 +867,7 @@ TEST_F(winTextTest, SetWordWrapping_none)
     thread.join();
 }
 
-TEST_F(winTextTest, SetDirection_topToBottom)
+TEST_F(winTextTest, SetDirectionTopToBottom)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -900,7 +903,7 @@ TEST_F(winTextTest, SetDirection_topToBottom)
     thread.join();
 }
 
-TEST_F(winTextTest, SetDirection_bottomToTop)
+TEST_F(winTextTest, SetDirectionBottomToTop)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -936,7 +939,7 @@ TEST_F(winTextTest, SetDirection_bottomToTop)
     thread.join();
 }
 
-TEST_F(winTextTest, SetDirection_rightToLeft)
+TEST_F(winTextTest, SetDirectionRightToLeft)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
@@ -972,7 +975,7 @@ TEST_F(winTextTest, SetDirection_rightToLeft)
     thread.join();
 }
 
-TEST_F(winTextTest, SetDirection_failedInvalidDirection)
+TEST_F(winTextTest, SetDirectionFailedInvalidDirection)
 {
     auto text = std::make_unique<element::winText>();
     HRESULT hr = text->Create(PARAGRAPH_TEXT, 0, 0, WIDTH, HEIGHT);
