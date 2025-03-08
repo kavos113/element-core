@@ -34,7 +34,7 @@ jobs:
 
       - name: set msvc compiler
         shell: bash
-        run: set MSVC_COMPILER=$(find "${{ env.VS_INSTALL_DIR }}" -name cl.exe | head -n 1)
+        run: set MSVC_COMPILER=$(find "${{ env.VS_INSTALL_DIR }}\VC\Tools\MSVC" -path "*64/x64/*" -name cl.exe | head -n 1)
 
       - name: check msvc compiler
         run: echo $MSVC_COMPILER
