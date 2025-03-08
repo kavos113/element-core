@@ -456,8 +456,7 @@ Color winText::GetColor() const
 HRESULT winText::SetColor(const Color color)
 {
     const HRESULT hr = m_dwriteText.SetFontColor(
-        D2D1_COLOR_F(color.r, color.g, color.b, color.a),
-        m_deviceContext
+        D2D1_COLOR_F(color.r, color.g, color.b, color.a)
     );
     if (FAILED(hr))
     {

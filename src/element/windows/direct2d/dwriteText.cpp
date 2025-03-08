@@ -54,9 +54,8 @@ void dwriteText::Render(
 {
     if (m_textBrush == nullptr)
     {
-        const D2D1_COLOR_F color = D2D1::ColorF(D2D1::ColorF::Black);
         Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-        device_context->CreateSolidColorBrush(color, brush.GetAddressOf());
+        device_context->CreateSolidColorBrush(m_color, brush.GetAddressOf());
         m_textBrush = brush.Get();
     }
 
@@ -241,20 +240,11 @@ HRESULT dwriteText::SetFontWeight(DWRITE_FONT_WEIGHT weight)
 }
 
 HRESULT dwriteText::SetFontColor(
-    const D2D1_COLOR_F& color,
-    const Microsoft::WRL::ComPtr<ID2D1DeviceContext>& device_context
+    const D2D1_COLOR_F& color
 )
 {
-    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-    const HRESULT hr
-        = device_context->CreateSolidColorBrush(color, brush.GetAddressOf());
-    if (FAILED(hr))
-    {
-        std::cout << "Failed to create solid color brush" << std::endl;
-        return hr;
-    }
-
-    m_textBrush = brush;
+    m_color = color;
+    m_textBrush = nullptr;
 
     return S_OK;
 }
