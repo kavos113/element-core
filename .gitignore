@@ -3,3 +3,4 @@
 cmake-build-*/
 local.sh
 log
+vcpkg_installed
