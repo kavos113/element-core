@@ -47,9 +47,10 @@ set(headers_x11
 )
 
 
-add_library(karin-windows ${srcs_windows} ${headers_windows} ${srcs_common} ${headers_common})
-target_include_directories(karin-windows PUBLIC ${include_dir}/karin)
-
+if (WIN32)
+    add_library(karin-windows ${srcs_windows} ${headers_windows} ${srcs_common} ${headers_common})
+    target_include_directories(karin-windows PUBLIC ${include_dir}/karin)
+endif ()
 
 add_library(karin-x11 ${srcs_x11} ${headers_x11} ${srcs_common} ${headers_common})
 target_include_directories(karin-x11 PUBLIC ${include_dir}/karin)
@@ -58,7 +59,7 @@ if (WIN32)
 endif ()
 
 
-if (MSVC)
+if (MSVC AND WIN32)
     target_link_libraries(karin-windows PRIVATE d2d1.lib)
     target_link_libraries(karin-windows PRIVATE dxgi.lib)
     target_link_libraries(karin-windows PRIVATE d3d11.lib)

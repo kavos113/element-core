@@ -1,5 +1,5 @@
-#ifndef TEST_KARIN_UTILS_WINDOWSGUITESTER_H
-#define TEST_KARIN_UTILS_WINDOWSGUITESTER_H
+#ifndef TEST_UTILS_WINDOWSGUITESTER_H
+#define TEST_UTILS_WINDOWSGUITESTER_H
 
 #include <Windows.h>
 #include <windows/winWindow.h>
@@ -12,13 +12,6 @@
 class WindowsGUITester
 {
 public:
-    enum class Assertions : std::uint8_t
-    {
-        EQUAL,
-        NOT_EQUAL,
-        NONE,
-    };
-
     WindowsGUITester() = default;
 
     void RegisterWindow(const karin::winWindow& window)
@@ -58,13 +51,6 @@ public:
     }
 
 private:
-    struct ActionFunction
-    {
-        UINT message;
-        WPARAM wParam;
-        LPARAM lParam;
-    };
-
     struct Action
     {
         std::function<void()> action;
@@ -78,4 +64,4 @@ private:
     std::unique_ptr<HWND> m_targetHwnd;
 };
 
-#endif  // TEST_KARIN_UTILS_WINDOWSGUITESTER_H
+#endif  // TEST_UTILS_WINDOWSGUITESTER_H

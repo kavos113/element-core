@@ -5,15 +5,16 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 macro(add_test api_name test_name)
-    message(STATUS "Adding test for ${api_name} - ${test_name}")
-    message(STATUS "Test sources: ${test_srcs_${test_name}}")
-    message(STATUS "library: karin-${api_name}")
     add_executable(karin-${api_name}-${test_name}-test ${test_srcs_${test_name}})
     add_dependencies(karin-${api_name}-${test_name}-test karin-${api_name})
     target_link_libraries(karin-${api_name}-${test_name}-test PRIVATE gtest_main karin-${api_name})
     target_include_directories(karin-${api_name}-${test_name}-test PRIVATE ${include_dir})
     if (IS_SLOW_TEST)
         target_compile_definitions(karin-${api_name}-${test_name}-test PRIVATE SLOW_TEST)
+    endif ()
+
+    if (WIN32)
+        target_include_directories(karin-${api_name}-${test_name}-test PRIVATE ${vcpkg_install_dir}/x64-windows/include)
     endif ()
 
     include(GoogleTest)
@@ -42,6 +43,11 @@ set(test_srcs_geometry
 
 set(test_srcs_color color/ColorTest.cpp)
 
+set(test_srcs_x11
+        x11/x11WindowTest.cpp
+        ../utils/X11GUITester.h
+)
+
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -54,7 +60,10 @@ enable_testing()
 
 set(IS_SLOW_TEST ON)
 
-add_test(windows windows)
-add_test(windows direct2d)
-add_test(windows geometry)
-add_test(windows color)
+if (WIN32)
+    add_test(windows windows)
+    add_test(windows direct2d)
+    add_test(windows geometry)
+    add_test(windows color)
+endif ()
+add_test(x11 x11)
