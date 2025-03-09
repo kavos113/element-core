@@ -3,12 +3,22 @@
 
 #include <X11/Xlib.h>
 
+#include <cstdint>
+
 namespace karin
 {
 
 class x11Window
 {
 public:
+    enum class ShowStatus : uint8_t
+    {
+        HIDE,
+        SHOW,
+        MINIMIZE,
+        MAXIMIZE
+    };
+
     x11Window() = default;
     x11Window(const x11Window&) = delete;
     x11Window& operator=(const x11Window&) = delete;
@@ -25,20 +35,19 @@ public:
     );
     [[nodiscard]] bool IsActive() const;
 
-    Window GetWindow() const
-    {
-        return m_window;
-    }
+    void Show();
+    void Run();
 
-    Display* GetDisplay() const
-    {
-        return m_display;
-    }
+    Window GetWindow() const;
+    Display* GetDisplay() const;
+    ShowStatus GetShowStatus() const;
 
 private:
     Display* m_display = nullptr;
     Window m_window = 0;
     GC gc = 0;
+
+    ShowStatus m_showStatus = ShowStatus::HIDE;
 };
 
 }  // namespace karin

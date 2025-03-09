@@ -20,17 +20,23 @@ TEST_F(x11WindowTest, GenerateWindow)
     ASSERT_EQ(window.IsActive(), true);
 }
 
-// TEST_F(x11WindowTest, ShowWindow)
-// {
-//     karin::x11Window window;
-//     window.Show();
-//     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::SHOW);
-//
-//     X11GUITester tester;
-//     tester.RegisterWindow(window);
-//     tester.CloseWindow();
-//
-//     std::thread thread(&X11GUITester::Run, &tester, false);
-//     window.Run();
-//     thread.join();
-// }
+TEST_F(x11WindowTest, ShowWindow)
+{
+    karin::x11Window window;
+    bool ret = window.Create("Test 2", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
+
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::SHOW);
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
+
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
+}

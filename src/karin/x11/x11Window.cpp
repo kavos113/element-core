@@ -8,6 +8,16 @@
 namespace karin
 {
 
+x11Window::~x11Window()
+{
+    if (gc != nullptr)
+    {
+        XFreeGC(m_display, gc);
+    }
+    XDestroyWindow(m_display, m_window);
+    XCloseDisplay(m_display);
+}
+
 bool x11Window::Create(const char *title, int x, int y, int width, int height)
 {
     XSizeHints *size_hints = XAllocSizeHints();
@@ -94,19 +104,56 @@ bool x11Window::Create(const char *title, int x, int y, int width, int height)
     return true;
 }
 
-x11Window::~x11Window()
-{
-    if (gc != NULL)
-    {
-        XFreeGC(m_display, gc);
-    }
-    XDestroyWindow(m_display, m_window);
-    XCloseDisplay(m_display);
-}
-
 bool x11Window::IsActive() const
 {
     return m_window != 0;
+}
+
+void x11Window::Show()
+{
+    if (m_window == 0)
+    {
+        return;
+    }
+
+    XMapWindow(m_display, m_window);
+
+    m_showStatus = ShowStatus::SHOW;
+}
+
+void x11Window::Run()
+{
+    XEvent event;
+
+    while (true)
+    {
+        XNextEvent(m_display, &event);
+
+        switch (event.type)
+        {
+            case ClientMessage:
+                m_showStatus = ShowStatus::HIDE;
+                return;
+
+            default:
+                break;
+        }
+    }
+}
+
+Window x11Window::GetWindow() const
+{
+    return m_window;
+}
+
+Display *x11Window::GetDisplay() const
+{
+    return m_display;
+}
+
+x11Window::ShowStatus x11Window::GetShowStatus() const
+{
+    return m_showStatus;
 }
 
 }  // namespace karin
