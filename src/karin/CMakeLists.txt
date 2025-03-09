@@ -38,13 +38,33 @@ set(headers_windows
         ${include_dir}/karin/windows/direct2d/dwriteText.h
 )
 
-if (MSVC)
-    add_library(karin-windows ${srcs_windows} ${headers_windows} ${srcs_common} ${headers_common})
-    target_include_directories(karin-windows PUBLIC ${include_dir}/karin)
+set(srcs_x11
+        x11/x11Window.cpp
+)
 
+set(headers_x11
+        ${include_dir}/karin/x11/x11Window.h
+)
+
+
+add_library(karin-windows ${srcs_windows} ${headers_windows} ${srcs_common} ${headers_common})
+target_include_directories(karin-windows PUBLIC ${include_dir}/karin)
+
+
+add_library(karin-x11 ${srcs_x11} ${headers_x11} ${srcs_common} ${headers_common})
+target_include_directories(karin-x11 PUBLIC ${include_dir}/karin)
+if (WIN32)
+    target_include_directories(karin-x11 PUBLIC ${vcpkg_install_dir}/x64-windows/include)
+endif ()
+
+
+if (MSVC)
     target_link_libraries(karin-windows PRIVATE d2d1.lib)
     target_link_libraries(karin-windows PRIVATE dxgi.lib)
     target_link_libraries(karin-windows PRIVATE d3d11.lib)
     target_link_libraries(karin-windows PRIVATE dwrite.lib)
+else ()
+    if (UNIX)
+        target_link_libraries(karin-x11 PRIVATE X11)
+    endif ()
 endif ()
-
