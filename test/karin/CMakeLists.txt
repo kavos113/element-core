@@ -4,6 +4,22 @@ project(karin-test CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+macro(add_test api_name test_name)
+    message(STATUS "Adding test for ${api_name} - ${test_name}")
+    message(STATUS "Test sources: ${test_srcs_${test_name}}")
+    message(STATUS "library: karin-${api_name}")
+    add_executable(karin-${api_name}-${test_name}-test ${test_srcs_${test_name}})
+    add_dependencies(karin-${api_name}-${test_name}-test karin-${api_name})
+    target_link_libraries(karin-${api_name}-${test_name}-test PRIVATE gtest_main karin-${api_name})
+    target_include_directories(karin-${api_name}-${test_name}-test PRIVATE ${include_dir})
+    if (IS_SLOW_TEST)
+        target_compile_definitions(karin-${api_name}-${test_name}-test PRIVATE SLOW_TEST)
+    endif ()
+
+    include(GoogleTest)
+    gtest_discover_tests(karin-${api_name}-${test_name}-test)
+endmacro()
+
 set(test_srcs_windows
         windows/winWindowTest.cpp
         windows/winTextTest.cpp
@@ -26,10 +42,6 @@ set(test_srcs_geometry
 
 set(test_srcs_color color/ColorTest.cpp)
 
-set(test_names windows geometry direct2d color)
-
-set(IS_SLOW_TEST ON)
-
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -40,15 +52,9 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-foreach (test_name IN LISTS test_names)
-    add_executable(karin-${test_name}-test ${test_srcs_${test_name}})
-    add_dependencies(karin-${test_name}-test karin)
-    target_link_libraries(karin-${test_name}-test PRIVATE gtest_main karin)
-    target_include_directories(karin-${test_name}-test PRIVATE ${include_dir})
-    if (IS_SLOW_TEST)
-        target_compile_definitions(karin-${test_name}-test PRIVATE SLOW_TEST)
-    endif ()
+set(IS_SLOW_TEST ON)
 
-    include(GoogleTest)
-    gtest_discover_tests(karin-${test_name}-test)
-endforeach ()
+add_test(windows windows)
+add_test(windows direct2d)
+add_test(windows geometry)
+add_test(windows color)
