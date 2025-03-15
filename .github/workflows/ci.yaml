@@ -33,6 +33,12 @@ jobs:
       - name: install ninja
         run: choco install ninja -y
 
+      - name: install dependencies by vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.bat
+          ./vcpkg/vcpkg install --triplet x64-windows
+
       - name: setup msbuild
         uses: microsoft/setup-msbuild@v2
 
@@ -68,7 +74,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y clang clang-format clang-tidy cmake ninja-build libx11-dev xvfb
+        run: sudo apt update && sudo apt install -y cmake ninja-build libx11-dev xvfb
+
+      - name: Install LLVM
+        run: sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
       - name: check clang
         run: clang-format --version
