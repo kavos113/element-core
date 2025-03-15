@@ -38,6 +38,8 @@ public:
     void Show();
     void Run();
     void Hide();
+    void Maximize();
+    void Minimize();
 
     Window GetWindow() const;
     Display* GetDisplay() const;

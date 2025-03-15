@@ -127,7 +127,7 @@ void x11Window::Show()
 
 void x11Window::Run()
 {
-    if (m_showStatus == ShowStatus::SHOW)
+    if (m_showStatus != ShowStatus::HIDE)
     {
         XMapWindow(m_display, m_window);
     }
@@ -140,11 +140,34 @@ void x11Window::Run()
     {
         XNextEvent(m_display, &event);
 
+        // std::cout << "Event type: " << event.type << std::endl;
+
         switch (event.type)
         {
             case ClientMessage:
-                m_showStatus = ShowStatus::HIDE;
-                return;
+            {
+                const Atom delete_window
+                    = XInternAtom(m_display, "WM_DELETE_WINDOW", False);
+                if (delete_window == event.xclient.data.l[0])
+                {
+                    m_showStatus = ShowStatus::HIDE;
+                    return;
+                }
+            }
+            break;
+
+            case Expose:
+                switch (m_showStatus)
+                {
+                    case ShowStatus::MAXIMIZE:
+                        Maximize();
+                        break;
+
+                    case ShowStatus::MINIMIZE:
+                        Minimize();
+                        break;
+                }
+                break;
 
             default:
                 break;
@@ -165,6 +188,53 @@ void x11Window::Hide()
     }
 
     m_showStatus = ShowStatus::HIDE;
+}
+
+void x11Window::Maximize()
+{
+    m_showStatus = ShowStatus::MAXIMIZE;
+
+    if (!m_isStarted)
+    {
+        return;
+    }
+
+    XEvent event = {};
+
+    event.type = ClientMessage;
+    event.xclient.window = m_window;
+    event.xclient.message_type = XInternAtom(m_display, "_NET_WM_STATE", False);
+    event.xclient.format = 32;
+    event.xclient.data.l[0] = 1;  // _NET_WM_STATE_ADD
+    event.xclient.data.l[1]
+        = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
+    event.xclient.data.l[2]
+        = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+    event.xclient.data.l[3] = 0;
+
+    XSendEvent(
+        m_display,
+        DefaultRootWindow(m_display),
+        False,
+        SubstructureRedirectMask | SubstructureNotifyMask,
+        &event
+    );
+
+    XFlush(m_display);
+}
+
+void x11Window::Minimize()
+{
+    m_showStatus = ShowStatus::MINIMIZE;
+
+    if (!m_isStarted)
+    {
+        return;
+    }
+
+    XIconifyWindow(m_display, m_window, DefaultScreen(m_display));
+
+    XFlush(m_display);
 }
 
 Window x11Window::GetWindow() const

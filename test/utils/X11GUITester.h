@@ -40,6 +40,7 @@ public:
                 event.xclient.window = m_targetWindow;
                 event.xclient.message_type = closeEvent;
                 event.xclient.format = 32;
+                event.xclient.data.l[0] = closeEvent;
 
                 const Status status = XSendEvent(
                     m_display,
