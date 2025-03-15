@@ -10,8 +10,6 @@
 
 #include "x11/x11Window.h"
 
-#define XAtom_None 0L
-
 class X11GUITester
 {
 public:
@@ -39,8 +37,8 @@ public:
                 event.type = ClientMessage;
                 event.xclient.window = m_targetWindow;
                 event.xclient.message_type = closeEvent;
-                event.xclient.format = 32;
-                event.xclient.data.l[0] = closeEvent;
+                event.xclient.format = XCLIENT_FORMAT;
+                event.xclient.data.l[0] = static_cast<int32_t>(closeEvent);
 
                 const Status status = XSendEvent(
                     m_display,
@@ -75,7 +73,10 @@ private:
     static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(500);
     static constexpr auto INTERVAL = std::chrono::milliseconds(200);
 
-    std::vector<std::function<void()>> m_actions;
+    static constexpr uint64_t XAtom_None = 0;
+    static constexpr int XCLIENT_FORMAT = 32;
+
+    std::vector<std::function<void()>> m_actions{};
     Display* m_display{nullptr};
     Window m_targetWindow{0};
 };
