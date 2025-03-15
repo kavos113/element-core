@@ -76,7 +76,7 @@ private:
     static constexpr uint64_t XAtom_None = 0;
     static constexpr int XCLIENT_FORMAT = 32;
 
-    std::vector<std::function<void()>> m_actions{};
+    std::vector<std::function<void()>> m_actions;
     Display* m_display{nullptr};
     Window m_targetWindow{0};
 };

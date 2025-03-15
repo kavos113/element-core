@@ -12,6 +12,8 @@ Checks: '
   cppcoreguidelines-*,
   -cppcoreguidelines-pro-type-reinterpret-cast,
   -cppcoreguidelines-non-private-member-variables-in-classes,
+  -cppcoreguidelines-pro-type-const-cast,
+  -cppcoreguidelines-pro-type-union-access,
   google-*,
   misc-*,
   -misc-include-cleaner,
