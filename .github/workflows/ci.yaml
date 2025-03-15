@@ -14,7 +14,7 @@ env:
   VS_INSTALL_DIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise'
 
 jobs:
-  build:
+  Windows-Build:
     runs-on: windows-latest
 
     steps:
@@ -61,3 +61,36 @@ jobs:
       - name: Run clang-tidy, test
         run: clang-tidy $(find ./test -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --config-file=.clang-tidy-test -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
         shell: bash
+
+  X11-Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y clang clang-format clang-tidy cmake ninja-build libx11-dev xvfb
+
+      - name: check clang
+        run: clang-format --version
+      - name: check clang-tidy
+        run: clang-tidy --version
+
+      - name: start xvfb
+        run: Xvfb :99 -screen 0 1024x768x24
+        env:
+          DISPLAY: :99
+
+      - name: Configure CMake
+        run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      - name: Build
+        run: cmake --build ${{ env.BUILD_DIR }} --config Release
+      - name: Test
+        run: cd ${{ env.BUILD_DIR }}/test/karin && ctest -C Release --output-on-failure
+        env:
+          DISPLAY: :99
+      - name: Run clang-format
+        run: clang-format -i $(find -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") --verbose -style=file
+      - name: Check clang-format
+        run: git diff --exit-code
+      - name: Run clang-tidy, src
+        run: clang-tidy $(find ./src ./include -name "*.h" -not -path "./${{ env.BUILD_DIR }}/*" -not -path "*/windows/*" -or -name "*.cpp" -not -path "./${{ env.BUILD_DIR }}/*") -not -path "*/windows/*" --config-file=.clang-tidy -p ./${{ env.BUILD_DIR }} --header-filter=.* --warnings-as-errors=*
