@@ -37,6 +37,7 @@ public:
 
     void Show();
     void Run();
+    void Hide();
 
     Window GetWindow() const;
     Display* GetDisplay() const;
@@ -48,6 +49,8 @@ private:
     GC gc = 0;
 
     ShowStatus m_showStatus = ShowStatus::HIDE;
+
+    bool m_isStarted = false;
 };
 
 }  // namespace karin

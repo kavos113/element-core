@@ -4,6 +4,7 @@
 #include <X11/Xutil.h>
 
 #include <iostream>
+#include <thread>
 
 namespace karin
 {
@@ -116,14 +117,24 @@ void x11Window::Show()
         return;
     }
 
-    XMapWindow(m_display, m_window);
+    if (m_isStarted)
+    {
+        XMapWindow(m_display, m_window);
+    }
 
     m_showStatus = ShowStatus::SHOW;
 }
 
 void x11Window::Run()
 {
+    if (m_showStatus == ShowStatus::SHOW)
+    {
+        XMapWindow(m_display, m_window);
+    }
+
     XEvent event;
+
+    m_isStarted = true;
 
     while (true)
     {
@@ -139,6 +150,21 @@ void x11Window::Run()
                 break;
         }
     }
+}
+
+void x11Window::Hide()
+{
+    if (m_window == 0)
+    {
+        return;
+    }
+
+    if (m_isStarted)
+    {
+        XUnmapWindow(m_display, m_window);
+    }
+
+    m_showStatus = ShowStatus::HIDE;
 }
 
 Window x11Window::GetWindow() const

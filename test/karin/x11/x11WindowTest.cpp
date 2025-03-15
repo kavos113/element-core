@@ -14,7 +14,7 @@ protected:
 TEST_F(x11WindowTest, GenerateWindow)
 {
     karin::x11Window window;
-    bool ret = window.Create("Test 1", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 1", 0, 0, 800, 600);
     ASSERT_TRUE(ret);
 
     ASSERT_EQ(window.IsActive(), true);
@@ -23,7 +23,7 @@ TEST_F(x11WindowTest, GenerateWindow)
 TEST_F(x11WindowTest, ShowWindow)
 {
     karin::x11Window window;
-    bool ret = window.Create("Test 2", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 2", 0, 0, 800, 600);
     ASSERT_TRUE(ret);
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
 
@@ -39,4 +39,26 @@ TEST_F(x11WindowTest, ShowWindow)
     thread.join();
 
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
+}
+
+TEST_F(x11WindowTest, HideWindow)
+{
+    karin::x11Window window;
+    const bool ret = window.Create("Test 3", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
+
+    window.Show();
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::SHOW);
+
+    window.Hide();
+    ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
 }

@@ -71,7 +71,7 @@ public:
     }
 
 private:
-    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(200);
+    static constexpr auto INIT_INTERVAL = std::chrono::milliseconds(2000);
     static constexpr auto INTERVAL = std::chrono::milliseconds(200);
 
     std::vector<std::function<void()>> m_actions;
