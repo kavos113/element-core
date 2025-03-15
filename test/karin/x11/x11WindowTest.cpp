@@ -13,12 +13,16 @@
 class x11WindowTest : public testing::Test
 {
 protected:
+    static constexpr int WIDTH = 800;
+    static constexpr int HEIGHT = 600;
+    static constexpr int MOVED_X = 100;
+    static constexpr int MOVED_Y = 100;
 };
 
 TEST_F(x11WindowTest, GenerateWindow)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 1", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 1", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
 
     ASSERT_EQ(window.IsActive(), true);
@@ -27,7 +31,7 @@ TEST_F(x11WindowTest, GenerateWindow)
 TEST_F(x11WindowTest, ShowWindow)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 2", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 2", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
 
@@ -48,7 +52,7 @@ TEST_F(x11WindowTest, ShowWindow)
 TEST_F(x11WindowTest, HideWindow)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 3", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 3", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
 
@@ -70,7 +74,7 @@ TEST_F(x11WindowTest, HideWindow)
 TEST_F(x11WindowTest, MaximizeWindow)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 4", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 4", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
 
@@ -92,7 +96,7 @@ TEST_F(x11WindowTest, MaximizeWindow)
 TEST_F(x11WindowTest, MinimizeWindow)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 5", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 5", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::HIDE);
 
@@ -114,15 +118,15 @@ TEST_F(x11WindowTest, MinimizeWindow)
 TEST_F(x11WindowTest, SetSize)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 6", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 6", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
 
-    ASSERT_EQ(window.GetSize(), karin::Size(800, 600));
+    ASSERT_EQ(window.GetSize(), karin::Size(WIDTH, HEIGHT));
 
-    constexpr karin::Size changed_size(1600, 1200);
+    constexpr karin::Size changed_size(WIDTH * 2, HEIGHT * 2);
 
     window.SetSize(changed_size);
-    ASSERT_EQ(window.GetSize(), karin::Size(1600, 1200));
+    ASSERT_EQ(window.GetSize(), karin::Size(WIDTH * 2, HEIGHT * 2));
 
     window.Show();
 
@@ -138,7 +142,7 @@ TEST_F(x11WindowTest, SetSize)
 TEST_F(x11WindowTest, SetPosition)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 7", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 7", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
 
     ASSERT_EQ(window.GetPosition(), karin::Point(0, 0));
@@ -162,15 +166,18 @@ TEST_F(x11WindowTest, SetPosition)
 TEST_F(x11WindowTest, SetRectangle)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 8", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 8", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
 
-    ASSERT_EQ(window.GetRectangle(), karin::Rectangle(0, 0, 800, 600));
+    ASSERT_EQ(window.GetRectangle(), karin::Rectangle(0, 0, WIDTH, HEIGHT));
 
-    constexpr karin::Rectangle changed_rect(100, 100, 1600, 1200);
+    constexpr karin::Rectangle changed_rect(100, 100, WIDTH * 2, HEIGHT * 2);
 
     window.SetRectangle(changed_rect);
-    ASSERT_EQ(window.GetRectangle(), karin::Rectangle(100, 100, 1600, 1200));
+    ASSERT_EQ(
+        window.GetRectangle(),
+        karin::Rectangle(100, 100, WIDTH * 2, HEIGHT * 2)
+    );
 
     window.Show();
 
@@ -186,7 +193,7 @@ TEST_F(x11WindowTest, SetRectangle)
 TEST_F(x11WindowTest, SetBackgroundColor)
 {
     karin::x11Window window;
-    const bool ret = window.Create("Test 9", 0, 0, 800, 600);
+    const bool ret = window.Create("Test 9", 0, 0, WIDTH, HEIGHT);
     ASSERT_TRUE(ret);
 
     ASSERT_EQ(

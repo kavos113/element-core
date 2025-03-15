@@ -98,7 +98,7 @@ bool x11Window::Create(const char *title, int x, int y, int width, int height)
 
     XSelectInput(m_display, m_window, ExposureMask | StructureNotifyMask);
 
-    const unsigned long valuemask = 0;
+    const uint64_t valuemask = 0;
     XGCValues values;
     gc = XCreateGC(m_display, m_window, valuemask, &values);
 
@@ -173,6 +173,9 @@ void x11Window::Run()
                     case ShowStatus::MINIMIZE:
                         Minimize();
                         break;
+
+                    default:
+                        break;
                 }
                 break;
 
@@ -211,12 +214,14 @@ void x11Window::Maximize()
     event.type = ClientMessage;
     event.xclient.window = m_window;
     event.xclient.message_type = XInternAtom(m_display, "_NET_WM_STATE", False);
-    event.xclient.format = 32;
+    event.xclient.format = XCLIENT_FORMAT;
     event.xclient.data.l[0] = 1;  // _NET_WM_STATE_ADD
-    event.xclient.data.l[1]
-        = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
-    event.xclient.data.l[2]
-        = XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+    event.xclient.data.l[1] = static_cast<long>(
+        XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_VERT", False)
+    );
+    event.xclient.data.l[2] = static_cast<long>(
+        XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_HORZ", False)
+    );
     event.xclient.data.l[3] = 0;
 
     XSendEvent(
@@ -302,9 +307,9 @@ void x11Window::SetBackgroundColor(const Color color)
     const Colormap colormap
         = DefaultColormap(m_display, DefaultScreen(m_display));
     XColor xcolor
-        = {.red = static_cast<unsigned short>(color.r * 65535),
-           .green = static_cast<unsigned short>(color.g * 65535),
-           .blue = static_cast<unsigned short>(color.b * 65535),
+        = {.red = static_cast<uint16_t>(color.r * UINT16_MAX),
+           .green = static_cast<uint16_t>(color.g * UINT16_MAX),
+           .blue = static_cast<uint16_t>(color.b * UINT16_MAX),
            .flags = DoRed | DoGreen | DoBlue};
 
     Status status = XAllocColor(m_display, colormap, &xcolor);

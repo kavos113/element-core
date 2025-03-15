@@ -44,13 +44,13 @@ public:
     void Maximize();
     void Minimize();
 
-    void SetSize(const Size size);
+    void SetSize(Size size);
     [[nodiscard]] Size GetSize() const;
-    void SetPosition(const Point position);
+    void SetPosition(Point position);
     [[nodiscard]] Point GetPosition() const;
-    void SetRectangle(const Rectangle rect);
+    void SetRectangle(Rectangle rect);
     [[nodiscard]] Rectangle GetRectangle() const;
-    void SetBackgroundColor(const Color color);
+    void SetBackgroundColor(Color color);
     [[nodiscard]] Color GetBackgroundColor() const;
 
     [[nodiscard]] Window GetWindow() const;
@@ -60,7 +60,7 @@ public:
 private:
     Display* m_display = nullptr;
     Window m_window = 0;
-    GC gc = 0;
+    GC gc = nullptr;
 
     ShowStatus m_showStatus = ShowStatus::HIDE;
     Rectangle m_rect;
@@ -68,6 +68,8 @@ private:
     Color m_backgroundColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
     bool m_isStarted = false;
+
+    static constexpr int XCLIENT_FORMAT = 32;
 };
 
 }  // namespace karin
