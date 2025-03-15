@@ -77,7 +77,10 @@ jobs:
         run: sudo apt update && sudo apt install -y cmake ninja-build libx11-dev xvfb
 
       - name: Install LLVM
-        run: sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        run: |
+          sudo apt remove --purge clang -y
+          clang --version
+          sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
       - name: check clang
         run: clang-format --version
