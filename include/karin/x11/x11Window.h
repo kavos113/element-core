@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+#include "geometry/Rectangle.h"
+
 namespace karin
 {
 
@@ -41,6 +43,13 @@ public:
     void Maximize();
     void Minimize();
 
+    void SetSize(const Size size);
+    Size GetSize() const;
+    void SetPosition(const Point position);
+    Point GetPosition() const;
+    void SetRectangle(const Rectangle rect);
+    Rectangle GetRectangle() const;
+
     Window GetWindow() const;
     Display* GetDisplay() const;
     ShowStatus GetShowStatus() const;
@@ -51,6 +60,7 @@ private:
     GC gc = 0;
 
     ShowStatus m_showStatus = ShowStatus::HIDE;
+    Rectangle m_rect;
 
     bool m_isStarted = false;
 };

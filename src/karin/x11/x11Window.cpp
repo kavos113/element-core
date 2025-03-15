@@ -102,6 +102,13 @@ bool x11Window::Create(const char *title, int x, int y, int width, int height)
     XGCValues values;
     gc = XCreateGC(m_display, m_window, valuemask, &values);
 
+    m_rect = Rectangle(
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(width),
+        static_cast<float>(height)
+    );
+
     return true;
 }
 
@@ -235,6 +242,59 @@ void x11Window::Minimize()
     XIconifyWindow(m_display, m_window, DefaultScreen(m_display));
 
     XFlush(m_display);
+}
+
+void x11Window::SetSize(const Size size)
+{
+    XResizeWindow(
+        m_display,
+        m_window,
+        static_cast<unsigned int>(size.width),
+        static_cast<unsigned int>(size.height)
+    );
+
+    m_rect.SetSize(size);
+}
+
+Size x11Window::GetSize() const
+{
+    return m_rect.GetSize();
+}
+
+void x11Window::SetPosition(const Point position)
+{
+    XMoveWindow(
+        m_display,
+        m_window,
+        static_cast<int>(position.x),
+        static_cast<int>(position.y)
+    );
+
+    m_rect.SetPosition(position);
+}
+
+Point x11Window::GetPosition() const
+{
+    return m_rect.GetPosition();
+}
+
+void x11Window::SetRectangle(const Rectangle rect)
+{
+    XMoveResizeWindow(
+        m_display,
+        m_window,
+        static_cast<int>(rect.x),
+        static_cast<int>(rect.y),
+        static_cast<unsigned int>(rect.width),
+        static_cast<unsigned int>(rect.height)
+    );
+
+    m_rect = rect;
+}
+
+Rectangle x11Window::GetRectangle() const
+{
+    return m_rect;
 }
 
 Window x11Window::GetWindow() const

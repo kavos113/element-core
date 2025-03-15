@@ -5,6 +5,9 @@
 #include <gtest/gtest.h>
 
 #include "../../utils/X11GUITester.h"
+#include "geometry/Point.h"
+#include "geometry/Rectangle.h"
+#include "geometry/Size.h"
 
 class x11WindowTest : public testing::Test
 {
@@ -97,6 +100,78 @@ TEST_F(x11WindowTest, MinimizeWindow)
 
     window.Minimize();
     ASSERT_EQ(window.GetShowStatus(), karin::x11Window::ShowStatus::MINIMIZE);
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(x11WindowTest, SetSize)
+{
+    karin::x11Window window;
+    const bool ret = window.Create("Test 6", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+
+    ASSERT_EQ(window.GetSize(), karin::Size(800, 600));
+
+    constexpr karin::Size changed_size(1600, 1200);
+
+    window.SetSize(changed_size);
+    ASSERT_EQ(window.GetSize(), karin::Size(1600, 1200));
+
+    window.Show();
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(x11WindowTest, SetPosition)
+{
+    karin::x11Window window;
+    const bool ret = window.Create("Test 7", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+
+    ASSERT_EQ(window.GetPosition(), karin::Point(0, 0));
+
+    constexpr karin::Point changed_position(100, 100);
+
+    window.SetPosition(changed_position);
+    ASSERT_EQ(window.GetPosition(), karin::Point(100, 100));
+
+    window.Show();
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(x11WindowTest, SetRectangle)
+{
+    karin::x11Window window;
+    const bool ret = window.Create("Test 8", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+
+    ASSERT_EQ(window.GetRectangle(), karin::Rectangle(0, 0, 800, 600));
+
+    constexpr karin::Rectangle changed_rect(100, 100, 1600, 1200);
+
+    window.SetRectangle(changed_rect);
+    ASSERT_EQ(window.GetRectangle(), karin::Rectangle(100, 100, 1600, 1200));
+
+    window.Show();
 
     X11GUITester tester;
     tester.RegisterWindow(window);
