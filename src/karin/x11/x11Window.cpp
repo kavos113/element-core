@@ -216,10 +216,10 @@ void x11Window::Maximize()
     event.xclient.message_type = XInternAtom(m_display, "_NET_WM_STATE", False);
     event.xclient.format = XCLIENT_FORMAT;
     event.xclient.data.l[0] = 1;  // _NET_WM_STATE_ADD
-    event.xclient.data.l[1] = static_cast<long>(
+    event.xclient.data.l[1] = static_cast<int32_t>(
         XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_VERT", False)
     );
-    event.xclient.data.l[2] = static_cast<long>(
+    event.xclient.data.l[2] = static_cast<int32_t>(
         XInternAtom(m_display, "_NET_WM_STATE_MAXIMIZED_HORZ", False)
     );
     event.xclient.data.l[3] = 0;

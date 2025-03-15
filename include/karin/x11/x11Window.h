@@ -33,8 +33,8 @@ public:
         const char* title = "",
         int x = 0,
         int y = 0,
-        int width = 800,
-        int height = 600
+        int width = DEFAULT_WIDTH,
+        int height = DEFAULT_HEIGHT
     );
     [[nodiscard]] bool IsActive() const;
 
@@ -63,13 +63,15 @@ private:
     GC gc = nullptr;
 
     ShowStatus m_showStatus = ShowStatus::HIDE;
-    Rectangle m_rect;
+    Rectangle m_rect{};
 
     Color m_backgroundColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
     bool m_isStarted = false;
 
     static constexpr int XCLIENT_FORMAT = 32;
+    static constexpr int DEFAULT_WIDTH = 800;
+    static constexpr int DEFAULT_HEIGHT = 600;
 };
 
 }  // namespace karin
