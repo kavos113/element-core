@@ -23,7 +23,7 @@ namespace karin
 class winWindow
 {
 public:
-    enum class ShowStatus : std::uint8_t
+    enum class ShowStatus : uint8_t
     {
         HIDE,
         SHOW,
@@ -31,7 +31,7 @@ public:
         MAXIMIZE
     };
 
-    enum class WindowAction : std::uint8_t
+    enum class WindowAction : uint8_t
     {
         SHOW,
         HIDE,

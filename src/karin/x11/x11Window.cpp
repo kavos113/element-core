@@ -49,7 +49,7 @@ bool x11Window::Create(const char *title, int x, int y, int width, int height)
         return false;
     }
 
-    int screen_num = DefaultScreen(m_display);
+    const int screen_num = DefaultScreen(m_display);
 
     m_window = XCreateSimpleWindow(
         m_display,
@@ -98,7 +98,7 @@ bool x11Window::Create(const char *title, int x, int y, int width, int height)
 
     XSelectInput(m_display, m_window, ExposureMask | StructureNotifyMask);
 
-    unsigned long valuemask = 0;
+    const unsigned long valuemask = 0;
     XGCValues values;
     gc = XCreateGC(m_display, m_window, valuemask, &values);
 
@@ -299,7 +299,8 @@ Rectangle x11Window::GetRectangle() const
 
 void x11Window::SetBackgroundColor(const Color color)
 {
-    Colormap colormap = DefaultColormap(m_display, DefaultScreen(m_display));
+    const Colormap colormap
+        = DefaultColormap(m_display, DefaultScreen(m_display));
     XColor xcolor
         = {.red = static_cast<unsigned short>(color.r * 65535),
            .green = static_cast<unsigned short>(color.g * 65535),

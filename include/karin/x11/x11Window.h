@@ -45,17 +45,17 @@ public:
     void Minimize();
 
     void SetSize(const Size size);
-    Size GetSize() const;
+    [[nodiscard]] Size GetSize() const;
     void SetPosition(const Point position);
-    Point GetPosition() const;
+    [[nodiscard]] Point GetPosition() const;
     void SetRectangle(const Rectangle rect);
-    Rectangle GetRectangle() const;
+    [[nodiscard]] Rectangle GetRectangle() const;
     void SetBackgroundColor(const Color color);
-    Color GetBackgroundColor() const;
+    [[nodiscard]] Color GetBackgroundColor() const;
 
-    Window GetWindow() const;
-    Display* GetDisplay() const;
-    ShowStatus GetShowStatus() const;
+    [[nodiscard]] Window GetWindow() const;
+    [[nodiscard]] Display* GetDisplay() const;
+    [[nodiscard]] ShowStatus GetShowStatus() const;
 
 private:
     Display* m_display = nullptr;
