@@ -9,14 +9,14 @@ namespace karin
 
 struct Font
 {
-    enum class Style : std::uint8_t
+    enum class Style : uint8_t
     {
         NORMAL,
         ITALIC,
         OBLIQUE,
     };
 
-    enum class Stretch : std::uint8_t
+    enum class Stretch : uint8_t
     {
         ULTRA_CONDENSED,
         EXTRA_CONDENSED,
@@ -29,7 +29,7 @@ struct Font
         ULTRA_EXPANDED,
     };
 
-    enum class Weight : std::uint16_t
+    enum class Weight : uint16_t
     {
         THIN = 100,
         EXTRA_LIGHT = 200,

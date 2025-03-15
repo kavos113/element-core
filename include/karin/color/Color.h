@@ -8,7 +8,7 @@ namespace karin
 
 struct Color
 {
-    enum class Colors : std::uint8_t
+    enum class Colors : uint8_t
     {
         White,
         Black,
