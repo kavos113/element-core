@@ -17,14 +17,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Update LLVM
-        run: sudo apt install clang -y
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y clang clang-format clang-tidy cmake ninja-build libx11-dev
+
       - name: check clang
         run: clang-format --version
       - name: check clang-tidy
         run: clang-tidy --version
-      - name: install ninja
-        run: sudo apt install ninja-build -y
+
       - name: Configure CMake
         run: cmake -S . -B ${{ env.BUILD_DIR }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
       - name: Build
