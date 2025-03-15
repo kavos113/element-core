@@ -5,6 +5,7 @@
 
 #include <cstdint>
 
+#include "color/Color.h"
 #include "geometry/Rectangle.h"
 
 namespace karin
@@ -49,6 +50,8 @@ public:
     Point GetPosition() const;
     void SetRectangle(const Rectangle rect);
     Rectangle GetRectangle() const;
+    void SetBackgroundColor(const Color color);
+    Color GetBackgroundColor() const;
 
     Window GetWindow() const;
     Display* GetDisplay() const;
@@ -61,6 +64,8 @@ private:
 
     ShowStatus m_showStatus = ShowStatus::HIDE;
     Rectangle m_rect;
+
+    Color m_backgroundColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
     bool m_isStarted = false;
 };

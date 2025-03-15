@@ -297,6 +297,32 @@ Rectangle x11Window::GetRectangle() const
     return m_rect;
 }
 
+void x11Window::SetBackgroundColor(const Color color)
+{
+    Colormap colormap = DefaultColormap(m_display, DefaultScreen(m_display));
+    XColor xcolor
+        = {.red = static_cast<unsigned short>(color.r * 65535),
+           .green = static_cast<unsigned short>(color.g * 65535),
+           .blue = static_cast<unsigned short>(color.b * 65535),
+           .flags = DoRed | DoGreen | DoBlue};
+
+    Status status = XAllocColor(m_display, colormap, &xcolor);
+    if (status == 0)
+    {
+        std::cerr << "couldn't allocate color" << std::endl;
+        return;
+    }
+
+    XSetWindowBackground(m_display, m_window, xcolor.pixel);
+
+    m_backgroundColor = color;
+}
+
+Color x11Window::GetBackgroundColor() const
+{
+    return m_backgroundColor;
+}
+
 Window x11Window::GetWindow() const
 {
     return m_window;

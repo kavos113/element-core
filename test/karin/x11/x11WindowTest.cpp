@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "../../utils/X11GUITester.h"
+#include "color/Color.h"
 #include "geometry/Point.h"
 #include "geometry/Rectangle.h"
 #include "geometry/Size.h"
@@ -170,6 +171,33 @@ TEST_F(x11WindowTest, SetRectangle)
 
     window.SetRectangle(changed_rect);
     ASSERT_EQ(window.GetRectangle(), karin::Rectangle(100, 100, 1600, 1200));
+
+    window.Show();
+
+    X11GUITester tester;
+    tester.RegisterWindow(window);
+    tester.CloseWindow();
+
+    std::thread thread(&X11GUITester::Run, &tester, false);
+    window.Run();
+    thread.join();
+}
+
+TEST_F(x11WindowTest, SetBackgroundColor)
+{
+    karin::x11Window window;
+    const bool ret = window.Create("Test 9", 0, 0, 800, 600);
+    ASSERT_TRUE(ret);
+
+    ASSERT_EQ(
+        window.GetBackgroundColor(),
+        karin::Color(1.0f, 1.0f, 1.0f, 1.0f)
+    );
+
+    const karin::Color changed_color(1.0f, 0.0f, 0.0f, 1.0f);
+
+    window.SetBackgroundColor(changed_color);
+    ASSERT_EQ(window.GetBackgroundColor(), changed_color);
 
     window.Show();
 
