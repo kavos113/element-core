@@ -10,7 +10,7 @@ namespace karin
 
 struct Paragraph
 {
-    enum class HorizontalAlignment : std::uint8_t
+    enum class HorizontalAlignment : uint8_t
     {
         LEADING,
         TRAILING,
@@ -18,28 +18,28 @@ struct Paragraph
         JUSTIFIED,
     };
 
-    enum class VerticalAlignment : std::uint8_t
+    enum class VerticalAlignment : uint8_t
     {
         TOP,
         CENTER,
         BOTTOM,
     };
 
-    enum class Trimming : std::uint8_t
+    enum class Trimming : uint8_t
     {
         NONE,
         WORD,
         CHARACTER,
     };
 
-    enum class Wrapping : std::uint8_t
+    enum class Wrapping : uint8_t
     {
         NONE,
         WORD,
         CHARACTER,
     };
 
-    enum class Direction : std::uint8_t
+    enum class Direction : uint8_t
     {
         TOP_TO_BOTTOM,
         BOTTOM_TO_TOP,
